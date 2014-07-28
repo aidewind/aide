@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ###
-# it will install prerequisites, deploy and create database.
-# 1406382774s : tested on ubuntu trusty tahr
+# it will install prerequisites, deploy, restart nginx and create database.
+# 1406569660s  : tested on ubuntu trusty tahr
 ##
 
 
-echo "prerequisites"
+echo "prerequisites installing"
 
 PACKAGE_LIST="
 mysql-client
@@ -31,12 +31,16 @@ wget https://github.com/aidewind/aide/archive/master.zip > /dev/null 2>&1
 unzip master.zip > /dev/null 2>&1
 
 sudo mv aide-master/etc/nginx/sites-available/default /etc/nginx/sites-available/default
-sudo rm -rf aide-master/etc/nginx/sites-available
+sudo rm -rf aide-master/etc
 
 sudo rm -rf /usr/share/nginx/html/*
 sudo cp -rf aide-master/* /usr/share/nginx/html
 
 sudo chmod 755 -R /usr/share/nginx/html
+
+echo "nginx restarting"
+sudo nginx -s stop 
+sudo nginx
 
 echo "database creating"
 mysql -u root -psecret < /usr/share/nginx/html/db.sql
