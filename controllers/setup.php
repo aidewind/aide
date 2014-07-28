@@ -4,7 +4,7 @@ class SetupController extends Controller {
     protected $settings_redirect = FALSE;
 
     public function index() {
-        $this->meta->title = 'one-php-mvc-blog Setup';
+        $this->meta->title = 'aide Setup';
         
         $model = array(
             'blog_name' => $this->post('blog_name'),

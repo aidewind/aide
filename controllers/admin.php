@@ -60,7 +60,7 @@ class AdminController extends Controller {
     public function login() {
         $settings = $this->get_settings();
         
-        $this->meta->title = 'one-php-mvc-blog Login';
+        $this->meta->title = 'aide Login';
         
         $model = array(
             'email' => $this->post('email'), 

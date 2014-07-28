@@ -1,4 +1,8 @@
-﻿create table setting (
+drop database if exists blog;
+create database blog;
+use blog;
+    
+create table setting (
     id bigint not null primary key auto_increment,
     blog_name varchar(63) not null,
     email varchar(250) not null,

@@ -1,8 +1,12 @@
 #!/bin/bash
 
 ###
-# 1406216411s : tested on ubuntu trusty tahr
+# it will install prerequisites, deploy and create database.
+# 1406382774s : tested on ubuntu trusty tahr
 ##
+
+
+echo "prerequisites"
 
 PACKAGE_LIST="
 mysql-client
@@ -19,9 +23,20 @@ for pak in $PACKAGE_LIST ; do
 done
 
 
-sudo cp etc/nginx/sites-available/default /etc/nginx/sites-available/default
-cd ~
-wget https://github.com/ShadowedMists/one-php-mvc-blog/archive/master.zip
-unzip master.zip
-sudo cp -rf one-php-mvc-blog-master/* /usr/share/nginx/www
-sudo chmod 755 -R /usr/share/nginx/www
+echo "deploying"
+cd /tmp
+rm -rf master.zip* aide-master*
+
+wget https://github.com/aidewind/aide/archive/master.zip > /dev/null 2>&1
+unzip master.zip > /dev/null 2>&1
+
+sudo mv aide-master/etc/nginx/sites-available/default /etc/nginx/sites-available/default
+sudo rm -rf aide-master/etc/nginx/sites-available
+
+sudo rm -rf /usr/share/nginx/html/*
+sudo cp -rf aide-master/* /usr/share/nginx/html
+
+sudo chmod 755 -R /usr/share/nginx/html
+
+echo "database creating"
+mysql -u root -psecret < /usr/share/nginx/html/db.sql
