@@ -18,7 +18,7 @@ php5-mysql
 
 for pak in $PACKAGE_LIST ; do
   if ! dpkg -s $pak > /dev/null; then
-      sudo apt-get install -y $pak
+    sudo apt-get install -y $pak
   fi
 done
 

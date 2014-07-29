@@ -1,17 +1,17 @@
 {
   "meta": {
-    "title": "aide",
-    "author": "aidewind",
-    "description": "IT tool",
-    "keywords": "administrative tool for IT",
-    "image": "https://trello-attachments.s3.amazonaws.com/53a814e22f4ee03e9009d76a/53d394fa9921bb38efde162d/576x720/1cfdd7a0557eb492b9c5fcafa733b6d4/cassejeh.jpeg",
-    "lang": "en"
+  "title": "aide",
+  "author": "aidewind",
+  "description": "IT tool",
+  "keywords": "administrative tool for IT",
+  "image": "https://trello-attachments.s3.amazonaws.com/53a814e22f4ee03e9009d76a/53d394fa9921bb38efde162d/576x720/1cfdd7a0557eb492b9c5fcafa733b6d4/cassejeh.jpeg",
+  "lang": "en"
   },
   "db": {
-    "host": "localhost", 
-    "database": "blog",
-    "username": "root",
-    "password": "secret"
+  "host": "localhost", 
+  "database": "blog",
+  "username": "root",
+  "password": "secret"
   },
   "default_language" : "en",
   "languages": ["en"],
