@@ -38,7 +38,7 @@
 
           <li class="list-group-item">
             <?php foreach ($tags as $tag) { ?>
-            <img src="https://lh4.googleusercontent.com/-eSs1F2O7N1A/AAAAAAAAAAI/AAAAAAAAAAA/caHwQFv2RqI/s28-c-k-no/photo.jpg" width="28px" height="28px">
+              <img src="<?php echo $entry->image_url;?>" width="30px" height="30px">
             <?php } ?>
           </li>
 
