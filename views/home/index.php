@@ -15,18 +15,42 @@
   }
 ?>
 <div class="row">
-  <div class="col-md-12"><h2>Posts</h2></div>
-  <div class="col-md-2 col-sm-6">
-    <?php foreach($entries as $entry) { ?>
-    <div class="well"> 
-      <h3><a href="<?php echo $this->route_url(NULL, 'entry', $entry->id);?>"><?php echo $entry->title; ?></a></h3>
-      <p class="info"><?php echo $this->get_age_string($entry->created), ' by ', $settings->display_name; ?></p>
-      <p class="snippet"><?php echo $entry->snippet; ?></p>
-    </div>
-    <?php } ?>
-  </div>
-</div>
+  <?php foreach($entries as $entry) { ?>
+  <div class="col-md-4 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a href="#" class="pull-left"><?php echo $settings->display_name; ?></a> 
+        <a href="#" class="pull-right"><?php echo $this->get_age_string($entry->created); ?></a>
+      </div>
+      <div class="panel-body">
 
+        <a href="<?php echo $this->route_url(NULL, 'entry', $entry->id);?>" class="blacklink"><?php echo $entry->body; ?></a>
+
+        <br>
+        <div class="progress"><div class="progress-bar progress-bar-success" style="width: <?php echo rand(1,100);?>%"></div></div>
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            <?php foreach ($tags as $tag) { ?>
+            <a href="<?php echo $this->route_url(NULL, 'tag', $tag); ?>"><span class="label label-warning"><?php echo $tag?></span></a>
+            <?php } ?>          
+          </li>
+
+          <li class="list-group-item">
+            <?php foreach ($tags as $tag) { ?>
+            <img src="https://lh4.googleusercontent.com/-eSs1F2O7N1A/AAAAAAAAAAI/AAAAAAAAAAA/caHwQFv2RqI/s28-c-k-no/photo.jpg" width="28px" height="28px">
+            <?php } ?>
+          </li>
+
+        </ul>
+
+  
+      </div>
+    </div>
+  </div>
+  <?php } ?>
+
+</div>
 
 <div class="row">
   <br>
