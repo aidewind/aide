@@ -41,7 +41,7 @@
             <?php } ?>          
           </li>
           <li class="list-group-item">
-            <?php for ($i=0; $i < 10; $i++) { ?>
+            <?php for ($i=0; $i < 1; $i++) { ?>
               <img src="<?php echo $entry->image_url;?>" width="30px" height="30px">
               <img src="https://trello-avatars.s3.amazonaws.com/7548032adad79c3b6a79399a54538e70/30.png" width="30px" height="30px">            
               <img src="https://trello-avatars.s3.amazonaws.com/fa239ce6f62fe75578c65c51123c22b4/30.png" width="30px" height="30px">            
@@ -58,6 +58,7 @@
 
 </div>
 
+<!--
 <div class="row">
   <br>
   <div class="clearfix"></div>
@@ -76,3 +77,4 @@
       <?php } ?>
     </div>
 </div>
+-->
