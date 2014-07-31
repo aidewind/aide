@@ -83,7 +83,7 @@ foreach($boardsInfo as $board) {
 }
 
 echo count($boards) . " boards to backup... \n";
-/*
+
 // 5) Backup now!
 foreach($boards as $id => $board) {
 
@@ -107,14 +107,14 @@ foreach($boards as $id => $board) {
 
 }
 echo "your Trello boards are now safely downloaded!\n";
-*/
+
 echo "...but there is more...\n";
 
 
 // ) Fetch all Trello Cards
 global $keys;
 $keys = null;
-is_readable('/home/mfer/Downloads/trello-backup/trello-org-UFMG-FALE-board-4050.json') && $keys = json_decode(file_get_contents('/home/mfer/Downloads/trello-backup/trello-org-UFMG-FALE-board-4050.json'));
+is_readable('trello-org-UFMG-FALE-board-4050.json') && $keys = json_decode(file_get_contents('trello-org-UFMG-FALE-board-4050.json'));
 $k = get_object_vars($keys);
 
 //print_r($k["cards"]);
