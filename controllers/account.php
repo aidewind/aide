@@ -111,8 +111,7 @@ class AccountController extends Controller {
   }
 
   public function login() {
-    $settings = $this->get_settings();
-    $settings = $this->get_accounts();
+    $accounts = $this->get_accounts();
     
     $this->meta->title = 'Login';
     

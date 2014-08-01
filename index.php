@@ -590,7 +590,7 @@ class Controller {
       $this->current_accounts = NULL;
     }
     if($this->current_accounts === NULL && $redirect) {
-      $this->redirect(NULL, 'login');
+      $this->redirect('login', 'account');
     }
     return $this->current_accounts;
   }
