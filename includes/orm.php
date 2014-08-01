@@ -200,6 +200,55 @@ class setting {
     }
 }
 
+class account {
+    public $id;
+    public $email;
+    public $display_name;
+    public $password_hash;
+    public $password_salt;
+
+    public function load($row) {
+        $this->id = intval($row['id']);
+        $this->email = $row['email'];
+        $this->display_name = $row['display_name'];
+        $this->password_hash = $row['password_hash'];
+        $this->password_salt = $row['password_salt'];
+    }
+
+    public function insert() {
+        $sql = 'insert into account (email, display_name, password_hash, password_salt) values ("%s", "%s", "%s", "%s", "%s")';
+        $sql = sprintf($sql, escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt));
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+        return $res;
+    }
+
+    public function update() {
+        $sql = 'update account set email = "%s", display_name = "%s", password_hash = "%s", password_salt = "%s" where id = %d';
+        $sql = sprintf($sql, escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt), $this->id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        return $res;
+    }
+
+    public function delete() {
+        $sql = 'delete from account where id = %d';
+        $sql = sprintf($sql, $this->id);
+        return mysqli_query(Application::$DB_CONNECTION, $sql);
+    }
+
+    public static function select_first() { 
+        $sql = 'select id, email, display_name, password_hash, password_salt from account limit 0, 1';
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        $account = new account();
+        $account->load(mysqli_fetch_array($res));
+        return $account;
+    }
+}
+
+
 class tag {
     public $id;
     public $name;
