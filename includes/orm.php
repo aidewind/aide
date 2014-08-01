@@ -236,7 +236,7 @@ class account {
         return mysqli_query(Application::$DB_CONNECTION, $sql);
     }
 
-    public static function select_first() { 
+    public static function select_accounts() { 
         $sql = 'select id, email, display_name, password_hash, password_salt from account limit 0, 1';
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 

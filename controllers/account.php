@@ -60,6 +60,7 @@ class AccountController extends Controller {
     }
 
     $settings = $this->get_settings();
+    $settings = $this->get_accounts();
     
     $this->meta->title = 'Account Administration';
     $entries = entry::select_list();
@@ -111,8 +112,9 @@ class AccountController extends Controller {
 
   public function login() {
     $settings = $this->get_settings();
+    $settings = $this->get_accounts();
     
-    $this->meta->title = 'aide Login';
+    $this->meta->title = 'Login';
     
     $model = array(
       'email' => $this->post('email'), 
@@ -125,9 +127,9 @@ class AccountController extends Controller {
         return $this->view($model);
       }
 
-      $hash = hash('sha512', $model['password'] . $settings->password_salt);
-      if(strcmp($model['email'], $settings->email) !== 0 ||
-        strcmp($hash, $settings->password_hash) !== 0) {
+      $hash = hash('sha512', $model['password'] . $accounts->password_salt);
+      if(strcmp($model['email'], $accounts->email) !== 0 ||
+        strcmp($hash, $accounts->password_hash) !== 0) {
         $model['error'] = 'That email/password combination was not valid.';
         return $this->view($model);
       }

@@ -585,12 +585,12 @@ class Controller {
     if($this->current_accounts !== NULL) {
       return $this->current_accounts;
     }
-    $this->current_accounts = account::select_first();
+    $this->current_accounts = account::select_accounts();
     if($this->current_accounts === FALSE) {
       $this->current_accounts = NULL;
     }
     if($this->current_accounts === NULL && $redirect) {
-      $this->redirect(NULL, 'account');
+      $this->redirect(NULL, 'login');
     }
     return $this->current_accounts;
   }
