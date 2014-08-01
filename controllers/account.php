@@ -43,7 +43,7 @@ class AccountController extends Controller {
         $accounts->password_salt = uniqid();
         $accounts->password_hash = hash('sha512', $model['password'] . $accounts->password_salt);
         if(!$accounts->insert()) {
-          $model['error'] = 'Failed to create initial accounts: ' . last_error();
+          $model['error'] = 'Failed to create accounts' . last_error();
           return $this->partial($model);
         }
 

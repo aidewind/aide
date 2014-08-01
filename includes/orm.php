@@ -216,7 +216,7 @@ class account {
     }
 
     public function insert() {
-        $sql = 'insert into account (email, display_name, password_hash, password_salt) values ("%s", "%s", "%s", "%s", "%s")';
+        $sql = 'insert into account (email, display_name, password_hash, password_salt) values ("%s", "%s", "%s", "%s")';
         $sql = sprintf($sql, escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
