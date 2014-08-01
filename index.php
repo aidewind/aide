@@ -580,6 +580,20 @@ class Controller {
     return $this->current_settings;
   }
 
+  public function get_accounts($redirect = TRUE) {
+    if($this->current_accounts !== NULL) {
+      return $this->current_settings;
+    }
+    $this->current_accounts = account::select_first();
+    if($this->current_accounts === FALSE) {
+      $this->current_accounts = NULL;
+    }
+    if($this->current_accounts === NULL && $redirect) {
+      $this->redirect(NULL, 'setup');
+    }
+    return $this->current_accounts;
+  }
+
   protected function get_age_string ($string) {
     $time = time() - strtotime($string);
     if ($time < 60) return 'just now';

@@ -1,6 +1,6 @@
 <?php 
-$redirect = isset($this->settings_redirect) ? $this->settings_redirect : NULL;
-$settings = $this->get_settings($redirect); ?>
+$redirect = isset($this->accounts_redirect) ? $this->accounts_redirect : NULL;
+$accounts = $this->get_accounts($redirect); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,12 +29,12 @@ $settings = $this->get_settings($redirect); ?>
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
       <form class="form-horizontal" role="form" method="post">
-        <h4>Setup</h4>
+        <h4>Account Creation</h4>
         <?php
-        $settings = $this->get_settings(FALSE);
-        if($settings === NULL) {
+        $accounts = $this->get_accounts(FALSE);
+        if($accounts === NULL) {
         ?>
-        <p>Congratulations! It appears the webserver is configured correctly to handle requests. We are almost done setting up and just need a few more details about your blog. Thank you for setting up <a href="https://github.com/ShadowedMists/one-php-mvc-blog" target="_blank">one-php-mvc-blog</a> as your blog engine.</p>
+        <p>Hi! Lets create your account</p>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
         <label for="display_name">Your Name</label>
@@ -44,7 +44,7 @@ $settings = $this->get_settings($redirect); ?>
         <label for="password">Password</label>
         <input class="form-control" placeholder="Password" type="password" name="password" required />
         </div>
-        <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Complete Setup</button></span>
+        <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
         <?php } else { ?>
         <p>aide has already been set up. If you need to administer the site, please visit the login link below. If you need to setup the site again, you will need to delete the records in the <code>setting</code> database table to allow the setup to continue.</p>
         <?php } ?>
