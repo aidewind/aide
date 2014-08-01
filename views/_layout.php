@@ -81,38 +81,6 @@
         
       <?php $this->render_body(); ?>
 
-<?php
-global $keys;
-$keys = null;
-is_readable('/home/mfer/Downloads/trello-backup/trello-org-UFMG-FALE-board-4050.json') && $keys = json_decode(file_get_contents('/home/mfer/Downloads/trello-backup/trello-org-UFMG-FALE-board-4050.json'));
-$k = get_object_vars($keys);
-//echo "<pre style=\"border: 1px solid #000; height: {$height}; overflow: auto; margin: 0.5em;\">";
-//print_r($k["cards"]);
-//echo "</pre>\n";
-
-echo "<pre style=\"border: 1px solid #000; height: {$height}; overflow: auto; margin: 0.5em;\">";
-foreach($k["cards"] as $card){
-  $c = get_object_vars($card);
-  print_r($c["idShort"]." ".$c["shortLink"]);
-
-  $fn = '/home/mfer/Downloads/trello-backup/card-'.$c["idShort"].'.json';
-  
-  is_readable($fn) && $actions = json_decode(file_get_contents($fn));
-  
-  if(!file_get_contents($fn)) echo "deu false";
-  else {
-    echo file_get_contents($fn);
-    //echo json_decode(file_get_contents($fn));
-  }
-
-  //$a = get_object_vars($actions);
-  //print_r($a);
-  echo "<br>----------------------------<br>\n";
-}
-echo "</pre>\n";
-
-?>
-
       <div class="row">
         <br>
         <div class="clearfix"></div>

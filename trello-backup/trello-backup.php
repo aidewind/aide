@@ -144,9 +144,10 @@ foreach($boards as $id => $board) {
       $response = file_get_contents($url_individual_card_json, false, $ctx);
       $decoded = json_decode($response);
       if(empty($decoded)) {
-          echo "The card of board '$board->name' or organization '$board->orgName' could not be downloaded, response was : $response ";
+        echo "The card of board '$board->name' or organization '$board->orgName' could not be downloaded, response was : $response ";
+      }else{
+        file_put_contents( $filename, $response );      
       }
-      file_put_contents( $filename, $response );      
     }
   }
 }
