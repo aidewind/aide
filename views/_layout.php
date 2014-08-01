@@ -1,5 +1,6 @@
 <?php 
   $settings = $this->get_settings(); 
+  $settings = $this->get_accounts(); 
   $session =  $this->get_session();
 ?>
 <!DOCTYPE html>

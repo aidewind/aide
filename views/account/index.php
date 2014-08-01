@@ -46,7 +46,7 @@ $accounts = $this->get_accounts($redirect); ?>
         </div>
         <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
         <?php } else { ?>
-        <p>aide has already been set up. If you need to administer the site, please visit the login link below. If you need to setup the site again, you will need to delete the records in the <code>setting</code> database table to allow the setup to continue.</p>
+        <p>Your account was created.</p>
         <?php } ?>
       </form>
       </div>
