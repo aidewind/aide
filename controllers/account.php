@@ -1,7 +1,7 @@
 <?php
 
 class AccountController extends Controller {
-  protected $settings_redirect = FALSE;
+  protected $accounts_redirect = FALSE;
 
   public function index() {
     $this->meta->title = 'Account Creation';
@@ -36,14 +36,14 @@ class AccountController extends Controller {
         $model['error'] = 'Please enter a password that is at least 6 characters.';
         return $this->partial($model);
       }
-      if($settings === NULL) {
-        $settings = new setting();
-        $settings->display_name = $model['display_name'];
-        $settings->email = $model['email'];
-        $settings->password_salt = uniqid();
-        $settings->password_hash = hash('sha512', $model['password'] . $settings->password_salt);
-        if(!$settings->insert()) {
-          $model['error'] = 'Failed to create initial settings: ' . last_error();
+      if($accounts === NULL) {
+        $accounts = new account();
+        $accounts->display_name = $model['display_name'];
+        $accounts->email = $model['email'];
+        $accounts->password_salt = uniqid();
+        $accounts->password_hash = hash('sha512', $model['password'] . $accounts->password_salt);
+        if(!$accounts->insert()) {
+          $model['error'] = 'Failed to create initial accounts: ' . last_error();
           return $this->partial($model);
         }
 
