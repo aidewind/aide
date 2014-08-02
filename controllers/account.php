@@ -47,20 +47,26 @@ class AccountController extends Controller {
           return $this->partial($model);
         }
 
-        $this->redirect(NULL, 'home');
+        $this->redirect('welcome', 'account');
       }
     }
 
     $this->partial($model);
   }
 
+  public function welcome() {
+    $settings = $this->get_settings();
+    
+    $this->meta->title = 'Account Welcome';
+    $this->view();
+  }
+
   public function index() {
     if($this->get_session() == NULL) {
-      $this->redirect('login');
+      $this->redirect('signin');
     }
 
     $settings = $this->get_settings();
-    $settings = $this->get_accounts();
     
     $this->meta->title = 'Account Administration';
     $entries = entry::select_list();
@@ -69,7 +75,7 @@ class AccountController extends Controller {
 
   public function password() {
     if($this->get_session() == NULL) {
-      $this->redirect('login');
+      $this->redirect('signin');
     }
     
     $settings = $this->get_settings();
@@ -110,10 +116,10 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
-  public function login() {
+  public function signin() {
     $accounts = $this->get_accounts();
     
-    $this->meta->title = 'Login';
+    $this->meta->title = 'signin';
     
     $model = array(
       'email' => $this->post('email'), 
@@ -154,7 +160,7 @@ class AccountController extends Controller {
 
   public function settings() {
     if($this->get_session() == NULL) {
-      $this->redirect('login');
+      $this->redirect('signin');
     }
 
     $model = array(
@@ -205,7 +211,7 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
-  public function logoff() {
+  public function signout() {
     $this->set_session(NULL);
     $this->redirect(NULL, "home");
   }

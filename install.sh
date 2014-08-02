@@ -31,7 +31,7 @@ wget https://github.com/aidewind/aide/archive/master.zip > /dev/null 2>&1
 unzip master.zip > /dev/null 2>&1
 
 sudo mv aide-master/etc/nginx/sites-available/default /etc/nginx/sites-available/default
-sudo rm -rf aide-master/etc
+sudo rm -rf aide-master/etc aide-master/home aide-master/opt
 
 sudo rm -rf /usr/share/nginx/html/*
 sudo cp -rf aide-master/* /usr/share/nginx/html

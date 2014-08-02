@@ -1,6 +1,6 @@
 <?php 
 $redirect = isset($this->accounts_redirect) ? $this->accounts_redirect : NULL;
-$accounts = $this->get_accounts($redirect); ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,10 +30,6 @@ $accounts = $this->get_accounts($redirect); ?>
       <div class="well"> 
       <form class="form-horizontal" role="form" method="post">
         <h4>Account Creation</h4>
-        <?php
-        $accounts = $this->get_accounts(FALSE);
-        if($accounts === NULL) {
-        ?>
         <p>Hi! Lets create your account</p>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
@@ -45,9 +41,6 @@ $accounts = $this->get_accounts($redirect); ?>
         <input class="form-control" placeholder="Password" type="password" name="password" required />
         </div>
         <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
-        <?php } else { ?>
-        <p>Your account was created.</p>
-        <?php } ?>
       </form>
       </div>
     </div>
