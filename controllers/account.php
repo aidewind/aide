@@ -129,33 +129,33 @@ class AccountController extends Controller {
     if(array_key_exists('submit', $_POST)) {
       if(empty($model['email']) || empty($model['password'])) {
         $model['error'] = 'Please enter a email and password';
-        return $this->view($model);
+        return $this->partial($model);
       }
 
       $hash = hash('sha512', $model['password'] . $accounts->password_salt);
       if(strcmp($model['email'], $accounts->email) !== 0 ||
         strcmp($hash, $accounts->password_hash) !== 0) {
         $model['error'] = 'That email/password combination was not valid.';
-        return $this->view($model);
+        return $this->partial($model);
       }
 
       $session = new session();
       $session->code = uniqid();
       if(!$session->insert()) {
         $model['error'] = 'Failed to create new session: ' . last_error();
-        return $this->view($model);
+        return $this->partial($model);
       }
 
       $session = session::select_by_id($session->id);
       if($session === NULL) {
         $model['error'] = 'Failed to load new session: ' . last_error();
-        return $this->view($model);
+        return $this->partial($model);
       }
       $this->set_session($session);
       $this->redirect(NULL);
     }
     
-    $this->view($model);
+    $this->partial($model);
   }
 
   public function settings() {
