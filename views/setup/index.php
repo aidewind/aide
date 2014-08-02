@@ -34,13 +34,13 @@ $settings = $this->get_settings($redirect); ?>
         $settings = $this->get_settings(FALSE);
         if($settings === NULL) {
         ?>
-        <p>Congratulations! It appears the webserver is configured correctly to handle requests. We are almost done setting up and just need a few more details about your blog. Thank you for setting up <a href="https://github.com/ShadowedMists/one-php-mvc-blog" target="_blank">one-php-mvc-blog</a> as your blog engine.</p>
+        <p>Congratulations! It appears the webserver is configured correctly to handle requests. We are almost done setting up and just need a few more details about your site.</p>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
-        <label for="blog_name">Blog Name</label>
-        <input class="form-control" placeholder="Blog Name" type="text" name="blog_name" required maxlength="63" value="<?php echo $model['blog_name']; ?>" />
-        <label for="display_name">Your Name</label>
-        <input class="form-control" placeholder="Your Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
+        <label for="blog_name">Site Name</label>
+        <input class="form-control" placeholder="Site Name" type="text" name="blog_name" required maxlength="63" value="<?php echo $model['blog_name']; ?>" />
+        <label for="display_name">Your User Name</label>
+        <input class="form-control" placeholder="Your User Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
         <label for="email">Email</label>
         <input class="form-control" placeholder="Email" type="email" name="email" required maxlength="250" value="<?php echo $model['email']; ?>" />
         <label for="password">Password</label>

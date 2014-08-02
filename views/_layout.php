@@ -55,7 +55,7 @@
           <ul class="nav dropdown-menu">
           <?php if(true) { ?>
             <li><a href="<?php echo $this->route_url('signin', 'account'); ?>"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign In</a></li>
-            <li><a href="<?php echo $this->route_url('create', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
+            <li><a href="<?php echo $this->route_url('signup', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
           <?php } else { ?>
             <li><a href="#"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign Out</a></li>
             <li><a href="#"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> My Tickets</a></li>

@@ -53,7 +53,7 @@
           <a href="#" style="margin-left:15px;" class="navbar-btn btn btn-default btn-plus dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-home" style="color:#dd1111;"></i> Home <small><i class="glyphicon glyphicon-chevron-down"></i></small></a>
           <ul class="nav dropdown-menu">
             <li><a href="<?php echo $this->route_url('signin', 'account'); ?>"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign In</a></li>
-            <li><a href="<?php echo $this->route_url('create', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
+            <li><a href="<?php echo $this->route_url('signup', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
           </ul>
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2">
             <span class="sr-only">Toggle navigation</span>

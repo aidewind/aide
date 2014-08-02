@@ -38,7 +38,7 @@ else {
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse2">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#">~public</a></li>
+        <li class="active"><a href="<?php echo $this->route_url(NULL, 'home'); ?>">~public</a></li>
         <?php //$this->render_boards(); ?>
       </ul>
     </div>  

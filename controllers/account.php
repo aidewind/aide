@@ -3,7 +3,7 @@
 class AccountController extends Controller {
   protected $accounts_redirect = FALSE;
 
-  public function create() {
+  public function signup() {
     $this->meta->title = 'Account Creation';
     
     $model = array(
