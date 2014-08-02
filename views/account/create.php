@@ -37,7 +37,7 @@ $accounts = $this->get_accounts($redirect); ?>
         <p>Hi! Lets create your account</p>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
-        <label for="display_name">Your Name</label>
+        <label for="display_name">Your User Name</label>
         <input class="form-control" placeholder="Your Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
         <label for="email">Email</label>
         <input class="form-control" placeholder="Email" type="email" name="email" required maxlength="250" value="<?php echo $model['email']; ?>" />

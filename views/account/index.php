@@ -1,5 +1,6 @@
 <h1>Account Administration</h1>
 <h2>General Settings</h2>
+
 <ul>
   <li><a href="<?php echo $this->route_url('settings'); ?>">Account Settings</a></li>
   <li><a href="<?php echo $this->route_url('password'); ?>">Update Password</a></li>
