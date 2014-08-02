@@ -23,33 +23,11 @@ $settings = $this->get_settings($redirect); ?>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="/css/theme.css" />
-    <link rel="stylesheet" type="text/css" href="/css/site.css" />
   </head>
   <body >
-    <div class="navbar navbar-fixed-top header">
-      <div class="col-md-12">
-      <div class="navbar-header">
-        <a href="<?php echo $this->route_url(NULL, 'home'); ?>" class="navbar-brand"><?php echo @$settings->blog_name; ?></a>
-        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1"> 
-        <i class="glyphicon glyphicon-search"></i>
-        </button> -->
-      </div>
-  <!--    <div class="collapse navbar-collapse" id="navbar-collapse1">
-        <form class="navbar-form pull-right">
-        <div class="input-group" style="max-width:470px;">
-          <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-          <div class="input-group-btn">
-          <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-          </div>
-        </div>
-        </form>
-      </div>  -->
-      </div> 
-    </div>
-
     <div class="container" id="main">
       <div class="row">
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-6 col-sm-6">
         <div class="well"> 
         <form class="form-horizontal" role="form" method="post">
           <h4>Setup</h4>
@@ -71,53 +49,12 @@ $settings = $this->get_settings($redirect); ?>
           </div>
           <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Complete Setup</button></span>
           <?php } else { ?>
-          <p>aide has already been set up. If you need to administer the site, please visit the login link below. If you need to setup the site again, you will need to delete the records in the <code>setting</code> database table to allow the setup to continue.</p>
+          <p>Site has already been set up. If you need to administer, please visit the admin <a href="<?php echo $this->route_url('login', 'admin'); ?>">login link</a>. If you need to setup the site again, you will need to delete the records in the <code>setting</code> database table to allow the setup to continue.</p>
           <?php } ?>
         </form>
         </div>
       </div>
       </div>
     </div>
-
-    <div class="row">
-      <br>
-      <div class="clearfix"></div>
-      <hr>
-      <div class="col-md-12 text-center"><p>
-        Powered by <a href="https://github.com/aidewind/aide" target="_blank">aide</a> 
-        | <a href="<?php echo $this->route_url(NULL, 'admin'); ?>">Admin</a>
-        <?php if ($session !== NULL ) { ?>| <a href="<?php echo $this->route_url('logoff', 'admin'); ?>">Logoff</a><?php }?>
-        | <?php
-        echo gethostname();
-        echo " ";
-        echo php_uname('n'); // // Or, an option that also works before PHP 5.3
-        echo " ";
-        echo $_SERVER['REMOTE_ADDR'];
-        echo " ";
-        echo $_SERVER['HTTP_X_FORWARDED_FOR'];
-        ?>
-      </div>
-      <hr>
-    </div>
   </body>
-
-  <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-  <!-- JavaScript jQuery code from Bootply.com editor -->
-  <script type='text/javascript'>
-    $(document).ready(function() {
-    /* toggle layout */
-    $('#btnToggle').click(function(){
-      if ($(this).hasClass('on')) {
-      $('#main .col-md-6').addClass('col-md-4').removeClass('col-md-6');
-      $(this).removeClass('on');
-      }
-      else {
-      $('#main .col-md-4').addClass('col-md-6').removeClass('col-md-4');
-      $(this).addClass('on');
-      }
-    });
-    });
-  </script>
-
 </html>
