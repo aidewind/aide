@@ -69,7 +69,7 @@ class AccountController extends Controller {
     $settings = $this->get_settings();
     
     $this->meta->title = 'Account Administration';
-    $entries = entry::select_list();
+    $entries = ticket::select_list();
     $this->view($entries);
   }
 

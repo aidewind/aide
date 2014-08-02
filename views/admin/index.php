@@ -27,27 +27,31 @@
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Ticket Management</h4>
-        <ul>
-          <li><a href="<?php echo $this->route_url('edit', 'entry'); ?>">New Ticket</a></li>
-        </ul>
+        <h4>New Ticket</h4>
+        <p class="error"><?php echo $model['error']; ?></p>
+        <form method="post">
+          <input type="hidden" name="id" value="<?php echo $model['id']; ?>" />
+          <label for="body">ToDo</label>
+          <textarea name="body" rows="8"><?php echo $model['body']; ?></textarea>
+          <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
+        </form>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <?php foreach($model as $entry) { ?>
+    <?php foreach($model as $ticket) { ?>
     <div class="col-md-4 col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading">        
-          <a href="#" class="pull-left">published: <?php echo $entry->published == 1 ? 'Yes': 'No'; ?></a>
-          <a href="#" class="pull-right"><?php echo $this->get_age_string($entry->created); ?></a>
+          <a href="#" class="pull-left">published: <?php echo $ticket->published == 1 ? 'Yes': 'No'; ?></a>
+          <a href="#" class="pull-right"><?php echo $this->get_age_string($ticket->created); ?></a>
         </div>      
         <div class="panel-body">
 
-          <?php echo $entry->title; ?>
-          <a href="<?php echo $this->route_url('edit', 'entry', $entry->id); ?>">edit</a>
-          <a href="<?php echo $this->route_url('delete', 'entry', $entry->id); ?>">delete</a>
+          <?php echo $ticket->title; ?>
+          <a href="<?php echo $this->route_url('edit', 'ticket', $ticket->id); ?>">edit</a>
+          <a href="<?php echo $this->route_url('delete', 'ticket', $ticket->id); ?>">delete</a>
 
         </div>
       </div>

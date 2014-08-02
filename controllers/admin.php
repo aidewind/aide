@@ -10,7 +10,7 @@ class AdminController extends Controller {
     $settings = $this->get_settings();
     
     $this->meta->title = 'Admin';
-    $entries = entry::select_list();
+    $tickets = ticket::select_list();
     $this->view($entries);
   }
 

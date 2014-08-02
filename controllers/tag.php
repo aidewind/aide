@@ -21,7 +21,7 @@ class TagController extends Controller {
     $this->tag = $tag;
     $offset = $page * 25;
 
-    $entries = entry::select_by_tag($tag, $offset);
+    $entries = ticket::select_by_tag($tag, $offset);
     return $this->view(array('entries' => $entries, 'tags' => array($tag)), 'index', 'home');
   }
 }

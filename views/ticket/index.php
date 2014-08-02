@@ -2,18 +2,18 @@
   include "includes/Parsedown.php";
   $settings = $this->get_settings();
   $parsedown = new Parsedown();
-  $entry = $model['entry'];
+  $ticket = $model['ticket'];
   $tags = $model['tags'];
 ?>
 
-<h1 class="title"><?php echo $entry->title; ?></h1>
-<p class="info"><?php echo $this->get_age_string($entry->created), ' by ', $settings->display_name;?></p>
+<h1 class="title"><?php echo $ticket->title; ?></h1>
+<p class="info"><?php echo $this->get_age_string($ticket->created), ' by ', $settings->display_name;?></p>
 <div class="markdown">
   <?php 
-    if(!empty($entry->image_url)) {
-      echo '<img src="', $entry->image_url, '" alt="Title Image" />';
+    if(!empty($ticket->image_url)) {
+      echo '<img src="', $ticket->image_url, '" alt="Title Image" />';
     }
-    echo $parsedown->text($entry->body); 
+    echo $parsedown->text($ticket->body); 
   ?>
 </div>
 <?php if(count($tags) > 0 ) { ?>

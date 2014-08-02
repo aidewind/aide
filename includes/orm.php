@@ -4,7 +4,7 @@ class Application {public static $DB_CONNECTION = NULL; }
 function escape($sequence) {return mysqli_real_escape_string(Application::$DB_CONNECTION, $sequence);}
 function last_error() {return mysqli_error(Application::$DB_CONNECTION);}
 
-class entry {
+class ticket {
     public $id;
     public $title;
     public $image_url;
@@ -26,7 +26,7 @@ class entry {
     }
 
     public function insert() {
-        $sql = 'insert into entry (title, image_url, published, snippet, body, created) values ("%s", "%s", %d, "%s", "%s", UTC_TIMESTAMP())';
+        $sql = 'insert into ticket (title, image_url, published, snippet, body, created) values ("%s", "%s", %d, "%s", "%s", UTC_TIMESTAMP())';
         $sql = sprintf($sql, escape($this->title), escape($this->image_url), $this->published, escape($this->snippet), escape($this->body));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
@@ -34,32 +34,32 @@ class entry {
     }
 
     public function update() {
-        $sql = 'update entry set title = "%s", image_url = "%s", published = %d, snippet = "%s", body = "%s", updated = UTC_TIMESTAMP() where id = %d';
+        $sql = 'update ticket set title = "%s", image_url = "%s", published = %d, snippet = "%s", body = "%s", updated = UTC_TIMESTAMP() where id = %d';
         $sql = sprintf($sql, escape($this->title), escape($this->image_url), $this->published, escape($this->snippet), escape($this->body), $this->id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         return $res;
     }
 
     public function delete() {
-        $sql = 'delete from entry where id = %d';
+        $sql = 'delete from ticket where id = %d';
         $sql = sprintf($sql, $this->id);
         return mysqli_query(Application::$DB_CONNECTION, $sql);
     }
 
     public static function select_by_id($id) { 
-        $sql = 'select id, title, image_url, published, snippet, body, created, updated from entry where id=%d';
+        $sql = 'select id, title, image_url, published, snippet, body, created, updated from ticket where id=%d';
         $sql = sprintf($sql, $id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return NULL;
         }
-        $entry = new entry();
-        $entry->load(mysqli_fetch_array($res));
-        return $entry;
+        $ticket = new ticket();
+        $ticket->load(mysqli_fetch_array($res));
+        return $ticket;
     }
 
     public static function select($offset = 0) { 
-        $sql = 'select id, title, image_url, published, snippet, body, created, updated from entry where published = 1 order by id desc limit %d, 25';
+        $sql = 'select id, title, image_url, published, snippet, body, created, updated from ticket where published = 1 order by id desc limit %d, 25';
         $sql = sprintf($sql, $offset);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -67,30 +67,30 @@ class entry {
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $entry = new entry();
-            $entry->load($row);
-            $array[] = $entry;
+            $ticket = new ticket();
+            $ticket->load($row);
+            $array[] = $ticket;
         }
         return $array;
     }
     
     public static function select_list() {
-        $sql = 'select id, title, image_url, published, null as snippet, null as body, created, updated from entry order by id desc';
+        $sql = 'select id, title, image_url, published, null as snippet, null as body, created, updated from ticket order by id desc';
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return array();
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $entry = new entry();
-            $entry->load($row);
-            $array[] = $entry;
+            $ticket = new ticket();
+            $ticket->load($row);
+            $array[] = $ticket;
         }
         return $array;
     }
 
     public static function select_by_tag($tag, $offset = 0) { 
-        $sql = 'select id, title, image_url, published, snippet, null as body, created, updated from entry e inner join (select entry from entry_tag et inner join tag t on et.tag = t.id where name = "%s" group by entry) t on e.id = t.entry where published = 1 order by id desc limit %d, 25';
+        $sql = 'select id, title, image_url, published, snippet, null as body, created, updated from ticket e inner join (select ticket from ticket_tag et inner join tag t on et.tag = t.id where name = "%s" group by ticket) t on e.id = t.ticket where published = 1 order by id desc limit %d, 25';
         $sql = sprintf($sql, escape($tag), $offset);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -98,9 +98,9 @@ class entry {
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $entry = new entry();
-            $entry->load($row);
-            $array[] = $entry;
+            $ticket = new ticket();
+            $ticket->load($row);
+            $array[] = $ticket;
         }
         return $array;
     }
@@ -284,51 +284,51 @@ class tag {
     }
 }
 
-class entry_tag {
-    public $entry;
+class ticket_tag {
+    public $ticket;
     public $tag;
     public $name;
 
     public function load($row) {
-        $this->entry = intval($row['entry']);
+        $this->ticket = intval($row['ticket']);
         $this->tag = intval($row['tag']);
         $this->name = array_key_exists('name', $row) ? $row['name'] : NULL;
     }
 
     public function insert() {
-        $sql = 'insert into entry_tag (entry, tag) values (%d, %d)';
-        $sql = sprintf($sql, $this->entry, $this->tag);
+        $sql = 'insert into ticket_tag (ticket, tag) values (%d, %d)';
+        $sql = sprintf($sql, $this->ticket, $this->tag);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
-    public static function select_by_entry($entry) {
-        $sql = 'select entry, tag, name from entry_tag et inner join tag t on et.tag = t.id where entry = "%s"';
-        $sql = sprintf($sql, $entry);
+    public static function select_by_ticket($ticket) {
+        $sql = 'select ticket, tag, name from ticket_tag et inner join tag t on et.tag = t.id where ticket = "%s"';
+        $sql = sprintf($sql, $ticket);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return array();
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $entry = new entry_tag();
-            $entry->load($row);
-            $array[] = $entry;
+            $ticket = new ticket_tag();
+            $ticket->load($row);
+            $array[] = $ticket;
         }
         return $array;
     }
     
-    public static function delete_by_entry($entry) {
-        $sql = 'delete from entry_tag where entry = %d';
-        $sql = sprintf($sql, $entry);
+    public static function delete_by_ticket($ticket) {
+        $sql = 'delete from ticket_tag where ticket = %d';
+        $sql = sprintf($sql, $ticket);
         return mysqli_query(Application::$DB_CONNECTION, $sql);
     }
 }
 
 class tags_in_use {
     public static function select_all() {
-        $res = mysqli_query(Application::$DB_CONNECTION, 'select name from tag t inner join (select tag, count(*) as das_count from entry_tag group by tag) c on t.id = c.tag and das_count > 0 order by das_count desc, name asc');
+        $res = mysqli_query(Application::$DB_CONNECTION, 'select name from tag t inner join (select tag, count(*) as das_count from ticket_tag group by tag) c on t.id = c.tag and das_count > 0 order by das_count desc, name asc');
         if($res === FALSE) {
             return FALSE;
         }

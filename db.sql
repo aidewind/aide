@@ -25,12 +25,8 @@ create table session (
   created datetime not null
 )ENGINE=InnoDB;
 
-create table entry (
+create table ticket (
   id bigint not null primary key auto_increment,
-  title varchar(127) not null,
-  image_url varchar(255) not null,
-  published tinyint(1) not null,
-  snippet varchar(1023) not null,
   body text not null,
   created datetime not null,
   updated datetime null
@@ -41,9 +37,9 @@ create table tag (
   name varchar(255) not null
 )ENGINE=InnoDB;
 
-create table entry_tag (
-  entry bigint not null references entry(id),
+create table ticket_tag (
+  ticket bigint not null references ticket(id),
   tag bigint not null references tag(id)
 )ENGINE=InnoDB;
 
-alter table entry_tag add index (entry, tag);
+alter table ticket_tag add index (ticket, tag);
