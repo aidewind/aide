@@ -117,14 +117,14 @@ class AccountController extends Controller {
   }
 
   public function signin() {
-    $accounts = $this->get_accounts();
-    
     $this->meta->title = 'signin';
     
     $model = array(
       'email' => $this->post('email'), 
       'password' => $this->post('password'),
       'error' => NULL);
+
+    $accounts = NULL;
 
     if(array_key_exists('submit', $_POST)) {
       if(empty($model['email']) || empty($model['password'])) {

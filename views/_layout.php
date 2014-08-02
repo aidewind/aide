@@ -53,9 +53,9 @@
         <div class="navbar-header">
           <a href="#" style="margin-left:15px;" class="navbar-btn btn btn-default btn-plus dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-home" style="color:#dd1111;"></i> Home <small><i class="glyphicon glyphicon-chevron-down"></i></small></a>
           <ul class="nav dropdown-menu">
-          <?php if(false) { ?>
-            <li><a href="account/signin"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign In</a></li>
-            <li><a href="account/create"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
+          <?php if(true) { ?>
+            <li><a href="<?php echo $this->route_url('signin', 'account'); ?>"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign In</a></li>
+            <li><a href="<?php echo $this->route_url('create', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
           <?php } else { ?>
             <li><a href="#"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign Out</a></li>
             <li><a href="#"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> My Tickets</a></li>
