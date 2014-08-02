@@ -9,7 +9,7 @@ class AdminController extends Controller {
 
     $settings = $this->get_settings();
     
-    $this->meta->title = 'Blog Administration';
+    $this->meta->title = 'Admin';
     $entries = entry::select_list();
     $this->view($entries);
   }
@@ -60,7 +60,7 @@ class AdminController extends Controller {
   public function login() {
     $settings = $this->get_settings();
     
-    $this->meta->title = 'aide Login';
+    $this->meta->title = 'Admin Login';
     
     $model = array(
       'email' => $this->post('email'), 
