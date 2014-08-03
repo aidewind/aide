@@ -39,7 +39,7 @@ class ticketController extends Controller {
       $this->redirect(NULL, 'home');
     }
 
-    $this->meta->title = 'Blog ticket';
+    $this->meta->title = 'Ticket Edit';
 
     $model = array(
       'id' => $this->post('id'),

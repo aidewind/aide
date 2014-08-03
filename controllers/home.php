@@ -14,9 +14,9 @@ class HomeController extends Controller {
     $this->page = $page;
     $offset = $page * 25;
 
-    $entries = ticket::select($offset);
+    $tickets = ticket::select($offset);
     $tags = tags_in_use::select_all();
-    return $this->view(array('entries' => $entries, 'tags' => $tags));
+    return $this->view(array('tickets' => $tickets, 'tags' => $tags));
   }
 }
 

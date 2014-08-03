@@ -1,6 +1,6 @@
 <?php
 $settings = $this->get_settings();
-$entries = $model['entries'];
+$tickets = $model['tickets'];
 $tags = $model['tags'];
 
 $prevUrl = NULL;
@@ -40,7 +40,7 @@ else {
 
 <div class="container" id="main">
   <div class="row">
-    <?php foreach($entries as $ticket) { ?>
+    <?php foreach($tickets as $ticket) { ?>
     <div class="col-md-4 col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading">        
@@ -84,7 +84,7 @@ else {
   <div class="clearfix"></div>
   <hr>
   <div class="col-md-12 text-center">
-  <?php if (count($entries) == 25) { ?>
+  <?php if (count($tickets) == 25) { ?>
   <a href="<?php echo $prevUrl; ?>">Older Posts</a>
   <?php } if($this->page > 0) { ?>
   <a href="<?php echo $nextUrl; ?>">Newer Posts</a>

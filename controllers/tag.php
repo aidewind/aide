@@ -10,7 +10,7 @@ class TagController extends Controller {
     }
     
     $settings = $this->get_settings();
-    $this->meta->title = 'Entries Tagged ' . $tag . ' - ' .$settings->blog_name;
+    $this->meta->title = 'tickets Tagged ' . $tag . ' - ' .$settings->blog_name;
 
     $page = intval($page);
     if($page < 0) {
@@ -21,8 +21,8 @@ class TagController extends Controller {
     $this->tag = $tag;
     $offset = $page * 25;
 
-    $entries = ticket::select_by_tag($tag, $offset);
-    return $this->view(array('entries' => $entries, 'tags' => array($tag)), 'index', 'home');
+    $tickets = ticket::select_by_tag($tag, $offset);
+    return $this->view(array('tickets' => $tickets, 'tags' => array($tag)), 'index', 'home');
   }
 }
 

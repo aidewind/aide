@@ -69,8 +69,8 @@ class AccountController extends Controller {
     $settings = $this->get_settings();
     
     $this->meta->title = 'Account Administration';
-    $entries = ticket::select_list();
-    $this->view($entries);
+    $tickets = ticket::select_list();
+    $this->view($tickets);
   }
 
   public function password() {

@@ -11,7 +11,7 @@ class AdminController extends Controller {
     
     $this->meta->title = 'Admin';
     $tickets = ticket::select_list();
-    $this->view($entries);
+    $this->view($tickets);
   }
 
   public function password() {

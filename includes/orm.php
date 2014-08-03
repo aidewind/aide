@@ -6,10 +6,6 @@ function last_error() {return mysqli_error(Application::$DB_CONNECTION);}
 
 class ticket {
     public $id;
-    public $title;
-    public $image_url;
-    public $published;
-    public $snippet;
     public $body;
     public $created;
     public $updated;
@@ -26,16 +22,16 @@ class ticket {
     }
 
     public function insert() {
-        $sql = 'insert into ticket (title, image_url, published, snippet, body, created) values ("%s", "%s", %d, "%s", "%s", UTC_TIMESTAMP())';
-        $sql = sprintf($sql, escape($this->title), escape($this->image_url), $this->published, escape($this->snippet), escape($this->body));
+        $sql = 'insert into ticket (body, created) values ("%s", UTC_TIMESTAMP())';
+        $sql = sprintf($sql, escape($this->body));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
     public function update() {
-        $sql = 'update ticket set title = "%s", image_url = "%s", published = %d, snippet = "%s", body = "%s", updated = UTC_TIMESTAMP() where id = %d';
-        $sql = sprintf($sql, escape($this->title), escape($this->image_url), $this->published, escape($this->snippet), escape($this->body), $this->id);
+        $sql = 'update ticket set body = "%s", updated = UTC_TIMESTAMP() where id = %d';
+        $sql = sprintf($sql, escape($this->body), $this->id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         return $res;
     }
@@ -47,7 +43,7 @@ class ticket {
     }
 
     public static function select_by_id($id) { 
-        $sql = 'select id, title, image_url, published, snippet, body, created, updated from ticket where id=%d';
+        $sql = 'select id, body, created, updated from ticket where id=%d';
         $sql = sprintf($sql, $id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -59,7 +55,7 @@ class ticket {
     }
 
     public static function select($offset = 0) { 
-        $sql = 'select id, title, image_url, published, snippet, body, created, updated from ticket where published = 1 order by id desc limit %d, 25';
+        $sql = 'select id, body, created, updated from ticket order by id desc limit %d, 25';
         $sql = sprintf($sql, $offset);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -75,7 +71,7 @@ class ticket {
     }
     
     public static function select_list() {
-        $sql = 'select id, title, image_url, published, null as snippet, null as body, created, updated from ticket order by id desc';
+        $sql = 'select id, body, created, updated from ticket order by id desc';
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return array();
