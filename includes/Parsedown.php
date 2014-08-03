@@ -651,12 +651,12 @@ class Parsedown
       return;
     }
 
-    if (preg_match('/<'.$Block['name'].'([ ][^\/]+)?>/', $Line['text'])) # opening tag
+    if (preg_match('/<'.$Block['name'].'([ ][^\/]+)?>/', $Line['text'])) # opening sector
     {
       $Block['depth'] ++;
     }
 
-    if (stripos($Line['text'], '</'.$Block['name'].'>') !== false) # closing tag
+    if (stripos($Line['text'], '</'.$Block['name'].'>') !== false) # closing sector
     {
       if ($Block['depth'] > 0)
       {
@@ -945,7 +945,7 @@ class Parsedown
     '&' => array('Ampersand'),
     '*' => array('Emphasis'),
     '/' => array('Url'),
-    '<' => array('UrlTag', 'EmailTag', 'Tag', 'LessThan'),
+    '<' => array('Urlsector', 'Emailsector', 'sector', 'LessThan'),
     '[' => array('Link'),
     '_' => array('Emphasis'),
     '`' => array('InlineCode'),
@@ -1106,7 +1106,7 @@ class Parsedown
     );
   }
 
-  protected function identifyUrlTag($Excerpt)
+  protected function identifyUrlsector($Excerpt)
   {
     if (strpos($Excerpt['text'], '>') !== false and preg_match('/^<(https?:[\/]{2}[^\s]+?)>/i', $Excerpt['text'], $matches))
     {
@@ -1125,7 +1125,7 @@ class Parsedown
     }
   }
 
-  protected function identifyEmailTag($Excerpt)
+  protected function identifyEmailsector($Excerpt)
   {
     if (strpos($Excerpt['text'], '>') !== false and preg_match('/^<(\S+?@\S+?)>/', $Excerpt['text'], $matches))
     {
@@ -1142,7 +1142,7 @@ class Parsedown
     }
   }
 
-  protected function identifyTag($Excerpt)
+  protected function identifysector($Excerpt)
   {
     if (strpos($Excerpt['text'], '>') !== false and preg_match('/^<\/?\w.*?>/', $Excerpt['text'], $matches))
     {

@@ -85,9 +85,9 @@ class ticket {
         return $array;
     }
 
-    public static function select_by_tag($tag, $offset = 0) { 
-        $sql = 'select id, title, image_url, published, snippet, null as body, created, updated from ticket e inner join (select ticket from ticket_tag et inner join tag t on et.tag = t.id where name = "%s" group by ticket) t on e.id = t.ticket where published = 1 order by id desc limit %d, 25';
-        $sql = sprintf($sql, escape($tag), $offset);
+    public static function select_by_sector($sector, $offset = 0) { 
+        $sql = 'select id, title, image_url, published, snippet, null as body, created, updated from ticket e inner join (select ticket from ticket_sector et inner join sector t on et.sector = t.id where name = "%s" group by ticket) t on e.id = t.ticket where published = 1 order by id desc limit %d, 25';
+        $sql = sprintf($sql, escape($sector), $offset);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return array();
@@ -245,7 +245,7 @@ class account {
 }
 
 
-class tag {
+class sector {
     public $id;
     public $name;
 
@@ -255,52 +255,52 @@ class tag {
     }
 
     public static function find_or_create($name) {
-        $sql = 'select id, name from tag where name = "%s"';
+        $sql = 'select id, name from sector where name = "%s"';
         $sql = sprintf($sql, escape($name));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE) {
             return FALSE;
         }
         
-        $tag = new tag();
+        $sector = new sector();
         if(mysqli_num_rows($res) === 0) {
-            $sql = 'insert into tag (name) values ("%s");';
+            $sql = 'insert into sector (name) values ("%s");';
             $sql = sprintf($sql, escape($name));
             $res = mysqli_query(Application::$DB_CONNECTION, $sql);
             if($res === FALSE) {
                 return FALSE;
             }
-            $tag->id = mysqli_insert_id(Application::$DB_CONNECTION);
-            $tag->name = $name;
+            $sector->id = mysqli_insert_id(Application::$DB_CONNECTION);
+            $sector->name = $name;
         }
         else {
-            $tag->load(mysqli_fetch_array($res));
+            $sector->load(mysqli_fetch_array($res));
         }
-        return $tag;
+        return $sector;
     }
 }
 
-class ticket_tag {
+class ticket_sector {
     public $ticket;
-    public $tag;
+    public $sector;
     public $name;
 
     public function load($row) {
         $this->ticket = intval($row['ticket']);
-        $this->tag = intval($row['tag']);
+        $this->sector = intval($row['sector']);
         $this->name = array_key_exists('name', $row) ? $row['name'] : NULL;
     }
 
     public function insert() {
-        $sql = 'insert into ticket_tag (ticket, tag) values (%d, %d)';
-        $sql = sprintf($sql, $this->ticket, $this->tag);
+        $sql = 'insert into ticket_sector (ticket, sector) values (%d, %d)';
+        $sql = sprintf($sql, $this->ticket, $this->sector);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
     public static function select_by_ticket($ticket) {
-        $sql = 'select ticket, tag, name from ticket_tag et inner join tag t on et.tag = t.id where ticket = "%s"';
+        $sql = 'select ticket, sector, name from ticket_sector et inner join sector t on et.sector = t.id where ticket = "%s"';
         $sql = sprintf($sql, $ticket);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -308,7 +308,7 @@ class ticket_tag {
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $ticket = new ticket_tag();
+            $ticket = new ticket_sector();
             $ticket->load($row);
             $array[] = $ticket;
         }
@@ -316,15 +316,15 @@ class ticket_tag {
     }
     
     public static function delete_by_ticket($ticket) {
-        $sql = 'delete from ticket_tag where ticket = %d';
+        $sql = 'delete from ticket_sector where ticket = %d';
         $sql = sprintf($sql, $ticket);
         return mysqli_query(Application::$DB_CONNECTION, $sql);
     }
 }
 
-class tags_in_use {
+class sectors_in_use {
     public static function select_all() {
-        $res = mysqli_query(Application::$DB_CONNECTION, 'select name from tag t inner join (select tag, count(*) as das_count from ticket_tag group by tag) c on t.id = c.tag and das_count > 0 order by das_count desc, name asc');
+        $res = mysqli_query(Application::$DB_CONNECTION, 'select name from sector t inner join (select sector, count(*) as das_count from ticket_sector group by sector) c on t.id = c.sector and das_count > 0 order by das_count desc, name asc');
         if($res === FALSE) {
             return FALSE;
         }

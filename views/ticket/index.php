@@ -3,7 +3,7 @@
   $settings = $this->get_settings();
   $parsedown = new Parsedown();
   $ticket = $model['ticket'];
-  $tags = $model['tags'];
+  $sectors = $model['sectors'];
 ?>
 
 <div class="navbar navbar-default" id="subnav">

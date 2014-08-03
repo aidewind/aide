@@ -32,14 +32,14 @@ create table ticket (
   updated datetime null
 )ENGINE=InnoDB;
 
-create table tag (
+create table sector (
   id bigint not null primary key auto_increment,
   name varchar(255) not null
 )ENGINE=InnoDB;
 
-create table ticket_tag (
+create table ticket_sector (
   ticket bigint not null references ticket(id),
-  tag bigint not null references tag(id)
+  sector bigint not null references sector(id)
 )ENGINE=InnoDB;
 
-alter table ticket_tag add index (ticket, tag);
+alter table ticket_sector add index (ticket, sector);

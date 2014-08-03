@@ -1,13 +1,13 @@
 <?php
 $settings = $this->get_settings();
 $tickets = $model['tickets'];
-$tags = $model['tags'];
+$sectors = $model['sectors'];
 
 $prevUrl = NULL;
 $nextUrl = NULL;
-if(isset($this->tag)) {
-  $prevUrl = $this->route_url(NULL, 'tag', array($this->tag, $this->page + 1));
-  $nextUrl = $this->route_url(NULL, 'tag', array($this->tag, $this->page - 1));
+if(isset($this->sector)) {
+  $prevUrl = $this->route_url(NULL, 'sector', array($this->sector, $this->page + 1));
+  $nextUrl = $this->route_url(NULL, 'sector', array($this->sector, $this->page - 1));
 }
 else {
   $prevUrl = $this->route_url(NULL, 'home', $this->page + 1);
@@ -58,8 +58,8 @@ else {
 
           <ul class="list-group">
             <li class="list-group-item">
-              <?php foreach ($tags as $tag) { ?>
-              <a href="<?php echo $this->route_url(NULL, 'tag', $tag); ?>"><span class="label label-warning"><?php echo $tag?></span></a>
+              <?php foreach ($sectors as $sector) { ?>
+              <a href="<?php echo $this->route_url(NULL, 'sector', $sector); ?>"><span class="label label-warning"><?php echo $sector?></span></a>
               <?php } ?>          
             </li>
             <li class="list-group-item">
@@ -92,8 +92,8 @@ else {
   </div>
   <hr>
   <div class="col-md-12 text-center">
-  <?php foreach ($tags as $tag) { ?>
-  <a href="<?php echo $this->route_url(NULL, 'tag', $tag); ?>"><?php echo $tag?></a>
+  <?php foreach ($sectors as $sector) { ?>
+  <a href="<?php echo $this->route_url(NULL, 'sector', $sector); ?>"><?php echo $sector?></a>
   <?php } ?>
   </div>
   </div>

@@ -19,14 +19,14 @@ class ticketController extends Controller {
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->body);
 
-    /*$ticket_tags = ticket_tag::select_by_ticket($ticket->id);
-    $tags = array();
-    foreach($ticket_tags as $ticket_tag) {
-      $tags[] = $ticket_tag->name;
+    /*$ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
+    $sectors = array();
+    foreach($ticket_sectors as $ticket_sector) {
+      $sectors[] = $ticket_sector->name;
     }
-    $this->meta->keywords = htmlentities(implode(',', $tags));*/
+    $this->meta->keywords = htmlentities(implode(',', $sectors));*/
 
-    $this->view(array('ticket' => $ticket, 'tags' => $tags));
+    $this->view(array('ticket' => $ticket, 'sectors' => $sectors));
   }
 
   public function edit($id = NULL) {
@@ -73,15 +73,15 @@ class ticketController extends Controller {
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket: ' . last_error(); 
       $model['id'] = $ticket->id;
 
-      /*ticket_tag::delete_by_ticket($ticket->id);
-      $tags = explode(',', $model['tags']);
-      foreach($tags as $name) {
+      /*ticket_sector::delete_by_ticket($ticket->id);
+      $sectors = explode(',', $model['sectors']);
+      foreach($sectors as $name) {
         $name = trim($name);
-        $tag = tag::find_or_create($name);
-        $ticket_tag = new ticket_tag();
-        $ticket_tag->ticket = $ticket->id;
-        $ticket_tag->tag = $tag->id;
-        $ticket_tag->insert();
+        $sector = sector::find_or_create($name);
+        $ticket_sector = new ticket_sector();
+        $ticket_sector->ticket = $ticket->id;
+        $ticket_sector->sector = $sector->id;
+        $ticket_sector->insert();
       }*/
     }
     else {
@@ -98,13 +98,13 @@ class ticketController extends Controller {
           $model['body'] = $ticket->body;
         }
 
-        /*$tags = ticket_tag::select_by_ticket($ticket->id);
-        if($tags !== FALSE) {
+        /*$sectors = ticket_sector::select_by_ticket($ticket->id);
+        if($sectors !== FALSE) {
           $t = array();
-          foreach($tags as $name) {
+          foreach($sectors as $name) {
             $t[] = $name->name;
           }
-          $model['tags'] = implode(', ', $t);
+          $model['sectors'] = implode(', ', $t);
         }*/
       } 
     }
@@ -134,14 +134,14 @@ class ticketController extends Controller {
       $this->meta->image = $ticket->image_url;
     }
 
-    $ticket_tags = ticket_tag::select_by_ticket($ticket->id);
-    $tags = array();
-    foreach($ticket_tags as $ticket_tag) {
-      $tags[] = $ticket_tag->name;
+    $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
+    $sectors = array();
+    foreach($ticket_sectors as $ticket_sector) {
+      $sectors[] = $ticket_sector->name;
     }
-    $this->meta->keywords = htmlentities(implode(',', $tags));
+    $this->meta->keywords = htmlentities(implode(',', $sectors));
 
-    $this->view(array('ticket' => $ticket, 'tags' => $tags), 'index');
+    $this->view(array('ticket' => $ticket, 'sectors' => $sectors), 'index');
   }
 
   public function delete($id) {

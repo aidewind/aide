@@ -98,12 +98,12 @@ footer {
 }
 
 @media all and (max-width:499px) {
-  .tags {
+  .sectors {
     display:none;
   }
 }
 @media all and (min-width:500px) {
-  .tags {
+  .sectors {
     float: right;
     clear:none;
     width: 15%;
