@@ -15,7 +15,7 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse2">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="<?php echo $this->route_url('index'); ?>">~admin</a></li>
+        <li><a href="<?php echo $this->route_url('index','admin)'; ?>">~admin</a></li>
         <?php //$this->render_boards(); ?>
       </ul>
     </div>  
@@ -27,7 +27,7 @@
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Editing</h4>
+        <h4>Ticket Edit</h4>
         <p class="error"><?php echo $model['error']; ?></p>
         <form method="post">
           <input type="hidden" name="id" value="<?php echo $model['id']; ?>" />

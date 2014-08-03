@@ -7,7 +7,7 @@ class SetupController extends Controller {
     $this->meta->title = 'Setup';
     
     $model = array(
-      'blog_name' => $this->post('blog_name'),
+      'site_name' => $this->post('site_name'),
       'email' => $this->post('email'),
       'display_name' => $this->post('display_name'),
       'password' => $this->post('password'),
@@ -16,8 +16,8 @@ class SetupController extends Controller {
 
     if(array_key_exists('submit', $_POST)) {
       $req = array();
-      if(empty($model['blog_name'])) {
-        $req[] = 'Blog Name';
+      if(empty($model['site_name'])) {
+        $req[] = 'site Name';
       }
       if(empty($model['email'])) {
         $req[] = 'Email';
@@ -45,7 +45,7 @@ class SetupController extends Controller {
 
       if($settings === NULL) {
         $settings = new setting();
-        $settings->blog_name = $model['blog_name'];
+        $settings->site_name = $model['site_name'];
         $settings->display_name = $model['display_name'];
         $settings->email = $model['email'];
         $settings->password_salt = uniqid();

@@ -148,7 +148,7 @@ class session {
 
 class setting {
     public $id;
-    public $blog_name;
+    public $site_name;
     public $email;
     public $display_name;
     public $password_hash;
@@ -156,7 +156,7 @@ class setting {
 
     public function load($row) {
         $this->id = intval($row['id']);
-        $this->blog_name = $row['blog_name'];
+        $this->site_name = $row['site_name'];
         $this->email = $row['email'];
         $this->display_name = $row['display_name'];
         $this->password_hash = $row['password_hash'];
@@ -164,16 +164,16 @@ class setting {
     }
 
     public function insert() {
-        $sql = 'insert into setting (blog_name, email, display_name, password_hash, password_salt) values ("%s", "%s", "%s", "%s", "%s")';
-        $sql = sprintf($sql, escape($this->blog_name), escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt));
+        $sql = 'insert into setting (site_name, email, display_name, password_hash, password_salt) values ("%s", "%s", "%s", "%s", "%s")';
+        $sql = sprintf($sql, escape($this->site_name), escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
     public function update() {
-        $sql = 'update setting set blog_name = "%s", email = "%s", display_name = "%s", password_hash = "%s", password_salt = "%s" where id = %d';
-        $sql = sprintf($sql, escape($this->blog_name), escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt), $this->id);
+        $sql = 'update setting set site_name = "%s", email = "%s", display_name = "%s", password_hash = "%s", password_salt = "%s" where id = %d';
+        $sql = sprintf($sql, escape($this->site_name), escape($this->email), escape($this->display_name), escape($this->password_hash), escape($this->password_salt), $this->id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         return $res;
     }
@@ -185,7 +185,7 @@ class setting {
     }
 
     public static function select_first() { 
-        $sql = 'select id, blog_name, email, display_name, password_hash, password_salt from setting limit 0, 1';
+        $sql = 'select id, site_name, email, display_name, password_hash, password_salt from setting limit 0, 1';
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return NULL;

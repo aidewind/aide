@@ -164,7 +164,7 @@ class AccountController extends Controller {
     }
 
     $model = array(
-      'blog_name' => $this->post('blog_name'),
+      'site_name' => $this->post('site_name'),
       'display_name' => $this->post('display_name'),
       'email' => $this->post('email'),
       'error' => NULL
@@ -172,8 +172,8 @@ class AccountController extends Controller {
 
     if(array_key_exists('submit', $_POST)) {
       $req = array();
-      if(empty($model['blog_name'])) {
-        $req[] = 'Blog Name';
+      if(empty($model['site_name'])) {
+        $req[] = 'site Name';
       }
       if(empty($model['display_name'])) {
         $req[] = 'Your Name';
@@ -192,7 +192,7 @@ class AccountController extends Controller {
       }
       
       $settings = $this->get_settings();
-      $settings->blog_name = $model['blog_name'];
+      $settings->site_name = $model['site_name'];
       $settings->display_name = $model['display_name'];
       $settings->email = $model['email'];
       
@@ -204,7 +204,7 @@ class AccountController extends Controller {
     }
     else {
       $settings = $this->get_settings();
-      $model['blog_name'] = $settings->blog_name;
+      $model['site_name'] = $settings->site_name;
       $model['display_name'] = $settings->display_name;
       $model['email'] = $settings->email;
     }

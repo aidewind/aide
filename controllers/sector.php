@@ -10,7 +10,7 @@ class sectorController extends Controller {
     }
     
     $settings = $this->get_settings();
-    $this->meta->title = 'tickets sectorged ' . $sector . ' - ' .$settings->blog_name;
+    $this->meta->title = 'tickets sectorged ' . $sector . ' - ' .$settings->site_name;
 
     $page = intval($page);
     if($page < 0) {

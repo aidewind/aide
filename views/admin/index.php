@@ -27,14 +27,7 @@
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>New Ticket</h4>
-        <p class="error"><?php echo $model['error']; ?></p>
-        <form method="post">
-          <input type="hidden" name="id" value="<?php echo $model['id']; ?>" />
-          <label for="body">ToDo</label>
-          <textarea name="body" rows="8"><?php echo $model['body']; ?></textarea>
-          <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
-        </form>
+        <h4><a href="<?php echo $this->route_url('edit', 'ticket'); ?>">New Ticket</a></h4>
       </div>
     </div>
   </div>

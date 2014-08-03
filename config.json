@@ -9,7 +9,7 @@
   },
   "db": {
   "host": "localhost", 
-  "database": "blog",
+  "database": "site",
   "username": "root",
   "password": "secret"
   },

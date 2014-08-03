@@ -30,7 +30,7 @@
     <div class="navbar navbar-fixed-top header">
       <div class="col-md-12">
       <div class="navbar-header">
-        <a href="<?php echo $this->route_url(NULL, 'home'); ?>" class="navbar-brand"><?php echo @$settings->blog_name; ?></a>
+        <a href="<?php echo $this->route_url(NULL, 'home'); ?>" class="navbar-brand"><?php echo @$settings->site_name; ?></a>
         <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1"> 
         <i class="glyphicon glyphicon-search"></i>
         </button> -->

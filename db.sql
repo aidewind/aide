@@ -1,10 +1,10 @@
-drop database if exists blog;
-create database blog;
-use blog;
+drop database if exists site;
+create database site;
+use site;
   
 create table setting (
   id bigint not null primary key auto_increment,
-  blog_name varchar(63) not null,
+  site_name varchar(63) not null,
   email varchar(250) not null,
   display_name varchar(63) not null,
   password_hash varchar(128) not null,

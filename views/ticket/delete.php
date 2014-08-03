@@ -28,7 +28,7 @@
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Delete Blog ticket</h4>
+        <h4>Delete Ticket</h4>
         <p class="error"><?php echo $model['error']; ?></p>
         <form method="post">
           <p>Are you sure you want to delete the Ticket <?php echo $ticket->id; ?>?</p>

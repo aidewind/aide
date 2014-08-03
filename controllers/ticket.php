@@ -15,7 +15,7 @@ class ticketController extends Controller {
       $this->not_found();
     }
     
-    $this->meta->title = htmlentities($ticket->id . ' - ' . $settings->blog_name);
+    $this->meta->title = htmlentities($ticket->id . ' - ' . $settings->site_name);
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->body);
 
@@ -127,7 +127,7 @@ class ticketController extends Controller {
       $this->not_found();
     }
 
-    $this->meta->title = htmlentities($ticket->title . ' - ' . $settings->blog_name);
+    $this->meta->title = htmlentities($ticket->title . ' - ' . $settings->site_name);
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->snippet);
     if(!empty($ticket->image_url)) {
@@ -168,11 +168,11 @@ class ticketController extends Controller {
         $model['error'] = 'Failed to delete ticket: ' . last_error();
       }
       else {
-        $this->redirect('blog', 'admin');
+        $this->redirect('site', 'admin');
       }
     }
 
-    $this->meta->title = 'Delete Blog ticket';
+    $this->meta->title = 'Delete site ticket';
     $this->view($model);
   }
 }
