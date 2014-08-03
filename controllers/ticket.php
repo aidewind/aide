@@ -3,33 +3,28 @@
 class ticketController extends Controller {
 
   public function index($id = NULL) {
+
     if(empty($id)) {
       $this->redirect(NULL, "home");
     }
     
     $settings = $this->get_settings();
-
+    
     $ticket = ticket::select_by_id($id);
     if($ticket === NULL) {
       $this->not_found();
     }
-    if($ticket->published === 0) {
-      $this->gone();
-    }
     
-    $this->meta->title = htmlentities($ticket->title . ' - ' . $settings->blog_name);
+    $this->meta->title = htmlentities($ticket->id . ' - ' . $settings->blog_name);
     $this->meta->author = htmlentities($settings->display_name);
-    $this->meta->description = htmlentities($ticket->snippet);
-    if(!empty($ticket->image_url)) {
-      $this->meta->image = $ticket->image_url;
-    }
+    $this->meta->description = htmlentities($ticket->body);
 
-    $ticket_tags = ticket_tag::select_by_ticket($ticket->id);
+    /*$ticket_tags = ticket_tag::select_by_ticket($ticket->id);
     $tags = array();
     foreach($ticket_tags as $ticket_tag) {
       $tags[] = $ticket_tag->name;
     }
-    $this->meta->keywords = htmlentities(implode(',', $tags));
+    $this->meta->keywords = htmlentities(implode(',', $tags));*/
 
     $this->view(array('ticket' => $ticket, 'tags' => $tags));
   }
