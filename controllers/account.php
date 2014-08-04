@@ -1,7 +1,7 @@
 <?php
 
 class AccountController extends Controller {
-  protected $accounts_redirect = FALSE;
+  protected $account_redirect = FALSE;
 
   public function signup() {
     $this->meta->title = 'Account Creation';
@@ -36,14 +36,14 @@ class AccountController extends Controller {
         $model['error'] = 'Please enter a password that is at least 6 characters.';
         return $this->partial($model);
       }
-      if($accounts === NULL) {
-        $accounts = new account();
-        $accounts->display_name = $model['display_name'];
-        $accounts->email = $model['email'];
-        $accounts->password_salt = uniqid();
-        $accounts->password_hash = hash('sha512', $model['password'] . $accounts->password_salt);
-        if(!$accounts->insert()) {
-          $model['error'] = 'Failed to create accounts' . last_error();
+      if($account === NULL) {
+        $account = new account();
+        $account->display_name = $model['display_name'];
+        $account->email = $model['email'];
+        $account->password_salt = uniqid();
+        $account->password_hash = hash('sha512', $model['password'] . $account->password_salt);
+        if(!$account->insert()) {
+          $model['error'] = 'Failed to create account' . last_error();
           return $this->partial($model);
         }
 
@@ -116,22 +116,14 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
-<<<<<<< HEAD
-  public function login() {
-    $settings = $this->get_settings();
-    
-    $this->meta->title = 'Login';
-=======
+
   public function signin() {
     $this->meta->title = 'signin';
->>>>>>> 9ac5f6f2f48e1513340cc6bef5ef799e4c1526f8
     
     $model = array(
       'email' => $this->post('email'), 
       'password' => $this->post('password'),
       'error' => NULL);
-
-    $accounts = NULL;
 
     if(array_key_exists('submit', $_POST)) {
       if(empty($model['email']) || empty($model['password'])) {
@@ -139,9 +131,11 @@ class AccountController extends Controller {
         return $this->partial($model);
       }
 
-      $hash = hash('sha512', $model['password'] . $accounts->password_salt);
-      if(strcmp($model['email'], $accounts->email) !== 0 ||
-        strcmp($hash, $accounts->password_hash) !== 0) {
+      $account = account::select_by_email($model['email']);
+
+      $hash = hash('sha512', $model['password'] . $account->password_salt);
+      if(strcmp($model['email'], $account->email) !== 0 ||
+        strcmp($hash, $account->password_hash) !== 0) {
         $model['error'] = 'That email/password combination was not valid.';
         return $this->partial($model);
       }
