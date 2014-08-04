@@ -233,7 +233,7 @@ class account {
     }
 
     public static function select_by_email($email) { 
-        $sql = 'select id, email, display_name, password_hash, password_salt from account where email = %s';
+        $sql = 'select id, email, display_name, password_hash, password_salt from account where email = "%s"';
         $sql = sprintf($sql, escape($email));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
