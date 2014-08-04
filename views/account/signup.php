@@ -77,7 +77,6 @@
       <div class="well"> 
       <form class="form-horizontal" role="form" method="post">
         <h4>Account Creation...</h4>
-        <p>Hi! Lets create your account</p>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
         <label for="display_name">Your User Name</label>

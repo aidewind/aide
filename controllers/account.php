@@ -116,8 +116,15 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
+<<<<<<< HEAD
+  public function login() {
+    $settings = $this->get_settings();
+    
+    $this->meta->title = 'Login';
+=======
   public function signin() {
     $this->meta->title = 'signin';
+>>>>>>> 9ac5f6f2f48e1513340cc6bef5ef799e4c1526f8
     
     $model = array(
       'email' => $this->post('email'), 
