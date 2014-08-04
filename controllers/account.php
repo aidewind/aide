@@ -54,13 +54,6 @@ class AccountController extends Controller {
     $this->partial($model);
   }
 
-  public function welcome() {
-    $settings = $this->get_settings();
-    
-    $this->meta->title = 'Account Welcome';
-    $this->view();
-  }
-
   public function index() {
     if($this->get_session() == NULL) {
       $this->redirect('signin');
@@ -68,54 +61,10 @@ class AccountController extends Controller {
 
     $settings = $this->get_settings();
     
-    $this->meta->title = 'Account Administration';
+    $this->meta->title = 'Account Signed In';
     $tickets = ticket::select_list();
     $this->view($tickets);
   }
-
-  public function password() {
-    if($this->get_session() == NULL) {
-      $this->redirect('signin');
-    }
-    
-    $settings = $this->get_settings();
-
-    $this->meta->title = 'Update Password';
-
-    $model = array(
-      'password' => $this->post('password'),
-      'confirm' => $this->post('confirm'),
-      'error' => NULL
-    );
-
-    if(array_key_exists('submit', $_POST)) {
-      if(empty($model['password']) || empty($model['confirm'])) {
-        $model['error'] = 'Please enter both a password and confirm password.';
-        return $this->view($model);
-      }
-
-      if(strlen($model['password']) < 6) {
-        $model['error'] = 'Please enter a password that is at least 6 characters.';
-        return $this->view($model);
-      }
-
-      if(strcmp($model['password'], $model['confirm']) !== 0) {
-        $model['error'] = 'The passwords do not match.';
-        return $this->view($model);
-      }
-      
-      $settings->password_hash = hash('sha512', $model['password'] . $settings->password_salt);
-      
-      if(!$settings->update()) {
-        $model['error'] = 'Failed to update password: ' . last_error();
-        return $this->view($model);
-      }
-      $this->redirect(NULL);
-    }
-
-    $this->view($model);
-  }
-
 
   public function signin() {
     if($this->get_session() !== NULL) {
@@ -161,6 +110,50 @@ class AccountController extends Controller {
     
     $this->partial($model);
   }
+
+    public function password() {
+    if($this->get_session() == NULL) {
+      $this->redirect('signin');
+    }
+    
+    $settings = $this->get_settings();
+
+    $this->meta->title = 'Update Password';
+
+    $model = array(
+      'password' => $this->post('password'),
+      'confirm' => $this->post('confirm'),
+      'error' => NULL
+    );
+
+    if(array_key_exists('submit', $_POST)) {
+      if(empty($model['password']) || empty($model['confirm'])) {
+        $model['error'] = 'Please enter both a password and confirm password.';
+        return $this->view($model);
+      }
+
+      if(strlen($model['password']) < 6) {
+        $model['error'] = 'Please enter a password that is at least 6 characters.';
+        return $this->view($model);
+      }
+
+      if(strcmp($model['password'], $model['confirm']) !== 0) {
+        $model['error'] = 'The passwords do not match.';
+        return $this->view($model);
+      }
+      
+      $settings->password_hash = hash('sha512', $model['password'] . $settings->password_salt);
+      
+      if(!$settings->update()) {
+        $model['error'] = 'Failed to update password: ' . last_error();
+        return $this->view($model);
+      }
+      $this->redirect(NULL);
+    }
+
+    $this->view($model);
+  }
+
 
   public function settings() {
     if($this->get_session() == NULL) {

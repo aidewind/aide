@@ -180,7 +180,7 @@ class Controller {
   public $layout = 'views/_layout.php';
   protected $current_session;
   protected $current_settings;
-  protected $current_accounts;
+  protected $current_account;
 
   /**
    * The Default Constructor requires the route components extracted
@@ -570,6 +570,20 @@ class Controller {
   public function get_settings($redirect = TRUE) {
     if($this->current_settings !== NULL) {
       return $this->current_settings;
+    }
+    $this->current_settings = setting::select_first();
+    if($this->current_settings === FALSE) {
+      $this->current_settings = NULL;
+    }
+    if($this->current_settings === NULL && $redirect) {
+      $this->redirect(NULL, 'setup');
+    }
+    return $this->current_settings;
+  }
+
+  public function get_account($redirect = TRUE) {
+    if($this->current_account !== NULL) {
+      return $this->current_account;
     }
     $this->current_settings = setting::select_first();
     if($this->current_settings === FALSE) {
