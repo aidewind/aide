@@ -47,7 +47,7 @@ $settings = $this->get_settings($redirect); ?>
           <label for="password">Password</label>
           <input class="form-control" placeholder="Password" type="password" name="password" required />
           </div>
-          <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Complete Setup</button></span>
+          <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Setup</button></span>
           <?php } else { ?>
           <p>Site has already been set up. If you need to administer, please visit the admin <a href="<?php echo $this->route_url('login', 'admin'); ?>">login link</a>. If you need to setup the site again, you will need to delete the records in the <code>setting</code> database table to allow the setup to continue.</p>
           <?php } ?>
