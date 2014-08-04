@@ -137,7 +137,6 @@ class AccountController extends Controller {
       if(strcmp($model['email'], $account->email) !== 0 ||
         strcmp($hash, $account->password_hash) !== 0) {
         $model['error'] = 'That email/password combination was not valid.';
-        $model['error'] = $model['email'].' - '.$account->email;
         return $this->partial($model);
       }
 
