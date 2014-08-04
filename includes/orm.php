@@ -86,7 +86,7 @@ class ticket {
     }
 
     public static function select_by_sector($sector, $offset = 0) { 
-        $sql = 'select id, title, image_url, published, snippet, null as body, created, updated from ticket e inner join (select ticket from ticket_sector et inner join sector t on et.sector = t.id where name = "%s" group by ticket) t on e.id = t.ticket where published = 1 order by id desc limit %d, 25';
+        $sql = 'select id, body, created, updated from ticket e inner join (select ticket from ticket_sector et inner join sector t on et.sector = t.id where name = "%s" group by ticket) t on e.id = t.ticket order by id desc limit %d, 25';
         $sql = sprintf($sql, escape($sector), $offset);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 

@@ -19,12 +19,12 @@ class ticketController extends Controller {
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->body);
 
-    /*$ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
+    $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
     $sectors = array();
     foreach($ticket_sectors as $ticket_sector) {
       $sectors[] = $ticket_sector->name;
     }
-    $this->meta->keywords = htmlentities(implode(',', $sectors));*/
+    $this->meta->keywords = htmlentities(implode(',', $sectors));
 
     $this->view(array('ticket' => $ticket, 'sectors' => $sectors));
   }
@@ -39,13 +39,14 @@ class ticketController extends Controller {
     $model = array(
       'id' => $this->post('id'),
       'body' => $this->post('body'),
+      'sectors' => $this->post('sectors'),
       'error' => NULL
     );
 
     if(array_key_exists('submit', $_POST)) {
       $req = array();
       if(empty($model['body'])) {
-        $req[] = 'ticket';
+        $req[] = 'ToDo';
       }
       if(!empty($req)) {
         $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);
@@ -55,8 +56,7 @@ class ticketController extends Controller {
       $ticket = NULL;
       if(empty($model['id'])) {
         $ticket = new ticket();
-      }
-      else {
+      } else {
         $ticket = ticket::select_by_id($model['id']);
         if($ticket === NULL) {
           $this->not_found();
@@ -73,7 +73,7 @@ class ticketController extends Controller {
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket: ' . last_error(); 
       $model['id'] = $ticket->id;
 
-      /*ticket_sector::delete_by_ticket($ticket->id);
+      ticket_sector::delete_by_ticket($ticket->id);
       $sectors = explode(',', $model['sectors']);
       foreach($sectors as $name) {
         $name = trim($name);
@@ -82,7 +82,7 @@ class ticketController extends Controller {
         $ticket_sector->ticket = $ticket->id;
         $ticket_sector->sector = $sector->id;
         $ticket_sector->insert();
-      }*/
+      }
     }
     else {
       if(!empty($id)) {
@@ -98,14 +98,14 @@ class ticketController extends Controller {
           $model['body'] = $ticket->body;
         }
 
-        /*$sectors = ticket_sector::select_by_ticket($ticket->id);
+        $sectors = ticket_sector::select_by_ticket($ticket->id);
         if($sectors !== FALSE) {
           $t = array();
           foreach($sectors as $name) {
             $t[] = $name->name;
           }
           $model['sectors'] = implode(', ', $t);
-        }*/
+        }
       } 
     }
 
@@ -168,11 +168,11 @@ class ticketController extends Controller {
         $model['error'] = 'Failed to delete ticket: ' . last_error();
       }
       else {
-        $this->redirect('site', 'admin');
+        $this->redirect(NULL, 'admin');
       }
     }
 
-    $this->meta->title = 'Delete site ticket';
+    $this->meta->title = 'Delete Ticket';
     $this->view($model);
   }
 }

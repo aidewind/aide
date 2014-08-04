@@ -24,7 +24,11 @@
     <div class="collapse navbar-collapse" id="navbar-collapse2">
       <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="<?php echo $this->route_url('index'); ?>">~admin</a></li>
-        <?php //$this->render_boards(); ?>
+        <?php 
+          foreach ($sectors as $key => $value) {
+            echo '<li><a href="#">~'.$value.'</a></li>';
+          }
+        ?>
       </ul>
     </div>  
   </div> 
@@ -42,6 +46,23 @@
             echo $parsedown->text($ticket->body); 
           ?>
         </div>
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            <?php foreach ($sectors as $sector) { ?>
+            <a href="<?php echo $this->route_url(NULL, 'sector', $sector); ?>"><span class="label label-warning"><?php echo $sector?></span></a>
+            <?php } ?>          
+          </li>
+          <li class="list-group-item">
+            <?php for ($i=0; $i < 1; $i++) { ?>
+            <img src="<?php echo $ticket->image_url;?>" width="30px" height="30px">
+            <img src="https://trello-avatars.s3.amazonaws.com/7548032adad79c3b6a79399a54538e70/30.png" width="30px" height="30px">            
+            <img src="https://trello-avatars.s3.amazonaws.com/fa239ce6f62fe75578c65c51123c22b4/30.png" width="30px" height="30px">            
+            <img src="https://trello-avatars.s3.amazonaws.com/8d80f15f4b31c64e7c7d13d4d01e3af2/30.png" width="30px" height="30px">            
+            <?php } ?>            
+          </li>
+        </ul> 
+
       </div>
     </div>
   </div>
