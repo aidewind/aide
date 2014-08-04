@@ -47,7 +47,7 @@ class AccountController extends Controller {
           return $this->partial($model);
         }
 
-        $this->redirect('welcome', 'account');
+        $this->redirect('index', 'account');
       }
     }
 
@@ -118,6 +118,9 @@ class AccountController extends Controller {
 
 
   public function signin() {
+    if($this->get_session() !== NULL) {
+      $this->redirect('index');
+    }
     $this->meta->title = 'signin';
     
     $model = array(
