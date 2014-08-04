@@ -75,7 +75,7 @@
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Credentials</h4>
+        <h4>Sign In</h4>
         <p class="error"><?php echo $model['error']; ?></p>
         <form class="form-horizontal" role="form" method="post">
           <label for="email">Email</label>

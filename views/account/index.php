@@ -3,9 +3,9 @@
     <div class="navbar-header">
       <a href="#" style="margin-left:15px;" class="navbar-btn btn btn-default btn-plus dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-home" style="color:#dd1111;"></i> General Settings <small><i class="glyphicon glyphicon-chevron-down"></i></small></a>
       <ul class="nav dropdown-menu">
-        <li><a href="#"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign Out</a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> My Tickets</a></li>
-                <li><a href="<?php echo $this->route_url('password'); ?>"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> Update Password</a></li>
+        <li><a href="<?php echo $this->route_url('signout'); ?>"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign Out</a></li>
+        <li><a href="<?php echo $this->route_url(NULL, 'ticket'); ?>"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> My Tickets</a></li>
+        <li><a href="<?php echo $this->route_url('password'); ?>"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> Update Password</a></li>
         <li><a href="<?php echo $this->route_url('settings'); ?>"><i class="glyphicon glyphicon-cog" style="color:#dd1111;"></i> Settings</a></li>        
       </ul>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2">

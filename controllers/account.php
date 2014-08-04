@@ -4,7 +4,7 @@ class AccountController extends Controller {
   protected $account_redirect = FALSE;
 
   public function signup() {
-    $this->meta->title = 'Account Creation';
+    $this->meta->title = 'Sign Up';
     
     $model = array(
       'email' => $this->post('email'),
@@ -121,7 +121,7 @@ class AccountController extends Controller {
     if($this->get_session() !== NULL) {
       $this->redirect('index');
     }
-    $this->meta->title = 'signin';
+    $this->meta->title = 'Sign In';
     
     $model = array(
       'email' => $this->post('email'), 

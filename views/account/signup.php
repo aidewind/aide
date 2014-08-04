@@ -76,7 +76,7 @@
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
       <form class="form-horizontal" role="form" method="post">
-        <h4>Account Creation...</h4>
+        <h4>Sign Up</h4>
         <p class="error"><?php echo $model['error']; ?></p>
         <div class="form-group" style="padding:14px;">
         <label for="display_name">Your User Name</label>
@@ -86,7 +86,7 @@
         <label for="password">Password</label>
         <input class="form-control" placeholder="Password" type="password" name="password" required />
         </div>
-        <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Create</button></span>
+        <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Sign Up</button></span>
       </form>
       </div>
     </div>
