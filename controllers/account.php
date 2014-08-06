@@ -19,7 +19,7 @@ class AccountController extends Controller {
         $req[] = 'Email';
       }
       if(empty($model['display_name'])) {
-        $req[] = 'Your Name';
+        $req[] = 'Your User Name';
       }
       if(empty($model['password'])) {
         $req[] = 'Password';
