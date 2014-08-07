@@ -189,15 +189,25 @@ class AccountController extends Controller {
         return $this->view($model);
       }
       
+      #todo: restrict to id 1 account
       $settings = $this->get_settings();
       $settings->site_name = $model['site_name'];
-      $settings->display_name = $model['display_name'];
-      $settings->email = $model['email'];
-      
       if(!$settings->update()) {
         $model['error'] = 'Failed to update settings: ' . last_error();
         return $this->view($model);
       }
+      
+      
+      #todo: alter to account
+      #$account = $this
+      $settings->display_name = $model['display_name'];
+      $settings->email = $model['email'];      
+      if(!$settings->update()) {
+        $model['error'] = 'Failed to update settings: ' . last_error();
+        return $this->view($model);
+      }
+
+
       return $this->redirect(NULL);
     }
     else {

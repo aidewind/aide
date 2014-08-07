@@ -10,7 +10,7 @@ create table setting (
 create table account (
   id bigint not null primary key auto_increment,
   email varchar(250) not null unique,
-  display_name varchar(63) not null,
+  display_name varchar(63) not null unique,
   password_hash varchar(128) not null,
   password_salt varchar(31) not null
 )ENGINE=InnoDB;
@@ -31,7 +31,10 @@ create table ticket (
 
 create table sector (
   id bigint not null primary key auto_increment,
-  name varchar(255) not null
+  name varchar(255) not null,
+  initials varchar(255) not null unique,  
+  place varchar(255) not null,
+  telephone varchar(255) not null
 )ENGINE=InnoDB;
 
 create table ticket_sector (
