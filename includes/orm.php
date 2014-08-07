@@ -116,10 +116,9 @@ class session {
     }
 
     public function insert() {
-        $sql = 'insert into session (code, created, account) values ("%s", UTC_TIMESTAMP(), "%s")';
-        $sql = sprintf($sql, escape($this->code, this->account), $this->id);
-        echo $sql;
-        stop();
+        $sql = 'insert into session (code, created, account) values ("%s", UTC_TIMESTAMP(), "%d")';
+        $sql = sprintf($sql, escape($this->code), $this->id);
+        $sql = sprintf($sql, escape($this->account), $this->id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
