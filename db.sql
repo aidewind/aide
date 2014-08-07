@@ -23,7 +23,7 @@ create table session (
   id bigint not null primary key auto_increment,
   code varchar(31) not null,
   created datetime not null,
-  account bigint not null foreign key references account(id)
+  account bigint not null
 )ENGINE=InnoDB;
 
 create table ticket (
@@ -44,3 +44,4 @@ create table ticket_sector (
 )ENGINE=InnoDB;
 
 alter table ticket_sector add index (ticket, sector);
+alter table session add foreign key (account) references account(id);
