@@ -106,23 +106,27 @@ class session {
     public $id;
     public $code;
     public $created;
+    public $account;
 
     public function load($row) {
         $this->id = intval($row['id']);
         $this->code = $row['code'];
         $this->created = $row['created'];
+        $this->account = $row['account'];
     }
 
     public function insert() {
-        $sql = 'insert into session (code, created) values ("%s", UTC_TIMESTAMP())';
-        $sql = sprintf($sql, escape($this->code), $this->id);
+        $sql = 'insert into session (code, created, account) values ("%s", UTC_TIMESTAMP(), "%s")';
+        $sql = sprintf($sql, escape($this->code, this->account), $this->id);
+        echo $sql;
+        stop();
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
     public static function select_by_id($id) { 
-        $sql = 'select id, code, created from session where id=%d';
+        $sql = 'select id, code, created, account from session where id=%d';
         $sql = sprintf($sql, $id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -134,7 +138,7 @@ class session {
     }
 
     public static function select_by_code($code) { 
-        $sql = 'select id, code, created from session where code="%s"';
+        $sql = 'select id, code, created, account from session where code="%s"';
         $sql = sprintf($sql, escape($code));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 

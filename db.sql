@@ -22,7 +22,8 @@ create table account (
 create table session (
   id bigint not null primary key auto_increment,
   code varchar(31) not null,
-  created datetime not null
+  created datetime not null,
+  account bigint not null references account(id)
 )ENGINE=InnoDB;
 
 create table ticket (
