@@ -42,5 +42,11 @@ create table ticket_sector (
   sector bigint not null references sector(id)
 )ENGINE=InnoDB;
 
+create table member (
+  id bigint not null primary key auto_increment,
+  email varchar(250) not null unique,
+  complete_name varchar(63) not null unique  
+)ENGINE=InnoDB;
+
 alter table ticket_sector add index (ticket, sector);
 alter table session add foreign key (account) references account(id);
