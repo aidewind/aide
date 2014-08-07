@@ -46,12 +46,18 @@ class SetupController extends Controller {
       if($settings === NULL) {
         $settings = new setting();
         $settings->site_name = $model['site_name'];
-        $settings->display_name = $model['display_name'];
-        $settings->email = $model['email'];
-        $settings->password_salt = uniqid();
-        $settings->password_hash = hash('sha512', $model['password'] . $settings->password_salt);
         if(!$settings->insert()) {
           $model['error'] = 'Failed to create initial settings: ' . last_error();
+          return $this->partial($model);
+        }
+
+        $account = new account();
+        $account->display_name = $model['display_name'];
+        $account->email = $model['email'];
+        $account->password_salt = uniqid();
+        $account->password_hash = hash('sha512', $model['password'] . $account->password_salt);
+        if(!$account->insert()) {
+          $model['error'] = 'Failed to create initial account: ' . last_error();
           return $this->partial($model);
         }
 

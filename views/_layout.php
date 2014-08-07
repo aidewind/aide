@@ -57,7 +57,7 @@
       <div class="col-md-12 text-center"><p>
         Powered by <a href="https://github.com/aidewind/aide" target="_blank">aide</a> 
         | <a href="<?php echo $this->route_url(NULL, 'admin'); ?>">Admin</a>
-        <?php if ($session !== NULL ) { ?>| <a href="<?php echo $this->route_url('logoff', 'admin'); ?>">Logoff</a><?php }?>
+        <?php if ($session->account == 1 ) { ?>| <a href="<?php echo $this->route_url('logoff', 'admin'); ?>">Logoff</a><?php }?>
         | <?php
         echo gethostname();
         echo " ";

@@ -94,6 +94,7 @@ class AccountController extends Controller {
 
       $session = new session();
       $session->code = uniqid();
+      $session->account = $account->id;
       if(!$session->insert()) {
         $model['error'] = 'Failed to create new session: ' . last_error();
         return $this->partial($model);

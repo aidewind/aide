@@ -534,7 +534,7 @@ class Controller {
       return;
     }
     $hash = md5(strtolower($session->code . $session->id . $session->created));
-    setcookie('opmb_session', $session->code . '.' . $hash, time() + 86400, '/');
+    setcookie('opmb_session', $session->code . '.' . $hash . '.' . $account, time() + 86400, '/');
   }
 
   /**
@@ -550,7 +550,7 @@ class Controller {
       return NULL;
     }
     $val = $_COOKIE['opmb_session'];
-    @list($key, $hash) = explode('.', $val);
+    @list($key, $hash, $account) = explode('.', $val);
     if($key === NULL || $hash === NULL) {
       return NULL;
     }
