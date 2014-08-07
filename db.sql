@@ -5,10 +5,6 @@ use site;
 create table setting (
   id bigint not null primary key auto_increment,
   site_name varchar(63) not null,
-  email varchar(250) not null,
-  display_name varchar(63) not null,
-  password_hash varchar(128) not null,
-  password_salt varchar(31) not null
 )ENGINE=InnoDB;
 
 create table account (
