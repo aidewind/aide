@@ -4,7 +4,7 @@ use site;
   
 create table setting (
   id bigint not null primary key auto_increment,
-  site_name varchar(63) not null,
+  site_name varchar(63) not null
 )ENGINE=InnoDB;
 
 create table account (
