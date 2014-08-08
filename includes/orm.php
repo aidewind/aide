@@ -275,6 +275,52 @@ class sector {
     }
 }
 
+class member {
+    public $id;
+    public $email;
+    public $complete_name;
+
+    public function load($row) {
+        $this->id = intval($row['id']);
+        $this->email = $row['email'];
+        $this->display_name = $row['complete_name'];
+    }
+
+    public function insert() {
+        $sql = 'insert into member (email, complete_name) values ("%s", "%s")';
+        $sql = sprintf($sql, escape($this->email), escape($this->complete_name));
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+        return $res;
+    }
+
+    public function update() {
+        $sql = 'update member set email = "%s", complete_name = "%s" where id = %d';
+        $sql = sprintf($sql, escape($this->email), escape($this->complete_name), $this->id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        return $res;
+    }
+
+    public function delete() {
+        $sql = 'delete from member where id = %d';
+        $sql = sprintf($sql, $this->id);
+        return mysqli_query(Application::$DB_CONNECTION, $sql);
+    }
+
+    public static function select_by_email($email) { 
+        $sql = 'select id, email, complete_name from member where email = "%s"';
+        $sql = sprintf($sql, escape($email));
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        $member = new member();
+        $member->load(mysqli_fetch_array($res));
+        return $member;
+    }
+
+}
+
 class ticket_sector {
     public $ticket;
     public $sector;
