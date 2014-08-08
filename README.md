@@ -18,3 +18,15 @@ Start developing: on ubuntu fresh installed:
     $ cd aide && ./install.sh
 
 If you do not want to change the config.json file, set 'secret' as mysql root user.
+
+Lauch your favorite text editor and browser, in our case:
+
+    $  subl && firefox localhost
+
+How to install sublime:
+
+    $ sudo add-apt-repository ppa:webupd8team/sublime-text-3
+    $ sudo apt-get update
+    $ sudo apt-get install sublime-text-installer
+
+Happy hacking!
