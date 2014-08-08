@@ -11,10 +11,10 @@ Join us!
 
 Start developing: on ubuntu fresh installed:
 
-  $ sudo apt-get install -y git
+    $ sudo apt-get install -y git
   
-  $ git clone https://github.com/aidewind/aide.git
+    $ git clone https://github.com/aidewind/aide.git
   
-  $ cd aide && ./install.sh
+    $ cd aide && ./install.sh
 
 If you do not want to change the config.json file, set 'secret' as mysql root user.
