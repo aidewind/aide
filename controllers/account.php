@@ -26,15 +26,15 @@ class AccountController extends Controller {
       }
       if(!empty($req)) {
         $model['error'] = 'The following fields are required: ' . implode(', ', $req);
-        return $this->partial($model);
+        return $this->view($model);
       }
       if(!filter_var($model['email'], FILTER_VALIDATE_EMAIL)) {
         $model['error'] = 'Please enter a valid email address.';
-        return $this->partial($model);
+        return $this->view($model);
       }
       if(strlen($model['password']) < 6) {
         $model['error'] = 'Please enter a password that is at least 6 characters.';
-        return $this->partial($model);
+        return $this->view($model);
       }
       if($account === NULL) {
         $account = new account();
@@ -44,14 +44,14 @@ class AccountController extends Controller {
         $account->password_hash = hash('sha512', $model['password'] . $account->password_salt);
         if(!$account->insert()) {
           $model['error'] = 'Failed to create account' . last_error();
-          return $this->partial($model);
+          return $this->view($model);
         }
 
         $this->redirect('index', 'account');
       }
     }
 
-    $this->partial($model);
+    $this->view($model);
   }
 
   public function index() {
@@ -80,7 +80,7 @@ class AccountController extends Controller {
     if(array_key_exists('submit', $_POST)) {
       if(empty($model['email']) || empty($model['password'])) {
         $model['error'] = 'Please enter a email and password';
-        return $this->partial($model);
+        return $this->view($model);
       }
 
       $account = account::select_by_email($model['email']);
@@ -89,7 +89,7 @@ class AccountController extends Controller {
       if(strcmp($model['email'], $account->email) !== 0 ||
         strcmp($hash, $account->password_hash) !== 0) {
         $model['error'] = 'That email/password combination was not valid.';
-        return $this->partial($model);
+        return $this->view($model);
       }
 
       $session = new session();
@@ -97,19 +97,19 @@ class AccountController extends Controller {
       $session->account = $account->id;
       if(!$session->insert()) {
         $model['error'] = 'Failed to create new session: ' . last_error();
-        return $this->partial($model);
+        return $this->view($model);
       }
 
       $session = session::select_by_id($session->id);
       if($session === NULL) {
         $model['error'] = 'Failed to load new session: ' . last_error();
-        return $this->partial($model);
+        return $this->view($model);
       }
       $this->set_session($session);
       $this->redirect(NULL);
     }
     
-    $this->partial($model);
+    $this->view($model);
   }
 
     public function password() {

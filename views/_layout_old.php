@@ -1,8 +1,6 @@
 <?php 
   $settings = $this->get_settings(); 
   $session =  $this->get_session();
-  $options = $model['options'];
-  $boards = $model['boards'];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->request->lang; ?>">
@@ -50,29 +48,6 @@
       </div> 
     </div>
 
-<div class="navbar navbar-default" id="subnav">
-  <div class="col-md-12">
-    <div class="navbar-header">
-      <a href="#" style="margin-left:15px;" class="navbar-btn btn btn-default btn-plus dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-home" style="color:#dd1111;"></i> Home <small><i class="glyphicon glyphicon-chevron-down"></i></small></a>
-      <ul class="nav dropdown-menu">
-        <li><a href="<?php echo $this->route_url('signin', 'account'); ?>"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Sign In</a></li>
-        <li><a href="<?php echo $this->route_url('signup', 'account'); ?>"><i class="glyphicon glyphicon-plus"></i> Sign Up</a></li>
-      </ul>
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse2">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse2">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="<?php echo $this->route_url(NULL, 'home'); ?>">~public</a></li>
-      </ul>
-    </div>  
-  </div> 
-</div>  
-
     <?php $this->render_body(); ?>
 
     <div class="row">
@@ -80,8 +55,18 @@
       <div class="clearfix"></div>
       <hr>
       <div class="col-md-12 text-center"><p>
-        <?php $aide = time() - 1406211039; echo $aide.'s since <a href="https://github.com/aidewind/aide" target="_blank">aide</a>'?>
-        <!-- First commit at Date:   Thu Jul 24 11:10:39 2014 -0300-->
+        Powered by <a href="https://github.com/aidewind/aide" target="_blank">aide</a> 
+        | <a href="<?php echo $this->route_url(NULL, 'admin'); ?>">Admin</a>
+        <?php if ($session->account == 1 ) { ?>| <a href="<?php echo $this->route_url('logoff', 'admin'); ?>">Logoff</a><?php }?>
+        | <?php
+        echo gethostname();
+        echo " ";
+        echo php_uname('n'); // // Or, an option that also works before PHP 5.3
+        echo " ";
+        echo $_SERVER['REMOTE_ADDR'];
+        echo " ";
+        echo $_SERVER['HTTP_X_FORWARDED_FOR'];
+        ?>
       </div>
       <hr>
     </div>

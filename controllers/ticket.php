@@ -39,8 +39,7 @@ class ticketController extends Controller {
     $model = array(
       'id' => $this->post('id'),
       'body' => $this->post('body'),
-      'sectors'
-       => $this->post('sectors'),
+      'sectors' => $this->post('sectors'),
       'error' => NULL
     );
 

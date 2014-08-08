@@ -2,8 +2,13 @@
 
 ###
 # it will install prerequisites, deploy, restart nginx and create database.
-# 1406569660s  : tested on ubuntu trusty tahr
+# 1407455615s  : tested on ubuntu trusty tahr
 ##
+
+if dpkg -s "apache" > /dev/null 2>&1; then
+  echo "this script does not work in machines with apache installed."
+  exit 1
+fi
 
 
 echo "prerequisites installing"
