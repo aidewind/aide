@@ -86,7 +86,7 @@ class SectorController extends Controller {
     $model = array(
       'id' => $this->post('id'),
       'email' => $this->post('email'),
-      'name' => $this->post('name')
+      'name' => $this->post('name'),
       'error' => NULL
     );
 

@@ -100,6 +100,26 @@ class ticket {
         }
         return $array;
     }
+
+    public static function select_by_word($word) { 
+        $sql = 'select id, body, created, updated from ticket where (CONVERT(body USING utf8) LIKE "%%%s%%")';
+        $sql = sprintf($sql, escape($word));
+
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        
+        $tickets = array();
+        for($i=0;$i<mysqli_num_rows($res);$i++) {
+          $ticket = new ticket();
+          $ticket->load(mysqli_fetch_array($res));
+          $tickets[] = $ticket;
+          unset($ticket);
+        }
+
+        return $tickets;
+    }
 }
 
 class session {
@@ -308,7 +328,7 @@ class sector {
     }
 
     public static function select_by_word($word) { 
-        $sql = 'select id, name from sector where CONVERT(name USING utf8) LIKE "%%%s%%")';
+        $sql = 'select id, name from sector where (CONVERT(name USING utf8) LIKE "%%%s%%")';
         $sql = sprintf($sql, escape($word));
 
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
