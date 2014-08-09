@@ -273,6 +273,74 @@ class sector {
         }
         return $sector;
     }
+
+    public function insert() {
+        $sql = 'insert into sector (name) values ("%s")';
+        $sql = sprintf($sql, escape($this->name));
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+        return $res;
+    }
+
+    public function update() {
+        $sql = 'update sector set name = "%s" where id = %d';
+        $sql = sprintf($sql, escape($this->complete_name), $this->id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        return $res;
+    }
+
+    public function delete() {
+        $sql = 'delete from sector where id = %d';
+        $sql = sprintf($sql, $this->id);
+        return mysqli_query(Application::$DB_CONNECTION, $sql);
+    }
+
+    public static function select_by_id($id) { 
+        $sql = 'select id, name from sector where id=%d';
+        $sql = sprintf($sql, $id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        $sector = new sector();
+        $sector->load(mysqli_fetch_array($res));
+        return $sector;
+    }
+
+    public static function select_by_word($word) { 
+        $sql = 'select id, name from sector where CONVERT(name USING utf8) LIKE "%%%s%%")';
+        $sql = sprintf($sql, escape($word));
+
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        
+        $sectors = array();
+        for($i=0;$i<mysqli_num_rows($res);$i++) {
+          $sector = new sector();
+          $sector->load(mysqli_fetch_array($res));
+          $sectors[] = $sector;
+          unset($sector);
+        }
+
+        return $sectors;
+    }
+
+    public static function select_list() {
+        $sql = 'select id, name from sector order by id desc';
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return array();
+        }
+        $array = array();
+        while($row = mysqli_fetch_array($res)) {
+            $sector = new sector();
+            $sector->load($row);
+            $array[] = $sector;
+        }
+        return $array;
+    }
 }
 
 class member {

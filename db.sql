@@ -31,6 +31,7 @@ create table ticket (
 
 create table sector (
   id bigint not null primary key auto_increment,
+  email varchar(250) not null unique,
   name varchar(255) not null,
   initials varchar(255) not null unique,  
   place varchar(255) not null,

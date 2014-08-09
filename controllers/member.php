@@ -34,7 +34,7 @@ class MemberController extends Controller {
   public function search($word = NULL) {
     $settings = $this->get_settings();    
     if(empty($word)) {
-      $this->meta->title = 'Member List';
+      $this->meta->title = 'Member Search';
       $members = member::select_list();
     } else {
       $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;

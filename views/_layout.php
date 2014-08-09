@@ -84,6 +84,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li ><a href="<?php echo $this->route_url(NULL, 'home'); ?>">~public</a></li>
         <li ><a href="<?php echo $this->route_url('search', 'member'); ?>">~member</a></li>
+        <li ><a href="<?php echo $this->route_url('search', 'sector'); ?>">~sector</a></li>
         <?php 
           foreach ($sectors as $key => $value) {
             echo '<li><a href="#">~'.$value.'</a></li>';
