@@ -348,7 +348,7 @@ class member {
         }
         $array = array();
         while($row = mysqli_fetch_array($res)) {
-            $ticket = new ticket();
+            $ticket = new member();
             $ticket->load($row);
             $array[] = $ticket;
         }

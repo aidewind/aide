@@ -51,11 +51,11 @@ class MemberController extends Controller {
     if(empty($word)) {
       $this->meta->title = 'Member List';
       $members = member::select_list();
-      $this->view($members);
+    } else {
+      $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
+      $members = member::select_by_word($word);
     }
-    
-    $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
-    $members = member::select_by_word($word);
+
     return $this->view(array('members' => $members));
 
   }
