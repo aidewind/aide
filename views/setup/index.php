@@ -40,8 +40,8 @@ $settings = $this->get_settings($redirect); ?>
           <div class="form-group" style="padding:14px;">
           <label for="site_name">Site Name</label>
           <input class="form-control" placeholder="Site Name" type="text" name="site_name" required maxlength="63" value="<?php echo $model['site_name']; ?>" />
-          <label for="display_name">Your Admin User Name</label>
-          <input class="form-control" placeholder="Your Admin User Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
+          <label for="display_name">Your Admin Account Name</label>
+          <input class="form-control" placeholder="Your Admin Account Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
           <label for="email">Email</label>
           <input class="form-control" placeholder="Email" type="email" name="email" required maxlength="250" value="<?php echo $model['email']; ?>" />
           <label for="password">Password</label>

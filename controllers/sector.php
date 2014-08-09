@@ -86,9 +86,7 @@ class SectorController extends Controller {
     $model = array(
       'id' => $this->post('id'),
       'email' => $this->post('email'),
-      'name' => $this->post('name'),
-      'account' => $this->post('account'),
-      'sectors' => $this->post('sectors'),
+      'name' => $this->post('name')
       'error' => NULL
     );
 
@@ -102,6 +100,10 @@ class SectorController extends Controller {
       }
       if(!empty($req)) {
         $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);
+        return $this->view($model);
+      }
+      if(!filter_var($model['email'], FILTER_VALIDATE_EMAIL)) {
+        $model['error'] = 'Please enter a valid email address.';
         return $this->view($model);
       }
 

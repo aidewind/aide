@@ -10,8 +10,8 @@ $settings = $this->get_settings();
           <h4>Sign Up</h4>
           <p class="error"><?php echo $model['error']; ?></p>
           <div class="form-group" style="padding:14px;">
-            <label for="display_name">Your User Name</label>
-            <input class="form-control" placeholder="Your User Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
+            <label for="display_name">Your Account Name</label>
+            <input class="form-control" placeholder="Your Account Name" type="text" name="display_name" required maxlength="63" value="<?php echo $model['display_name']; ?>" />
             <label for="email">Email</label>
             <input class="form-control" placeholder="Email" type="email" name="email" required maxlength="250" value="<?php echo $model['email']; ?>" />
             <label for="password">Password</label>
