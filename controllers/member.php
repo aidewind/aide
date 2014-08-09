@@ -6,14 +6,24 @@ class MemberController extends Controller {
 
   public function insert() {
     $this->meta->title = 'Insert';
+
+$row = 1;
+$handle = fopen ("/home/mfer/Downloads/aide/home/aide/docs/fales.csv","r");
+while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+    $num = count ($data);
+    echo "<p> $num campos na linha $row: <br /></p>\n";
+    $row++;
     
+    echo $data[0]." - ".$data[3] . "<br />\n";
+    
+   
     $model = array(
-      'email' => $this->post('email'),
-      'complete_name' => $this->post('complete_name'),
+      'email' => $data[3],
+      'complete_name' => $data[0],
       'error' => NULL
     );
 
-    if(array_key_exists('submit', $_POST)) {
+
       $req = array();
       if(empty($model['email'])) {
         $req[] = 'Email';
@@ -30,7 +40,7 @@ class MemberController extends Controller {
         return $this->view($model);
       }
 
-      if($member === NULL) {
+      //if($member === NULL) {
         $member = new member();
         $member->complete_name = $model['complete_name'];
         $member->email = $model['email'];
@@ -39,9 +49,12 @@ class MemberController extends Controller {
           return $this->view($model);
         }
 
-        $this->redirect('index', 'member');
-      }
-    }
+        //$this->redirect('index', 'member');
+      //}
+
+}
+fclose ($handle);
+stop();
 
     $this->view($model);
   }
