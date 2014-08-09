@@ -340,6 +340,21 @@ class member {
         return $member;
     }
 
+    public static function select_list() {
+        $sql = 'select id, email, complete_name from member order by id desc';
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return array();
+        }
+        $array = array();
+        while($row = mysqli_fetch_array($res)) {
+            $ticket = new ticket();
+            $ticket->load($row);
+            $array[] = $ticket;
+        }
+        return $array;
+    }
+
 }
 
 class ticket_sector {

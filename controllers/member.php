@@ -47,13 +47,14 @@ class MemberController extends Controller {
   }
 
   public function index($word = NULL) {
+    $settings = $this->get_settings();    
     if(empty($word)) {
-      $this->redirect(NULL, 'home');
+      $this->meta->title = 'Member List';
+      $members = member::select_list();
+      $this->view($members);
     }
     
-    $settings = $this->get_settings();
     $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
-
     $members = member::select_by_word($word);
     return $this->view(array('members' => $members));
 
