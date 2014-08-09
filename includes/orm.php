@@ -308,6 +308,18 @@ class member {
         return mysqli_query(Application::$DB_CONNECTION, $sql);
     }
 
+    public static function select_by_id($id) { 
+        $sql = 'select id, email, complete_name from member where id=%d';
+        $sql = sprintf($sql, $id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        $member = new member();
+        $member->load(mysqli_fetch_array($res));
+        return $member;
+    }
+
     public static function select_by_word($word) { 
         $sql = 'select id, email, complete_name from member where (CONVERT(email USING utf8) LIKE "%%%s%%" OR CONVERT(complete_name USING utf8) LIKE "%%%s%%")';
         $sql = sprintf($sql, escape($word), escape($word));

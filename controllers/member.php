@@ -4,62 +4,34 @@ class MemberController extends Controller {
   protected $member_redirect = FALSE;
   protected $word;
 
-  public function insert() {
-    $this->meta->title = 'Insert';
-
-$row = 1;
-$handle = fopen ("/home/mfer/Downloads/aide/home/aide/docs/fales.csv","r");
-while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-    $num = count ($data);
-    echo "<p> $num campos na linha $row: <br /></p>\n";
-    $row++;
+  public function index($id = NULL) {
+    if(empty($id)) {
+      $this->redirect(NULL, "home");
+    }
     
-    echo $data[0]." - ".$data[3] . "<br />\n";
+    $settings = $this->get_settings();
     
-   
-    $model = array(
-      'email' => $data[3],
-      'complete_name' => $data[0],
-      'error' => NULL
-    );
+    $member = member::select_by_id($id);
+    if($member === NULL) {
+      $this->not_found();
+    }
+    
+    $this->meta->title = htmlentities($member->id . ' - ' . $settings->site_name);
+    $this->meta->author = htmlentities($smember->complete_name);
+    $this->meta->description = htmlentities($meber->email);
 
-
-      $req = array();
-      if(empty($model['email'])) {
-        $req[] = 'Email';
-      }
-      if(empty($model['complete_name'])) {
-        $req[] = 'Your Complete Name';
-      }
-      if(!empty($req)) {
-        $model['error'] = 'The following fields are required: ' . implode(', ', $req);
-        return $this->view($model);
-      }
-      if(!filter_var($model['email'], FILTER_VALIDATE_EMAIL)) {
-        $model['error'] = 'Please enter a valid email address.';
-        return $this->view($model);
-      }
-
-      //if($member === NULL) {
-        $member = new member();
-        $member->complete_name = $model['complete_name'];
-        $member->email = $model['email'];
-        if(!$member->insert()) {
-          $model['error'] = 'Failed to create member' . last_error();
-          return $this->view($model);
-        }
-
-        //$this->redirect('index', 'member');
-      //}
-
-}
-fclose ($handle);
-stop();
-
-    $this->view($model);
+/*
+    $member_sectors = member_sector::select_by_member($member->id);
+    $sectors = array();
+    foreach($member_sectors as $member_sector) {
+      $sectors[] = $member_sector->name;
+    }
+    $this->meta->keywords = htmlentities(implode(',', $sectors));
+*/
+    $this->view(array('member' => $member, 'sectors' => $sectors));  
   }
 
-  public function index($word = NULL) {
+  public function search($word = NULL) {
     $settings = $this->get_settings();    
     if(empty($word)) {
       $this->meta->title = 'Member List';
@@ -68,76 +40,131 @@ stop();
       $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
       $members = member::select_by_word($word);
     }
-
     return $this->view(array('members' => $members));
-
   }
 
-  public function profile() {
-    if($this->get_session() == NULL) {      
-      $this->redirect('signin');
-    }
-    if($session->account > 1) {
-      $this->redirect('index');
+  public function delete($id) {
+    if($this->get_session() === NULL) {
+      $this->redirect(NULL, 'home');
     }
 
+    if(empty($id)) {
+      $this->not_found();
+    }
+    
+    $member = member::select_by_id($id);
+    if($member === NULL) {
+      $this->not_found();
+    }
+    
     $model = array(
-      'site_name' => $this->post('site_name'),
-      'complete_name' => $this->post('complete_name'),
+      'member' => $member, 
+      'error' => NULL
+    );
+
+    if(array_key_exists('submit', $_POST)) {
+      if(!$member->delete()) {
+        $model['error'] = 'Failed to delete member: ' . last_error();
+      }
+      else {
+        $this->redirect('search', 'member');
+      }
+    }
+
+    $this->meta->title = 'Delete Member';
+    $this->view($model);
+  }
+
+  public function edit($id = NULL) {
+    if($this->get_session() === NULL) {
+      $this->redirect(NULL, 'home');
+    }
+
+    $this->meta->title = 'Member Edit';
+
+    $model = array(
+      'id' => $this->post('id'),
       'email' => $this->post('email'),
+      'complete_name' => $this->post('complete_name'),
+      'account' => $this->post('account'),
+      'sectors' => $this->post('sectors'),
       'error' => NULL
     );
 
     if(array_key_exists('submit', $_POST)) {
       $req = array();
-      if(empty($model['site_name'])) {
-        $req[] = 'site Name';
-      }
-      if(empty($model['complete_name'])) {
-        $req[] = 'Your Name';
-      }
       if(empty($model['email'])) {
         $req[] = 'Email';
       }
+      if(empty($model['complete_name'])) {
+        $req[] = 'Complete Name';
+      }
       if(!empty($req)) {
-        $model['error'] = 'The following fields are required: ' . implode(', ', $req);
+        $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);
         return $this->view($model);
       }
 
-      if(!filter_var($model['email'], FILTER_VALIDATE_EMAIL)) {
-        $model['error'] = 'Please enter a valid email address.';
-        return $this->view($model);
-      }
-      
-      #todo: restrict to id 1 member
-      $settings = $this->get_settings();
-      $settings->site_name = $model['site_name'];
-      if(!$settings->update()) {
-        $model['error'] = 'Failed to update settings: ' . last_error();
-        return $this->view($model);
-      }
-      
-      
-      #todo: alter to member
-      #$member = $this
-      $settings->complete_name = $model['complete_name'];
-      $settings->email = $model['email'];      
-      if(!$settings->update()) {
-        $model['error'] = 'Failed to update settings: ' . last_error();
-        return $this->view($model);
+      $member = NULL;
+      if(empty($model['id'])) {
+        $member = new member();
+      } else {
+        $member = member::select_by_id($model['id']);
+        if($member === NULL) {
+          $this->not_found();
+        }
+        if($member === FALSE) {
+          $model['error'] = 'Failed to load member: ' . last_error();
+          return $this->view($model);
+        }
       }
 
-
-      return $this->redirect(NULL);
+      $member->email = $model['email'];
+      $member->complete_name = $model['complete_name'];
+      
+      $res = empty($member->id) ? $member->insert() : $member->update();
+      $model['error'] = $res ? 'Saved successfully.' : 'Failed to save member: ' . last_error(); 
+      $model['id'] = $member->id;
+/*
+      member_sector::delete_by_member($member->id);
+      $sectors = explode(',', $model['sectors']);
+      foreach($sectors as $name) {
+        $name = trim($name);
+        $sector = sector::find_or_create($name);
+        $member_sector = new member_sector();
+        $member_sector->member = $member->id;
+        $member_sector->sector = $sector->id;
+        $member_sector->insert();
+      }
+*/      
+    } else {
+      if(!empty($id)) {
+        $member = member::select_by_id($id);
+        if($member === NULL) {
+          $this->not_found();
+        }
+        if($member === FALSE) {
+          $model['error'] = 'Unable to load member: ' . last_error();
+        }
+        else {
+          $model['id'] = $member->id;
+          $model['email'] = $member->email;
+          $model['complete_name']= $member->complete_name;
+        }
+/*
+        $sectors = member_sector::select_by_member($member->id);
+        if($sectors !== FALSE) {
+          $t = array();
+          foreach($sectors as $name) {
+            $t[] = $name->name;
+          }
+          $model['sectors'] = implode(', ', $t);
+        }
+*/
+      } 
     }
-    else {
-      $settings = $this->get_settings();
-      $model['site_name'] = $settings->site_name;
-      $model['complete_name'] = $settings->complete_name;
-      $model['email'] = $settings->email;
-    }
+
     $this->view($model);
   }
-}
 
+}
 ?>

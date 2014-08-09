@@ -82,7 +82,8 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse2">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="<?php echo $this->route_url(NULL, 'home'); ?>">~public</a></li>
+        <li ><a href="<?php echo $this->route_url(NULL, 'home'); ?>">~public</a></li>
+        <li ><a href="<?php echo $this->route_url('search', 'member'); ?>">~member</a></li>
         <?php 
           foreach ($sectors as $key => $value) {
             echo '<li><a href="#">~'.$value.'</a></li>';
