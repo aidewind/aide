@@ -6,8 +6,8 @@
     <div class="col-md-4 col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading">        
-          <a href="#" class="pull-left">Member <?php echo $member->id;?></a>
-          <a href="#" class="pull-right"><?php echo $member->email; ?></a>
+          <a href="<?php echo $this->route_url(NULL, 'member', $member->id); ?>" class="pull-left">Member <?php echo $member->id;?></a>
+          <a href="mailto:<?php echo $member->email; ?>" class="pull-right"><?php echo $member->email; ?></a>
         </div>      
         <div class="panel-body">
 
