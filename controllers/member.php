@@ -2,6 +2,7 @@
 
 class MemberController extends Controller {
   protected $member_redirect = FALSE;
+  protected $word;
 
   public function insert() {
     $this->meta->title = 'Insert';
@@ -45,12 +46,17 @@ class MemberController extends Controller {
     $this->view($model);
   }
 
-  public function index() {
-    $settings = $this->get_settings();
+  public function index($word = NULL) {
+    if(empty($word)) {
+      $this->redirect(NULL, 'home');
+    }
     
-    $this->meta->title = 'Member Signed In';
-    $tickets = ticket::select_list();
-    $this->view($tickets);
+    $settings = $this->get_settings();
+    $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
+
+    $members = member::select_by_word($word);
+    return $this->view(array('members' => $members));
+
   }
 
   public function profile() {

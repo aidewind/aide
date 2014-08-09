@@ -279,11 +279,12 @@ class member {
     public $id;
     public $email;
     public $complete_name;
+    protected $word;
 
     public function load($row) {
         $this->id = intval($row['id']);
         $this->email = $row['email'];
-        $this->display_name = $row['complete_name'];
+        $this->complete_name = $row['complete_name'];
     }
 
     public function insert() {
@@ -305,6 +306,26 @@ class member {
         $sql = 'delete from member where id = %d';
         $sql = sprintf($sql, $this->id);
         return mysqli_query(Application::$DB_CONNECTION, $sql);
+    }
+
+    public static function select_by_word($word) { 
+        $sql = 'select id, email, complete_name from member where (CONVERT(email USING utf8) LIKE "%%%s%%" OR CONVERT(complete_name USING utf8) LIKE "%%%s%%")';
+        $sql = sprintf($sql, escape($word), escape($word));
+
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        
+        $members = array();
+        for($i=0;$i<mysqli_num_rows($res);$i++) {
+          $member = new member();
+          $member->load(mysqli_fetch_array($res));
+          $members[] = $member;
+          unset($member);
+        }
+
+        return $members;
     }
 
     public static function select_by_email($email) { 

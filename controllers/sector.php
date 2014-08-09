@@ -1,6 +1,6 @@
 <?php
 
-class sectorController extends Controller {
+class SectorController extends Controller {
   protected $page;
   protected $sector;
 
