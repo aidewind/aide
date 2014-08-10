@@ -38,16 +38,25 @@ create table sector (
   telephone varchar(255) not null
 )ENGINE=InnoDB;
 
-create table ticket_sector (
-  ticket bigint not null references ticket(id),
-  sector bigint not null references sector(id)
-)ENGINE=InnoDB;
-
 create table member (
   id bigint not null primary key auto_increment,
   email varchar(250) not null unique,
   complete_name varchar(63) not null unique ,
   account bigint null
+)ENGINE=InnoDB;
+
+
+create table sector_closure (
+  ancestor bigint not null,
+  descendant bigint not null,
+  primary key (ancestor, descendant),
+  foreign key (ancestor) references sector(id),
+  foreign key (descendant) references sector(id)
+);
+
+create table ticket_sector (
+  ticket bigint not null references ticket(id),
+  sector bigint not null references sector(id)
 )ENGINE=InnoDB;
 
 alter table ticket_sector add index (ticket, sector);

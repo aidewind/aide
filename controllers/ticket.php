@@ -79,8 +79,7 @@ class ticketController extends Controller {
         }
       }
 
-      $ticket->body = $model['body'];
-      
+      $ticket->body = $model['body'];      
       $res = empty($ticket->id) ? $ticket->insert() : $ticket->update();
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket: ' . last_error(); 
       $model['id'] = $ticket->id;
@@ -96,6 +95,10 @@ class ticketController extends Controller {
         $ticket_sector->insert();
       }
 */      
+
+      if($res) {
+        $this->redirect('search', 'ticket');
+      }
     }
     else {
       if(!empty($id)) {
@@ -123,7 +126,7 @@ class ticketController extends Controller {
       } 
     }
 
-    $this->view($model);
+    $this->view($model);    
   }
 
   public function preview($id) {
