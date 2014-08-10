@@ -461,15 +461,14 @@ class member {
 
 }
 
-class sector_closure {
+class closure {
   public $ancestor;
   public $descendant;
 
   public function select_descendants_of($id) {
     $sql = 'select name from sector s join sector_closure sc on (s.id = sc.descendant) where sc.ancestor = "%s"';
     $sql = sprintf($sql, $id);
-    //echo $sql;
-    //stop();
+
     $res = mysqli_query(Application::$DB_CONNECTION, $sql);
     if($res === FALSE || mysqli_num_rows($res) === 0) { 
         return array();
