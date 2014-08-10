@@ -461,7 +461,7 @@ class member {
 
 }
 
-class closure {
+class sector_closure {
   public $ancestor;
   public $descendant;
 

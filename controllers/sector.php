@@ -12,7 +12,7 @@ class SectorController extends Controller {
     
     $settings = $this->get_settings();
     
-    $sectors = closure::select_descendants_of($id);
+    $sectors = sector_closure::select_descendants_of($id);
 
     //var_dump($sectors);
     //stop();
