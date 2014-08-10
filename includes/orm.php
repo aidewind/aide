@@ -263,14 +263,18 @@ class account {
 class sector {
     public $id;
     public $name;
+    public $email;
+    public $initial;
 
     public function load($row) {
         $this->id = intval($row['id']);
         $this->name = $row['name'];
+        $this->email = $row['email'];
+        $this->initial = $row['initial'];
     }
 
     public static function find_or_create($name) {
-        $sql = 'select id, name from sector where name = "%s"';
+        $sql = 'select id, name, email from sector where name = "%s"';
         $sql = sprintf($sql, escape($name));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE) {
@@ -279,8 +283,8 @@ class sector {
         
         $sector = new sector();
         if(mysqli_num_rows($res) === 0) {
-            $sql = 'insert into sector (name) values ("%s");';
-            $sql = sprintf($sql, escape($name));
+            $sql = 'insert into sector (name, email) values ("%s", "%s");';
+            $sql = sprintf($sql, escape($name), escape($email));
             $res = mysqli_query(Application::$DB_CONNECTION, $sql);
             if($res === FALSE) {
                 return FALSE;
@@ -295,16 +299,16 @@ class sector {
     }
 
     public function insert() {
-        $sql = 'insert into sector (name) values ("%s")';
-        $sql = sprintf($sql, escape($this->name));
+        $sql = 'insert into sector (name, email, initial) values ("%s", "%s", "%s")';
+        $sql = sprintf($sql, escape($this->name), escape($this->email), escape($this->initial));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
     }
 
     public function update() {
-        $sql = 'update sector set name = "%s" where id = %d';
-        $sql = sprintf($sql, escape($this->complete_name), $this->id);
+        $sql = 'update sector set name = "%s", email = "%s", initial = "%s" where id = %d';
+        $sql = sprintf($sql, escape($this->name), escape($this->email), escape($this->initial), $this->id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         return $res;
     }
@@ -316,7 +320,7 @@ class sector {
     }
 
     public static function select_by_id($id) { 
-        $sql = 'select id, name from sector where id=%d';
+        $sql = 'select id, name, email, initial from sector where id=%d';
         $sql = sprintf($sql, $id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -457,46 +461,69 @@ class member {
 
 }
 
+class sector_closure {
+  public $ancestor;
+  public $descendant;
+
+  public function select_descendants_of($id) {
+    $sql = 'select name from sector s join sector_closure sc on (s.id = sc.descendant) where sc.ancestor = "%s"';
+    $sql = sprintf($sql, $id);
+    //echo $sql;
+    //stop();
+    $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+    if($res === FALSE || mysqli_num_rows($res) === 0) { 
+        return array();
+    }
+    $array = array();
+    while($row = mysqli_fetch_array($res)) {
+        $ticket = new ticket_sector();
+        $ticket->load($row);
+        $array[] = $ticket;
+    }
+    return $array;
+  }
+}
+
 class ticket_sector {
-    public $ticket;
-    public $sector;
-    public $name;
+  public $ticket;
+  public $sector;
+  public $name;
 
-    public function load($row) {
-        $this->ticket = intval($row['ticket']);
-        $this->sector = intval($row['sector']);
-        $this->name = array_key_exists('name', $row) ? $row['name'] : NULL;
-    }
+  public function load($row) {
+      $this->ticket = intval($row['ticket']);
+      $this->sector = intval($row['sector']);
+      $this->name = array_key_exists('name', $row) ? $row['name'] : NULL;
+  }
 
-    public function insert() {
-        $sql = 'insert into ticket_sector (ticket, sector) values (%d, %d)';
-        $sql = sprintf($sql, $this->ticket, $this->sector);
-        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
-        $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
-        return $res;
-    }
+  public function insert() {
+      $sql = 'insert into ticket_sector (ticket, sector) values (%d, %d)';
+      $sql = sprintf($sql, $this->ticket, $this->sector);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+      return $res;
+  }
 
-    public static function select_by_ticket($ticket) {
-        $sql = 'select ticket, sector, name from ticket_sector et inner join sector t on et.sector = t.id where ticket = "%s"';
-        $sql = sprintf($sql, $ticket);
-        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
-        if($res === FALSE || mysqli_num_rows($res) === 0) { 
-            return array();
-        }
-        $array = array();
-        while($row = mysqli_fetch_array($res)) {
-            $ticket = new ticket_sector();
-            $ticket->load($row);
-            $array[] = $ticket;
-        }
-        return $array;
-    }
-    
-    public static function delete_by_ticket($ticket) {
-        $sql = 'delete from ticket_sector where ticket = %d';
-        $sql = sprintf($sql, $ticket);
-        return mysqli_query(Application::$DB_CONNECTION, $sql);
-    }
+  public static function select_by_ticket($ticket) {
+      $sql = 'select ticket, sector, name from ticket_sector et inner join sector t on et.sector = t.id where ticket = "%s"';
+      $sql = sprintf($sql, $ticket);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      if($res === FALSE || mysqli_num_rows($res) === 0) { 
+          return array();
+      }
+      $array = array();
+      while($row = mysqli_fetch_array($res)) {
+          $ticket = new ticket_sector();
+          $ticket->load($row);
+          $array[] = $ticket;
+      }
+      return $array;
+  }
+  
+  public static function delete_by_ticket($ticket) {
+      $sql = 'delete from ticket_sector where ticket = %d';
+      $sql = sprintf($sql, $ticket);
+      return mysqli_query(Application::$DB_CONNECTION, $sql);
+  }
 }
 
 class sectors_in_use {
@@ -512,6 +539,8 @@ class sectors_in_use {
         return $array;
     }
 }
+
+
 
 Application::$DB_CONNECTION = mysqli_connect(
     Configuration::get_instance()->db->host,

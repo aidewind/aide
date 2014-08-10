@@ -5,6 +5,25 @@ class SectorController extends Controller {
   protected $sector;
   protected $word;
 
+  public function closure($id = NULL){
+    if(empty($id)) {
+      $this->redirect(NULL, "home");
+    }
+    
+    $settings = $this->get_settings();
+    
+    $sectors = sector_closure::select_descendants_of($id);
+
+    //var_dump($sectors);
+    //stop();
+
+    if($sectors === NULL) {
+      $this->not_found();
+    }
+    
+    $this->view(array('sectors' => $sectors));
+  }
+
   public function index($id = NULL) {
     if(empty($id)) {
       $this->redirect(NULL, "home");
@@ -85,18 +104,22 @@ class SectorController extends Controller {
 
     $model = array(
       'id' => $this->post('id'),
-      'email' => $this->post('email'),
       'name' => $this->post('name'),
+      'email' => $this->post('email'),
+      'initial' => $this->post('initial'),
       'error' => NULL
     );
 
     if(array_key_exists('submit', $_POST)) {
       $req = array();
+      if(empty($model['name'])) {
+        $req[] = 'Sector Name';
+      }
       if(empty($model['email'])) {
         $req[] = 'Email';
       }
       if(empty($model['name'])) {
-        $req[] = 'Sector Name';
+        $req[] = 'Sector Initial';
       }
       if(!empty($req)) {
         $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);
@@ -121,8 +144,9 @@ class SectorController extends Controller {
         }
       }
 
-      $sector->email = $model['email'];
       $sector->name = $model['name'];
+      $sector->email = $model['email'];
+      $sector->initial = $model['initial'];      
       
       $res = empty($sector->id) ? $sector->insert() : $sector->update();
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save sector: ' . last_error(); 
@@ -139,6 +163,9 @@ class SectorController extends Controller {
         $sector_sector->insert();
       }
 */      
+      if ($res) {
+        $this->redirect("search", "sector");
+      }
     } else {
       if(!empty($id)) {
         $sector = sector::select_by_id($id);
@@ -150,8 +177,9 @@ class SectorController extends Controller {
         }
         else {
           $model['id'] = $sector->id;
-          $model['email'] = $sector->email;
-          $model['name']= $sector->name;
+          $model['name'] = $sector->name;
+          $model['email'] = $sector->email;          
+          $model['initial'] = $sector->initial;
         }
 /*
         $sectors = sector_sector::select_by_sector($sector->id);

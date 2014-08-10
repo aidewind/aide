@@ -11,6 +11,8 @@
           <input type="text" name="name" required maxlength="63" value="<?php echo $model['name']; ?>" />
           <label for="email">Email</label>
           <input type="email" name="email" required maxlength="250" value="<?php echo $model['email']; ?>" />
+          <label for="display_name">Sector Initial</label>
+          <input type="text" name="initial" required maxlength="63" value="<?php echo $model['initial']; ?>" />
           <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Save Sector Information</button></span>
         </form>
       </div>
