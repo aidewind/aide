@@ -1,6 +1,6 @@
 <?php
 
-class ticketController extends Controller {
+class TicketController extends Controller {
 
   public function index($id = NULL) {
 

@@ -1,12 +1,11 @@
 drop database if exists site;
 create database site;
 use site;
-  
-create table setting (
-  id bigint not null primary key auto_increment,
-  site_name varchar(63) not null
-)ENGINE=InnoDB;
 
+/*
+ * entities
+ */
+  
 create table account (
   id bigint not null primary key auto_increment,
   email varchar(250) not null unique,
@@ -15,18 +14,20 @@ create table account (
   password_salt varchar(31) not null
 )ENGINE=InnoDB;
 
-create table session (
+create table comment (
   id bigint not null primary key auto_increment,
-  code varchar(31) not null,
+  body text not null,  
   created datetime not null,
-  account bigint not null
+  updated datetime null,
+  account bigint not null,
+  ticket bigint not null  
 )ENGINE=InnoDB;
 
-create table ticket (
+create table member (
   id bigint not null primary key auto_increment,
-  body text not null,
-  created datetime not null,
-  updated datetime null
+  email varchar(250) not null unique,
+  complete_name varchar(63) not null unique ,
+  account bigint null
 )ENGINE=InnoDB;
 
 create table sector (
@@ -38,20 +39,33 @@ create table sector (
   telephone varchar(255) not null
 )ENGINE=InnoDB;
 
-create table member (
+create table session (
   id bigint not null primary key auto_increment,
-  email varchar(250) not null unique,
-  complete_name varchar(63) not null unique ,
-  account bigint null
+  code varchar(31) not null,
+  created datetime not null,
+  account bigint not null
 )ENGINE=InnoDB;
 
+create table setting (
+  id bigint not null primary key auto_increment,
+  site_name varchar(63) not null
+)ENGINE=InnoDB;
+
+create table ticket (
+  id bigint not null primary key auto_increment,
+  body text not null,
+  created datetime not null,
+  updated datetime null
+)ENGINE=InnoDB;
+
+/*
+ * relations
+ */
 
 create table sector_closure (
   ancestor bigint not null,
   descendant bigint not null,
-  primary key (ancestor, descendant),
-  foreign key (ancestor) references sector(id),
-  foreign key (descendant) references sector(id)
+  primary key (ancestor, descendant)
 );
 
 create table ticket_sector (
@@ -59,6 +73,14 @@ create table ticket_sector (
   sector bigint not null references sector(id)
 )ENGINE=InnoDB;
 
-alter table ticket_sector add index (ticket, sector);
-alter table session add foreign key (account) references account(id);
+/*
+ * foreign keys
+ */
+
+alter table comment add foreign key (account) references account(id);
+alter table comment add foreign key (ticket) references ticket(id);
 alter table member add foreign key (account) references account(id);
+alter table session add foreign key (account) references account(id);
+alter table sector_closure foreign key (ancestor) references sector(id),
+alter table sector_closure foreign key (descendant) references sector(id)
+alter table ticket_sector add index (ticket, sector);
