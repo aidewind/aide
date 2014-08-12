@@ -81,6 +81,6 @@ alter table comment add foreign key (account) references account(id);
 alter table comment add foreign key (ticket) references ticket(id);
 alter table member add foreign key (account) references account(id);
 alter table session add foreign key (account) references account(id);
-alter table sector_closure foreign key (ancestor) references sector(id),
-alter table sector_closure foreign key (descendant) references sector(id)
+alter table sector_closure add foreign key (ancestor) references sector(id),
+alter table sector_closure add foreign key (descendant) references sector(id)
 alter table ticket_sector add index (ticket, sector);
