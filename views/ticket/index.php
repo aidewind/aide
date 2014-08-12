@@ -4,6 +4,7 @@
   $parsedown = new Parsedown();
   $ticket = $model['ticket'];
   $sectors = $model['sectors'];
+  $comments = $model['comments'];
   $session =  $this->get_session();
 ?>
 <!--main-->
@@ -36,7 +37,7 @@
 
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Comment Edit</h4>
+        <h4>New Comment</h4>
         <p class="error"><?php echo $model['error']; ?></p>
         <form method="post" action="<?php echo $this->route_url('edit', 'comment'); ?>">
           <input type="hidden" name="id" value="<?php echo $model['id']; ?>" />
@@ -52,18 +53,11 @@
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
         <ul class="list-group">
+        <?php foreach ($comments as $comment) { ?>
           <li class="list-group-item">
-            comment 4
+            <?php echo $comment; ?>
           </li>
-          <li class="list-group-item">
-            comment 3
-          </li>
-          <li class="list-group-item">
-            comment 2
-          </li>
-          <li class="list-group-item">
-            comment 1
-          </li>
+        <?php } ?>
         </ul>
       </div>
     </div>

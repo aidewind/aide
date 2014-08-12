@@ -26,7 +26,16 @@ class TicketController extends Controller {
     }
     $this->meta->keywords = htmlentities(implode(',', $sectors));
 */
-    $this->view(array('ticket' => $ticket, 'sectors' => $sectors));
+
+
+    $ticket_comments = comment::select_by_ticket($ticket->id);
+    $comments = array();
+    foreach($ticket_comments as $ticket_comment) {
+      $comments[] = $ticket_comment->body;
+    }
+    //this->meta->keywords = htmlentities(implode(',', $comments));
+
+    $this->view(array('ticket' => $ticket, 'sectors' => $sectors, 'comments' => $comments));
   }
 
   public function search($word = NULL) {

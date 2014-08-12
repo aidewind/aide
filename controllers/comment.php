@@ -61,7 +61,7 @@ class CommentController extends Controller {
 */      
 
       if($res) {
-        $this->redirect('search', 'comment');
+        $this->redirect('search', 'ticket');
       }
     }
     else {

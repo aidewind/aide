@@ -2,7 +2,6 @@
   $settings = $this->get_settings(); 
   $session =  $this->get_session();
   $options = $model['options'];
-  $boards = $model['boards'];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->request->lang; ?>">

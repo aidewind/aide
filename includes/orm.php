@@ -96,6 +96,22 @@ class comment {
       return mysqli_query(Application::$DB_CONNECTION, $sql);
   }
 
+  public static function select_by_ticket($ticket) {
+      $sql = 'select body from comment where ticket = "%s" order by id desc';
+      $sql = sprintf($sql, $ticket);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      if($res === FALSE || mysqli_num_rows($res) === 0) { 
+          return array();
+      }
+      $array = array();
+      while($row = mysqli_fetch_array($res)) {
+          $ticket = new comment();
+          $ticket->load($row);
+          $array[] = $ticket;
+      }
+      return $array;
+  }
+
 }
 
 class member {
