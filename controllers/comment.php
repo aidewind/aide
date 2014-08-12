@@ -23,7 +23,7 @@ class CommentController extends Controller {
         $req[] = 'Comment';
       }
       if(!empty($req)) {
-        $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);
+        $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);        
         return $this->view($model);
       }
 
