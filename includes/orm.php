@@ -62,18 +62,22 @@ class comment {
   public $body;
   public $created;
   public $updated;
+  public $account;
+  public $ticket;
 
   public function load($row) {
     $this->id = intval($row['id']);
     $this->body = $row['body'];
     $this->created = $row['created'];
     $this->updated = $row['updated'];
+    $this->account = $row['account'];
+    $this->ticket = $row['ticket'];
   }
 
 
   public function insert($account, $ticket) {
       $sql = 'insert into comment (body, created, account, ticket) values ("%s", UTC_TIMESTAMP(), "%s", "%s")';
-      $sql = sprintf($sql, escape($this->body), escape($account), escape($ticket));
+      $sql = sprintf($sql, escape($this->body), escape($this->account), escape($this->ticket));
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
       $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
       return $res;
