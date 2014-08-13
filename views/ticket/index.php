@@ -3,6 +3,7 @@
   $settings = $this->get_settings();
   $parsedown = new Parsedown();
   $ticket = $model['ticket'];
+  $members = $model['members'];
   $sectors = $model['sectors'];
   $comments = $model['comments'];
   $session =  $this->get_session();
@@ -18,6 +19,11 @@
         <ul class="list-group">
           <li class="list-group-item">
             members
+<select>
+  <?php foreach($model['members'] as $member) { ?>
+  <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
+  <?php } ?>
+</select>            
           </li>
           <li class="list-group-item">
             sectors

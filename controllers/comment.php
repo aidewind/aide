@@ -70,3 +70,4 @@ class CommentController extends Controller {
 
     $this->view($model);    
   }
+}

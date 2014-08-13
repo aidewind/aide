@@ -18,6 +18,8 @@ class TicketController extends Controller {
     $this->meta->title = htmlentities($ticket->id . ' - ' . $settings->site_name);
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->body);
+    
+    $members = member::select_list();    
 /*
     $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
     $sectors = array();
@@ -35,7 +37,7 @@ class TicketController extends Controller {
     }
     //this->meta->keywords = htmlentities(implode(',', $comments));
 
-    $this->view(array('ticket' => $ticket, 'sectors' => $sectors, 'comments' => $comments));
+    $this->view(array('ticket' => $ticket, 'members' => $members, 'sectors' => $sectors, 'comments' => $comments));
   }
 
   public function search($word = NULL) {
