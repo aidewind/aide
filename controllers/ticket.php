@@ -37,6 +37,7 @@ class TicketController extends Controller {
     foreach($ticket_comments as $ticket_comment) {
       $comments[] = $ticket_comment->body;
     }
+
     //this->meta->keywords = htmlentities(implode(',', $comments));
 
     $this->view(array('ticket' => $ticket, 'members' => $members, 'sectors' => $sectors, 'comments' => $comments));

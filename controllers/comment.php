@@ -51,8 +51,7 @@ class CommentController extends Controller {
       if($res) {
         $this->redirect(NULL, 'ticket',"$comment->ticket");
       }
-    }
-    else {
+    } else {
       if(!empty($id)) {
         $comment = comment::select_by_id($id);
         if($comment === NULL) {
@@ -60,14 +59,16 @@ class CommentController extends Controller {
         }
         if($comment === FALSE) {
           $model['error'] = 'Unable to load comment: ' . last_error();
-        }
-        else {
+        } else {
           $model['id'] = $comment->id;
           $model['body'] = $comment->body;
         }
       } 
-    }
+      $this->redirect(NULL, 'ticket','search');
+    }        
+  }  
 
-    $this->view($model);    
+  public function index($id = NULL) {
+    $this->redirect(NULL, 'ticket','search');
   }
 }
