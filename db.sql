@@ -32,13 +32,19 @@ create table member (
 
 create table sector (
   id bigint not null primary key auto_increment,
+  name varchar(255) not null
+)ENGINE=InnoDB;
+
+/*
+create table sector (
+  id bigint not null primary key auto_increment,
   email varchar(250) not null unique,
   name varchar(255) not null,
   initial varchar(255) not null unique,  
   place varchar(255) not null,
   telephone varchar(255) not null
 )ENGINE=InnoDB;
-
+*/
 create table session (
   id bigint not null primary key auto_increment,
   code varchar(31) not null,

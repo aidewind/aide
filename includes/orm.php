@@ -299,8 +299,8 @@ class sector {
     }
 
     public static function select_list() {
-        $sql = 'select id, name from sector order by id desc';
-        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        $sql = 'select id, name from sector order by name asc';
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);        
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
             return array();
         }

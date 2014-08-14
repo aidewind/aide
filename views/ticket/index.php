@@ -19,24 +19,28 @@
         <ul class="list-group">
           <li class="list-group-item">
             members
-<select>
-  <?php foreach($model['members'] as $member) { ?>
-  <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
-  <?php } ?>
-</select>            
+            <select>
+              <?php foreach($members as $member) { ?>
+              <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
+              <?php } ?>
+            </select>
           </li>
           <li class="list-group-item">
             sectors
-            <?php foreach ($sectors as $sector) { ?>
-            <a href="<?php echo $this->route_url(NULL, 'sector', $sector); ?>"><span class="label label-warning"><?php echo $sector?></span></a>
-            <?php } ?>          
+            <select>              
+              <?php foreach ($sectors as $sector) { ?>
+              <option value="<?php echo $sector->id;?>"><?php echo $sector->name; ?></option>
+              <?php } ?>
+            </select>
           </li>
+          <!--
           <li class="list-group-item">
             itens
           </li>
           <li class="list-group-item">
             sets
           </li>
+          -->
         </ul> 
       </div>
     </div>

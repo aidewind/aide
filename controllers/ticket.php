@@ -19,7 +19,9 @@ class TicketController extends Controller {
     $this->meta->author = htmlentities($settings->display_name);
     $this->meta->description = htmlentities($ticket->body);
     
-    $members = member::select_list();    
+    $members = member::select_list();
+
+    $sectors = sector::select_list();
 /*
     $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
     $sectors = array();
