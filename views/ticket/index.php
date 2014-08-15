@@ -45,32 +45,33 @@
       </div>
     </div>
 
-    <div class="col-md-4 col-sm-6">
-      <div class="well"> 
-        <h4>New Comment</h4>
-        <p class="error"><?php //echo $model['error']; ?></p>
-        <form method="post" action="<?php echo $this->route_url('edit', 'comment'); ?>">
-          <input type="hidden" name="id" value="<?php //echo $model['id']; ?>" />
-          <input type="hidden" name="account" value="<?php echo $session->account; ?>" />
-          <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
-          <label for="body">Comment</label>
-          <textarea name="body" rows="8"><?php //echo $model['body']; ?></textarea>
-          <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit" name="submit">Save Comment</button></span>
-        </form>
-      </div>
-    </div>
+    
+      <div class="col-md-4 col-sm-6">
+        <div class="well"> 
+          <?php if($session != NULL) { ?>
+          <h4>New Comment</h4>
+          <p class="error"><?php //echo $model['error']; ?></p>
+          <form method="post" action="<?php echo $this->route_url('edit', 'comment'); ?>" class="form-horizontal" role="form">
+            <div class="form-group" style="padding:14px;">
+              <input type="hidden" name="id" value="<?php //echo $model['id']; ?>" />
+              <input type="hidden" name="account" value="<?php echo $session->account; ?>" />
+              <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
+              <textarea name="body" class="form-control" placeholder="Your Comment"><?php //echo $model['body']; ?></textarea>
+            </div>
+            <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Save Comment</button></span>
+          </form>
+          <?php } ?>
 
-    <div class="col-md-4 col-sm-6">
-      <div class="well"> 
-        <ul class="list-group">
-        <?php foreach ($comments as $comment) { ?>
-          <li class="list-group-item">
-            <?php echo $comment[account].": ".$comment[body]; ?>
-          </li>
-        <?php } ?>
-        </ul>
+          <h4>Comments</h4>
+          <ul class="list-group">
+          <?php foreach ($comments as $comment) { ?>
+            <li class="list-group-item">
+              <?php echo $comment[account].": ".$comment[body]; ?>
+            </li>
+          <?php } ?>
+          </ul>
+        </div>
       </div>
-    </div>
 
   </div>
 </div>  
