@@ -35,7 +35,7 @@ class TicketController extends Controller {
     $ticket_comments = comment::select_by_ticket($ticket->id);
     $comments = array();
     foreach($ticket_comments as $ticket_comment) {
-      $comments[] = $ticket_comment->body;
+      $comments[] = array( 'body' => $ticket_comment->body, 'account' => $ticket_comment->account);
     }
 
     //this->meta->keywords = htmlentities(implode(',', $comments));

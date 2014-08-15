@@ -65,7 +65,7 @@
         <ul class="list-group">
         <?php foreach ($comments as $comment) { ?>
           <li class="list-group-item">
-            <?php var_dump($comments); ?>
+            <?php echo $comment[account].": ".$comment[body]; ?>
           </li>
         <?php } ?>
         </ul>

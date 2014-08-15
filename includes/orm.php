@@ -97,7 +97,7 @@ class comment {
   }
 
   public static function select_by_ticket($ticket) {
-      $sql = 'select id, body, created, $updated, $account, $ticket from comment where ticket = "%s" order by id desc';
+      $sql = 'select id, body, created, updated, account, ticket from comment where ticket = "%s" order by id desc';
       $sql = sprintf($sql, $ticket);
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
       if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -109,8 +109,6 @@ class comment {
           $ticket->load($row);
           $array[] = $ticket;
       }
-      var_dump($array);
-      stop();
       return $array;
   }
 
