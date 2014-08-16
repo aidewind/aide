@@ -628,26 +628,46 @@ class ticket_member {
 }
 
 class ticket_sector {
-  public $ticket;
+  public $id;
   public $sector;
-  public $name;
+  public $created;
+  public $updated;
+  public $account;
+  public $ticket;
 
   public function load($row) {
-      $this->ticket = intval($row['ticket']);
-      $this->sector = intval($row['sector']);
-      $this->name = array_key_exists('name', $row) ? $row['name'] : NULL;
+    $this->id = intval($row['id']);
+    $this->sector = $row['sector'];
+    $this->created = $row['created'];
+    $this->updated = $row['updated'];
+    $this->account = $row['account'];
+    $this->ticket = $row['ticket'];
   }
 
+
   public function insert() {
-      $sql = 'insert into ticket_sector (ticket, sector) values (%d, %d)';
-      $sql = sprintf($sql, $this->ticket, $this->sector);
+      $sql = 'insert into ticket_sector (sector, created, account, ticket) values ("%s", UTC_TIMESTAMP(), "%s", "%s")';
+      $sql = sprintf($sql, escape($this->sector), escape($this->account), escape($this->ticket));
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
       $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
       return $res;
   }
 
+  public function update() {
+      $sql = 'update ticket_sector set sector = "%s", updated = UTC_TIMESTAMP() where id = %d';
+      $sql = sprintf($sql, escape($this->sector), $this->id);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      return $res;
+  }
+
+  public function delete() {
+      $sql = 'delete from ticket_sector where id = %d';
+      $sql = sprintf($sql, $this->id);
+      return mysqli_query(Application::$DB_CONNECTION, $sql);
+  }
+
   public static function select_by_ticket($ticket) {
-      $sql = 'select ticket, sector, name from ticket_sector et inner join sector t on et.sector = t.id where ticket = "%s"';
+      $sql = 'select id, sector, created, updated, account, ticket from ticket_sector where ticket = "%s" order by id desc';
       $sql = sprintf($sql, $ticket);
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
       if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -655,18 +675,25 @@ class ticket_sector {
       }
       $array = array();
       while($row = mysqli_fetch_array($res)) {
-          $ticket = new ticket_sector();
-          $ticket->load($row);
-          $array[] = $ticket;
+          $ticket_sector = new ticket_sector();
+          $ticket_sector->load($row);
+          $array[] = $ticket_sector;
       }
       return $array;
   }
-  
-  public static function delete_by_ticket($ticket) {
-      $sql = 'delete from ticket_sector where ticket = %d';
-      $sql = sprintf($sql, $ticket);
-      return mysqli_query(Application::$DB_CONNECTION, $sql);
+
+  public static function select_by_id($id) { 
+    $sql = 'select id, sector, created, updated, account, ticket from ticket_sector where id=%d';
+    $sql = sprintf($sql, $id);
+    $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+    if($res === FALSE || mysqli_num_rows($res) === 0) { 
+        return NULL;
+    }
+    $ticket_sector = new ticket_sector();
+    $ticket_sector->load(mysqli_fetch_array($res));
+    return $ticket_sector;
   }
+
 }
 
 

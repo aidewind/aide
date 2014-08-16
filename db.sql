@@ -84,8 +84,12 @@ create table ticket_member (
 )ENGINE=InnoDB;
 
 create table ticket_sector (
-  ticket bigint not null references ticket(id),
-  sector bigint not null references sector(id)
+  id bigint not null primary key auto_increment,
+  member bigint not null,
+  created datetime not null,
+  updated datetime null,
+  account bigint not null,
+  ticket bigint not null  
 )ENGINE=InnoDB;
 
 /*
@@ -98,4 +102,9 @@ alter table member add foreign key (account) references account(id);
 alter table session add foreign key (account) references account(id);
 alter table sector_closure add foreign key (ancestor) references sector(id);
 alter table sector_closure add foreign key (descendant) references sector(id);
-alter table ticket_sector add index (ticket, sector);
+alter table ticket_member add foreign key (member) references member(id);
+alter table ticket_member add foreign key (account) references account(id);
+alter table ticket_member add foreign key (ticket) references ticket(id);
+alter table ticket_sector add foreign key (sector) references sector(id);
+alter table ticket_sector add foreign key (account) references account(id);
+alter table ticket_sector add foreign key (ticket) references ticket(id);
