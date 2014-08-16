@@ -24,7 +24,7 @@
           <div class="panel-body">
 
             <a href="<?php echo $this->route_url(NULL, 'ticket', $ticket->id);?>" class="blacklink">
-              <?php echo $ticket->body; ?>
+              <?php echo  strip_tags (mb_substr($ticket->body,0,100)); ?>
             </a>
             <br>
 
