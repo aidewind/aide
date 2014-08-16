@@ -12,6 +12,7 @@
 <!--main-->
 <div class="container" id="main">
   <div class="row">
+
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
         <h4 class="title"><div class="markdown"><?php echo $parsedown->text($ticket->body);?></div></h4>
@@ -40,6 +41,7 @@
 
 
       <div class="col-md-4 col-sm-6">
+
         <div class="well"> 
           <?php if($session != NULL) { ?>
           <h4>New Member</h4>
@@ -66,6 +68,34 @@
             </li>
           </ul>
         </div>
+
+        <div class="well"> 
+          <?php if($session != NULL) { ?>
+          <h4>New Member</h4>
+          <form method="post" action="<?php echo $this->route_url('involve', 'member'); ?>" class="form-horizontal" role="form">
+            <div class="form-group" style="padding:14px;">
+              <input type="hidden" name="account" value="<?php echo $session->account; ?>" />
+              <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
+              <select name='member'>
+                <?php foreach($members as $member) { ?>
+                <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Add Member</button></span>
+          </form>
+          <?php } ?>
+
+          <h4>Members</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+            <?php foreach($members_involved as $member) { ?>            
+              <span class="label label-default"><?php echo $member->member; ?></span>
+            <?php } ?>
+            </li>
+          </ul>
+        </div>
+        
       </div>
     
       <div class="col-md-4 col-sm-6">
