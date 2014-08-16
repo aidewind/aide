@@ -63,6 +63,7 @@ class CommentController extends Controller {
           $model['id'] = $comment->id;
           $model['body'] = $comment->body;
         }
+        return $this->view($model);
       } 
       $this->redirect(NULL, 'ticket','search');
     }        

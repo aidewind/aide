@@ -21,6 +21,8 @@ class TicketController extends Controller {
     
     $members = member::select_list();
 
+    //$members_involved = member::select_list();
+
     $sectors = sector::select_list();
 /*
     $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
@@ -40,7 +42,7 @@ class TicketController extends Controller {
 
     //this->meta->keywords = htmlentities(implode(',', $comments));
 
-    $this->view(array('ticket' => $ticket, 'members' => $members, 'sectors' => $sectors, 'comments' => $comments));
+    $this->view(array('ticket' => $ticket, 'members' => $members, 'members_involved' => $members_involved, 'sectors' => $sectors, 'comments' => $comments));
   }
 
   public function search($word = NULL) {

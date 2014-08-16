@@ -74,6 +74,15 @@ create table sector_closure (
   primary key (ancestor, descendant)
 );
 
+create table ticket_member (
+  id bigint not null primary key auto_increment,
+  member bigint not null,
+  created datetime not null,
+  updated datetime null,
+  account bigint not null,
+  ticket bigint not null  
+)ENGINE=InnoDB;
+
 create table ticket_sector (
   ticket bigint not null references ticket(id),
   sector bigint not null references sector(id)

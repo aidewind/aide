@@ -4,6 +4,7 @@
   $parsedown = new Parsedown();
   $ticket = $model['ticket'];
   $members = $model['members'];
+  $members_involved = $model['members_involved'];
   $sectors = $model['sectors'];
   $comments = $model['comments'];
   $session =  $this->get_session();
@@ -17,14 +18,6 @@
         <p class="info"><?php echo $this->get_age_string($ticket->created), ' by ', $settings->display_name;?></p>
 
         <ul class="list-group">
-          <li class="list-group-item">
-            members
-            <select>
-              <?php foreach($members as $member) { ?>
-              <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
-              <?php } ?>
-            </select>
-          </li>
           <li class="list-group-item">
             sectors
             <select>              
@@ -45,6 +38,35 @@
       </div>
     </div>
 
+
+      <div class="col-md-4 col-sm-6">
+        <div class="well"> 
+          <?php if($session != NULL) { ?>
+          <h4>New Member</h4>
+          <form method="post" action="<?php echo $this->route_url('involve', 'member'); ?>" class="form-horizontal" role="form">
+            <div class="form-group" style="padding:14px;">
+              <input type="hidden" name="account" value="<?php echo $session->account; ?>" />
+              <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
+              <select name='member'>
+                <?php foreach($members as $member) { ?>
+                <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Add Member</button></span>
+          </form>
+          <?php } ?>
+
+          <h4>Members</h4>
+          <ul class="list-group">
+          <?php foreach($members_involved as $member) { ?>
+            <li class="list-group-item">
+              <?php echo $member->id.": ".$member->complete_name; ?>
+            </li>
+          <?php } ?>
+          </ul>
+        </div>
+      </div>
     
       <div class="col-md-4 col-sm-6">
         <div class="well"> 

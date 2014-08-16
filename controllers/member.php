@@ -166,5 +166,75 @@ class MemberController extends Controller {
     $this->view($model);
   }
 
+  public function involve($id = NULL) {
+    if($this->get_session() === NULL) {
+      $this->redirect(NULL, 'home');
+    }
+
+    $this->meta->title = 'Involve member on ticket';
+
+    echo $this->post('member');
+    stop();
+
+    $model = array(
+      'id' => $this->post('id'),
+      'member' => $this->post('member'),
+      'account' => $this->post('account'),
+      'ticket' => $this->post('ticket'),
+      'error' => NULL
+    );
+
+    if(array_key_exists('submit', $_POST)) {
+      $req = array();
+      if(empty($model['member'])) {
+        $req[] = 'Member';
+      }
+      if(!empty($req)) {
+        $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);        
+        return $this->view($model);
+      }
+
+      $ticket_member = NULL;
+      if(empty($model['id'])) {
+        $ticket_member = new ticket_member();
+      } else {
+        $ticket_member = ticket_member::select_by_id($model['id']);
+        if($ticket_member === NULL) {
+          $this->not_found();
+        }
+        if($ticket_member === FALSE) {
+          $model['error'] = 'Failed to load ticket_member: ' . last_error();
+          return $this->view($model);
+        }
+      }
+
+      $ticket_member->member = $model['member'];
+      $ticket_member->account = $model['account'];
+      $ticket_member->ticket = $model['ticket'];
+      $res = empty($ticket_member->id) ? $ticket_member->insert() : $ticket_member->update();
+      $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket_member: ' . last_error(); 
+      $model['id'] = $ticket_member->id;
+
+      if($res) {
+        $this->redirect(NULL, 'ticket',"$ticket_member->ticket");
+      }
+    } else {
+      if(!empty($id)) {
+        $ticket_member = ticket_member::select_by_id($id);
+        if($ticket_member === NULL) {
+          $this->not_found();
+        }
+        if($ticket_member === FALSE) {
+          $model['error'] = 'Unable to load ticket_member: ' . last_error();
+        } else {
+          $model['id'] = $ticket_member->id;
+          $model['member'] = $ticket_member->member;
+        }
+        return $this->view($model);
+      } 
+      $this->redirect(NULL, 'ticket','search');
+    }        
+  }  
+
 }
 ?>

@@ -75,7 +75,7 @@ class comment {
   }
 
 
-  public function insert($account, $ticket) {
+  public function insert() {
       $sql = 'insert into comment (body, created, account, ticket) values ("%s", UTC_TIMESTAMP(), "%s", "%s")';
       $sql = sprintf($sql, escape($this->body), escape($this->account), escape($this->ticket));
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
@@ -105,11 +105,23 @@ class comment {
       }
       $array = array();
       while($row = mysqli_fetch_array($res)) {
-          $ticket = new comment();
-          $ticket->load($row);
-          $array[] = $ticket;
+          $comment = new comment();
+          $comment->load($row);
+          $array[] = $comment;
       }
       return $array;
+  }
+
+  public static function select_by_id($id) { 
+    $sql = 'select id, body, created, updated, account, ticket from comment where id=%d';
+    $sql = sprintf($sql, $id);
+    $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+    if($res === FALSE || mysqli_num_rows($res) === 0) { 
+        return NULL;
+    }
+    $comment = new comment();
+    $comment->load(mysqli_fetch_array($res));
+    return $comment;
   }
 
 }
@@ -544,6 +556,75 @@ class sector_closure {
     }
     return $array;
   }
+}
+
+class ticket_member {
+  public $id;
+  public $member;
+  public $created;
+  public $updated;
+  public $account;
+  public $ticket;
+
+  public function load($row) {
+    $this->id = intval($row['id']);
+    $this->member = $row['member'];
+    $this->created = $row['created'];
+    $this->updated = $row['updated'];
+    $this->account = $row['account'];
+    $this->ticket = $row['ticket'];
+  }
+
+
+  public function insert() {
+      $sql = 'insert into ticket_member (member, created, account, ticket) values ("%s", UTC_TIMESTAMP(), "%s", "%s")';
+      $sql = sprintf($sql, escape($this->member), escape($this->account), escape($this->ticket));
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+      return $res;
+  }
+
+  public function update() {
+      $sql = 'update ticket_member set member = "%s", updated = UTC_TIMESTAMP() where id = %d';
+      $sql = sprintf($sql, escape($this->member), $this->id);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      return $res;
+  }
+
+  public function delete() {
+      $sql = 'delete from ticket_member where id = %d';
+      $sql = sprintf($sql, $this->id);
+      return mysqli_query(Application::$DB_CONNECTION, $sql);
+  }
+
+  public static function select_by_ticket($ticket) {
+      $sql = 'select id, member, created, updated, account, ticket from ticket_member where ticket = "%s" order by id desc';
+      $sql = sprintf($sql, $ticket);
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      if($res === FALSE || mysqli_num_rows($res) === 0) { 
+          return array();
+      }
+      $array = array();
+      while($row = mysqli_fetch_array($res)) {
+          $ticket_member = new ticket_member();
+          $ticket_member->load($row);
+          $array[] = $ticket_member;
+      }
+      return $array;
+  }
+
+  public static function select_by_id($id) { 
+    $sql = 'select id, member, created, updated, account, ticket from ticket_member where id=%d';
+    $sql = sprintf($sql, $id);
+    $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+    if($res === FALSE || mysqli_num_rows($res) === 0) { 
+        return NULL;
+    }
+    $ticket_member = new ticket_member();
+    $ticket_member->load(mysqli_fetch_array($res));
+    return $ticket_member;
+  }
+
 }
 
 class ticket_sector {
