@@ -212,9 +212,9 @@ class MemberController extends Controller {
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket_member: ' . last_error(); 
       $model['id'] = $ticket_member->id;
 
-      if($res) {
+      //if($res) {
         $this->redirect(NULL, 'ticket',"$ticket_member->ticket");
-      }
+      //}
     } else {
       if(!empty($id)) {
         $ticket_member = ticket_member::select_by_id($id);

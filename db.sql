@@ -98,13 +98,20 @@ create table ticket_sector (
 
 alter table comment add foreign key (account) references account(id);
 alter table comment add foreign key (ticket) references ticket(id);
+
 alter table member add foreign key (account) references account(id);
+
 alter table session add foreign key (account) references account(id);
+
 alter table sector_closure add foreign key (ancestor) references sector(id);
 alter table sector_closure add foreign key (descendant) references sector(id);
+
 alter table ticket_member add foreign key (member) references member(id);
 alter table ticket_member add foreign key (account) references account(id);
 alter table ticket_member add foreign key (ticket) references ticket(id);
+alter table ticket_member add unique unique_index (member, ticket);
+
 alter table ticket_sector add foreign key (sector) references sector(id);
 alter table ticket_sector add foreign key (account) references account(id);
 alter table ticket_sector add foreign key (ticket) references ticket(id);
+alter table ticket_sector add unique unique_index (sector, ticket);

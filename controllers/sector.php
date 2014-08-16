@@ -244,9 +244,9 @@ class SectorController extends Controller {
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket_sector: ' . last_error(); 
       $model['id'] = $ticket_sector->id;
 
-      if($res) {
+      //if($res) {
         $this->redirect(NULL, 'ticket',"$ticket_sector->ticket");
-      }
+      //}
     } else {
       if(!empty($id)) {
         $ticket_sector = ticket_sector::select_by_id($id);

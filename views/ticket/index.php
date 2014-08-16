@@ -13,8 +13,7 @@
 <!--main-->
 <div class="container" id="main">
   <div class="row">
-
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-12 col-sm-6">
       <div class="well"> 
         <h4 class="title"><div class="markdown"><?php echo $parsedown->text($ticket->body);?></div></h4>
         <p class="info"><?php echo $this->get_age_string($ticket->created), ' by ', $settings->display_name;?></p>
@@ -31,10 +30,9 @@
         </ul> 
       </div>
     </div>
-
-
+  </div>
+  <div class="row">
       <div class="col-md-4 col-sm-6">
-
         <div class="well"> 
           <?php if($session != NULL) { ?>
           <h4>New Member</h4>
@@ -61,7 +59,8 @@
             </li>
           </ul>
         </div>
-
+      </div>
+      <div class="col-md-4 col-sm-6">
         <div class="well"> 
           <?php if($session != NULL) { ?>
           <h4>New Sector</h4>
