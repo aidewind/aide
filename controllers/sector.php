@@ -196,6 +196,74 @@ class SectorController extends Controller {
 
     $this->view($model);
   }
+
+
+  public function involve($id = NULL) {
+    if($this->get_session() === NULL) {
+      $this->redirect(NULL, 'home');
+    }
+
+    $this->meta->title = 'Involve sector on ticket';
+
+    $model = array(
+      'id' => $this->post('id'),
+      'sector' => $this->post('sector'),
+      'account' => $this->post('account'),
+      'ticket' => $this->post('ticket'),
+      'error' => NULL
+    );
+
+    if(array_key_exists('submit', $_POST)) {
+      $req = array();
+      if(empty($model['sector'])) {
+        $req[] = 'Member';
+      }
+      if(!empty($req)) {
+        $model['error'] = 'Please enter the required fields: ' . implode(', ', $req);        
+        return $this->view($model);
+      }
+
+      $ticket_sector = NULL;
+      if(empty($model['id'])) {
+        $ticket_sector = new ticket_sector();
+      } else {
+        $ticket_sector = ticket_sector::select_by_id($model['id']);
+        if($ticket_sector === NULL) {
+          $this->not_found();
+        }
+        if($ticket_sector === FALSE) {
+          $model['error'] = 'Failed to load ticket_sector: ' . last_error();
+          return $this->view($model);
+        }
+      }
+
+      $ticket_sector->sector = $model['sector'];
+      $ticket_sector->account = $model['account'];
+      $ticket_sector->ticket = $model['ticket'];
+      $res = empty($ticket_sector->id) ? $ticket_sector->insert() : $ticket_sector->update();
+      $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket_sector: ' . last_error(); 
+      $model['id'] = $ticket_sector->id;
+
+      if($res) {
+        $this->redirect(NULL, 'ticket',"$ticket_sector->ticket");
+      }
+    } else {
+      if(!empty($id)) {
+        $ticket_sector = ticket_sector::select_by_id($id);
+        if($ticket_sector === NULL) {
+          $this->not_found();
+        }
+        if($ticket_sector === FALSE) {
+          $model['error'] = 'Unable to load ticket_sector: ' . last_error();
+        } else {
+          $model['id'] = $ticket_sector->id;
+          $model['sector'] = $ticket_sector->sector;
+        }
+        return $this->view($model);
+      } 
+      $this->redirect(NULL, 'ticket','search');
+    }        
+  }  
 }
 
 ?>

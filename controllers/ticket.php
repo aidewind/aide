@@ -24,13 +24,9 @@ class TicketController extends Controller {
     $members_involved = ticket_member::select_by_ticket($ticket->id);
 
     $sectors = sector::select_list();
+    $sectors_involved = ticket_sector::select_by_ticket($ticket->id);
 /*
-    $ticket_sectors = ticket_sector::select_by_ticket($ticket->id);
-    $sectors = array();
-    foreach($ticket_sectors as $ticket_sector) {
-      $sectors[] = $ticket_sector->name;
-    }
-    $this->meta->keywords = htmlentities(implode(',', $sectors));
+    $this->meta->keywords = htmlentities(implode(',', $sectors_involved));
 */
 
 
@@ -42,7 +38,7 @@ class TicketController extends Controller {
 
     //this->meta->keywords = htmlentities(implode(',', $comments));
 
-    $this->view(array('ticket' => $ticket, 'members' => $members, 'members_involved' => $members_involved, 'sectors' => $sectors, 'comments' => $comments));
+    $this->view(array('ticket' => $ticket, 'members' => $members, 'members_involved' => $members_involved, 'sectors' => $sectors, 'sectors_involved' => $sectors_involved, 'comments' => $comments));
   }
 
   public function search($word = NULL) {
