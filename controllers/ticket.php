@@ -21,7 +21,7 @@ class TicketController extends Controller {
     
     $members = member::select_list();
 
-    //$members_involved = member::select_list();
+    $members_involved = ticket_member::select_by_ticket($ticket->id);
 
     $sectors = sector::select_list();
 /*

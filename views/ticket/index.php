@@ -59,11 +59,11 @@
 
           <h4>Members</h4>
           <ul class="list-group">
-          <?php foreach($members_involved as $member) { ?>
             <li class="list-group-item">
-              <?php echo $member->id.": ".$member->complete_name; ?>
+            <?php foreach($members_involved as $member) { ?>            
+              <span class="label label-default"><?php echo $member->member; ?></span>
+            <?php } ?>
             </li>
-          <?php } ?>
           </ul>
         </div>
       </div>

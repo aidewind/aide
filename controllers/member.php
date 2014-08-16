@@ -173,9 +173,6 @@ class MemberController extends Controller {
 
     $this->meta->title = 'Involve member on ticket';
 
-    echo $this->post('member');
-    stop();
-
     $model = array(
       'id' => $this->post('id'),
       'member' => $this->post('member'),
