@@ -85,7 +85,7 @@ create table ticket_member (
 
 create table ticket_sector (
   id bigint not null primary key auto_increment,
-  member bigint not null,
+  sector bigint not null,
   created datetime not null,
   updated datetime null,
   account bigint not null,
