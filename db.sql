@@ -26,13 +26,15 @@ create table comment (
 create table member (
   id bigint not null primary key auto_increment,
   email varchar(250) not null unique,
-  complete_name varchar(63) not null unique ,
+  complete_name varchar(63) not null unique,
   account bigint null
 )ENGINE=InnoDB;
 
 create table sector (
   id bigint not null primary key auto_increment,
-  name varchar(255) not null
+  email varchar(250) not null unique,
+  name varchar(255) not null,
+  initial varchar(255) not null unique  
 )ENGINE=InnoDB;
 
 /*

@@ -135,11 +135,7 @@ class MemberController extends Controller {
         $sector_member->member = $member->id;
         $sector_member->sector = $sector[$i];
         $sector_member->insert();
-        echo $sector[$i].'</br>';
       }
-
-      echo $n;
-      stop();
 
     } else {
       if(!empty($id)) {

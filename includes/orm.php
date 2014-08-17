@@ -164,10 +164,6 @@ class member {
     public function insert() {
         $sql = 'insert into member (email, complete_name) values ("%s", "%s")';
         $sql = sprintf($sql, escape($this->email), escape($this->complete_name));
-
-        echo $sql;
-        stop();
-
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
@@ -594,10 +590,6 @@ class sector_member {
   public function insert() {
       $sql = 'insert into sector_member (member, sector) values ("%s", "%s")';
       $sql = sprintf($sql, escape($this->member), escape($this->sector));
-
-      echo $sql;
-      stop();
-
       $res = mysqli_query(Application::$DB_CONNECTION, $sql);
       $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
       return $res;

@@ -14,9 +14,6 @@ class SectorController extends Controller {
     
     $sectors = sector_closure::select_descendants_of($id);
 
-    //var_dump($sectors);
-    //stop();
-
     if($sectors === NULL) {
       $this->not_found();
     }
@@ -151,18 +148,7 @@ class SectorController extends Controller {
       $res = empty($sector->id) ? $sector->insert() : $sector->update();
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save sector: ' . last_error(); 
       $model['id'] = $sector->id;
-/*
-      sector_sector::delete_by_sector($sector->id);
-      $sectors = explode(',', $model['sectors']);
-      foreach($sectors as $name) {
-        $name = trim($name);
-        $sector = sector::find_or_create($name);
-        $sector_sector = new sector_sector();
-        $sector_sector->sector = $sector->id;
-        $sector_sector->sector = $sector->id;
-        $sector_sector->insert();
-      }
-*/      
+
       if ($res) {
         $this->redirect("search", "sector");
       }
@@ -181,16 +167,6 @@ class SectorController extends Controller {
           $model['email'] = $sector->email;          
           $model['initial'] = $sector->initial;
         }
-/*
-        $sectors = sector_sector::select_by_sector($sector->id);
-        if($sectors !== FALSE) {
-          $t = array();
-          foreach($sectors as $name) {
-            $t[] = $name->name;
-          }
-          $model['sectors'] = implode(', ', $t);
-        }
-*/
       } 
     }
 
