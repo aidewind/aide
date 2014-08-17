@@ -171,10 +171,10 @@
             <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
             <textarea name="body" class="form-control" placeholder="Your Checklist"><?php //echo $model['body']; ?></textarea>
           </div>
-          <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Save Comment</button></span>
+          <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Save Checklist</button></span>
         </form>
         <?php } ?>
-        <h4>Comments</h4>
+        <h4>Checklists</h4>
         <ul class="list-group">
         <?php foreach ($comments as $comment) { ?>
           <li class="list-group-item">

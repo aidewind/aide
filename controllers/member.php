@@ -36,11 +36,12 @@ class MemberController extends Controller {
     if(empty($word)) {
       $this->meta->title = 'Member Search';
       $members = member::select_list();
+      $sectors = sector::select_list();
     } else {
       $this->meta->title = 'Member Related with  ' . $word . ' - ' .$settings->site_name;
       $members = member::select_by_word($word);
     }
-    return $this->view(array('members' => $members));
+    return $this->view(array('members' => $members, 'sectors' => $sectors));
   }
 
   public function delete($id) {
@@ -120,22 +121,26 @@ class MemberController extends Controller {
 
       $member->email = $model['email'];
       $member->complete_name = $model['complete_name'];
-      
-      $res = empty($member->id) ? $member->insert() : $member->update();
+
+      $res = empty($member->id) ? $member->find_or_create() : $member->update();
+
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save member: ' . last_error(); 
-      $model['id'] = $member->id;
-/*
-      member_sector::delete_by_member($member->id);
-      $sectors = explode(',', $model['sectors']);
-      foreach($sectors as $name) {
-        $name = trim($name);
-        $sector = sector::find_or_create($name);
-        $member_sector = new member_sector();
-        $member_sector->member = $member->id;
-        $member_sector->sector = $sector->id;
-        $member_sector->insert();
+      $model['id'] = $member->id = $res->id;
+
+      $n =  sizeof($model['sectors']);
+      $sector = $model['sectors'];
+
+      for($i=0; $i<$n; $i++) {
+        $sector_member = new sector_member();
+        $sector_member->member = $member->id;
+        $sector_member->sector = $sector[$i];
+        $sector_member->insert();
+        echo $sector[$i].'</br>';
       }
-*/      
+
+      echo $n;
+      stop();
+
     } else {
       if(!empty($id)) {
         $member = member::select_by_id($id);
@@ -163,7 +168,8 @@ class MemberController extends Controller {
       } 
     }
 
-    $this->view($model);
+    $sectors = sector::select_list();
+    $this->view(array('sectors' => $sectors));
   }
 
   public function involve($id = NULL) {

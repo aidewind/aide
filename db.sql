@@ -61,7 +61,8 @@ create table ticket (
   id bigint not null primary key auto_increment,
   body text not null,
   created datetime not null,
-  updated datetime null
+  updated datetime null,
+  account bigint not null
 )ENGINE=InnoDB;
 
 /*
@@ -72,6 +73,12 @@ create table sector_closure (
   ancestor bigint not null,
   descendant bigint not null,
   primary key (ancestor, descendant)
+);
+
+create table sector_member (
+  member bigint not null,
+  sector bigint not null,
+  primary key (member, sector)
 );
 
 create table ticket_member (
@@ -103,8 +110,13 @@ alter table member add foreign key (account) references account(id);
 
 alter table session add foreign key (account) references account(id);
 
+alter table ticket add foreign key (account) references account(id);
+
 alter table sector_closure add foreign key (ancestor) references sector(id);
 alter table sector_closure add foreign key (descendant) references sector(id);
+
+alter table sector_member add foreign key (member) references member(id);
+alter table sector_member add foreign key (sector) references sector(id);
 
 alter table ticket_member add foreign key (member) references member(id);
 alter table ticket_member add foreign key (account) references account(id);

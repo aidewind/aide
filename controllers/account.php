@@ -61,9 +61,7 @@ class AccountController extends Controller {
 
     $settings = $this->get_settings();
     
-    $this->meta->title = 'Account Signed In';
-    $tickets = ticket::select_list();
-    $this->view($tickets);
+    $this->redirect('search', 'ticket');
   }
 
   public function signin() {

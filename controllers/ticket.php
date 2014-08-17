@@ -63,6 +63,7 @@ class TicketController extends Controller {
     $model = array(
       'id' => $this->post('id'),
       'body' => $this->post('body'),
+      'account' => $this->post('account'),
       'sectors' => $this->post('sectors'),
       'error' => NULL
     );
@@ -91,7 +92,8 @@ class TicketController extends Controller {
         }
       }
 
-      $ticket->body = $model['body'];      
+      $ticket->body = $model['body'];
+      $ticket->account = $model['account'];
       $res = empty($ticket->id) ? $ticket->insert() : $ticket->update();
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save ticket: ' . last_error(); 
       $model['id'] = $ticket->id;

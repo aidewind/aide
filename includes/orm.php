@@ -138,9 +138,36 @@ class member {
         $this->complete_name = $row['complete_name'];
     }
 
+    public function find_or_create() {
+        $sql = 'select id, email, complete_name from member where email = "%s"';
+        $sql = sprintf($sql, escape($this->email));
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE) {
+            return FALSE;
+        }
+        
+        $member = new member();
+        if(mysqli_num_rows($res) === 0) {
+            $sql = 'insert into member (email, complete_name) values ("%s", "%s");';
+            $sql = sprintf($sql, escape($this->email), escape($this->complete_name));
+            $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+            if($res === FALSE) {
+                return FALSE;
+            }
+            $member->id = mysqli_insert_id(Application::$DB_CONNECTION);
+        } else {
+            $member->load(mysqli_fetch_array($res));
+        }
+        return $member;
+    }
+
     public function insert() {
         $sql = 'insert into member (email, complete_name) values ("%s", "%s")';
         $sql = sprintf($sql, escape($this->email), escape($this->complete_name));
+
+        echo $sql;
+        stop();
+
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
@@ -419,21 +446,23 @@ class ticket {
     public $body;
     public $created;
     public $updated;
+    public $account;
 
     public function load($row) {
         $this->id = intval($row['id']);
-        $this->title = $row['title'];
-        $this->image_url = $row['image_url'];
-        $this->published = intval($row['published']);
-        $this->snippet = $row['snippet'];
+        //$this->title = $row['title'];
+        //$this->image_url = $row['image_url'];
+        //$this->published = intval($row['published']);
+        //$this->snippet = $row['snippet'];
         $this->body = $row['body'];
         $this->created = $row['created'];
         $this->updated = $row['updated'];
+        $this->account = $row['account'];
     }
 
     public function insert() {
-        $sql = 'insert into ticket (body, created) values ("%s", UTC_TIMESTAMP())';
-        $sql = sprintf($sql, escape($this->body));
+        $sql = 'insert into ticket (body, created,account) values ("%s", UTC_TIMESTAMP(),"%s")';
+        $sql = sprintf($sql, escape($this->body), escape($this->account));
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
         return $res;
@@ -556,6 +585,24 @@ class sector_closure {
     }
     return $array;
   }
+}
+
+class sector_member {
+  public $member;
+  public $sector;
+
+  public function insert() {
+      $sql = 'insert into sector_member (member, sector) values ("%s", "%s")';
+      $sql = sprintf($sql, escape($this->member), escape($this->sector));
+
+      echo $sql;
+      stop();
+
+      $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+      $this->id = mysqli_insert_id(Application::$DB_CONNECTION);
+      return $res;
+  }
+
 }
 
 class ticket_member {
