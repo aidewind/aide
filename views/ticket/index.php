@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-6 col-sm-6">
       <div class="well"> 
         <?php if($session != NULL) { ?>
         <h4>New Member</h4>
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="col-md-3 col-sm-6">
+    <div class="col-md-6 col-sm-6">
       <div class="well"> 
         <?php if($session != NULL) { ?>
         <h4>New Sector</h4>
@@ -76,7 +76,7 @@
         </ul>
       </div>
     </div>
-
+<!--
     <div class="col-md-3 col-sm-6">
       <div class="well"> 
         <?php if($session != NULL) { ?>
@@ -132,7 +132,10 @@
         </ul>
       </div>
     </div>
+-->
+
   </div>
+
 
   <div class="row">
     <div class="col-md-6 col-sm-6">
@@ -160,7 +163,7 @@
         </ul>
       </div>
     </div>
-
+<!--
     <div class="col-md-6 col-sm-6">
       <div class="well"> 
         <?php if($session != NULL) { ?>
@@ -184,5 +187,6 @@
         </ul>
       </div>
     </div>
+-->
   </div>
 </div>  

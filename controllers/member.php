@@ -125,47 +125,42 @@ class MemberController extends Controller {
       $res = empty($member->id) ? $member->find_or_create() : $member->update();
 
       $model['error'] = $res ? 'Saved successfully.' : 'Failed to save member: ' . last_error(); 
-      $model['id'] = $member->id = $res->id;
+      
+      sector_member::delete_by_member($model['id']);
 
       $n =  sizeof($model['sectors']);
       $sector = $model['sectors'];
 
       for($i=0; $i<$n; $i++) {
         $sector_member = new sector_member();
-        $sector_member->member = $member->id;
+        $sector_member->member = $model['id'];
         $sector_member->sector = $sector[$i];
         $sector_member->insert();
       }
 
+      $this->redirect(NULL, 'member', 'search');
+
     } else {
       if(!empty($id)) {
         $member = member::select_by_id($id);
+
         if($member === NULL) {
           $this->not_found();
         }
         if($member === FALSE) {
           $model['error'] = 'Unable to load member: ' . last_error();
-        }
-        else {
+        } else {
           $model['id'] = $member->id;
           $model['email'] = $member->email;
           $model['complete_name']= $member->complete_name;
         }
-/*
-        $sectors = member_sector::select_by_member($member->id);
-        if($sectors !== FALSE) {
-          $t = array();
-          foreach($sectors as $name) {
-            $t[] = $name->name;
-          }
-          $model['sectors'] = implode(', ', $t);
-        }
-*/
+
+        $sector_member = sector_member::select_by_member($member->id);
       } 
     }
 
     $sectors = sector::select_list();
-    $this->view(array('sectors' => $sectors));
+    $this->view(array('model' => $model, 'sectors' => $sectors, 'sector_member' => $sector_member));
   }
 
   public function involve($id = NULL) {

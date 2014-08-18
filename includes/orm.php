@@ -595,6 +595,28 @@ class sector_member {
       return $res;
   }
 
+  public function select_by_member($member) {
+    $sql = 'select sector.id, sector.name from sector inner join sector_member on sector_member.sector=sector.id and sector_member.member = "%s"';
+    $sql = sprintf($sql, escape($member));
+    $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+    if($res === FALSE || mysqli_num_rows($res) === 0) { 
+        return array();
+    }
+    $array = array();
+    while($row = mysqli_fetch_array($res)) {
+        $ticket = new ticket();
+        $ticket->load($row);
+        $array[] = $ticket;
+    }
+    return $array;
+  }
+
+  public function delete_by_member($member) {
+      $sql = 'delete from sector_member where member = %s';      
+      $sql = sprintf($sql, $member);
+      return mysqli_query(Application::$DB_CONNECTION, $sql);
+  }
+
 }
 
 class ticket_member {
