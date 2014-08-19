@@ -9,6 +9,7 @@
     <title><?php echo $this->meta->title; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
+    <meta http-equiv="refresh" content="60">
     <meta name="generator" content="Bootply" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="<?php echo $this->meta->description; ?>">
