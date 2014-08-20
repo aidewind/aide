@@ -7,7 +7,7 @@
           <?php echo $model['error'];?>
         </div>      
         <div class="panel-body">
-          <?php echo $model['email'].' '.$model['key'];?>
+          
         </div>
       </div>
     </div>

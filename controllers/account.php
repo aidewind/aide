@@ -67,9 +67,6 @@ class AccountController extends Controller {
         }
         $this->set_session($session);
         $this->redirect(NULL);
-
-
-        $this->redirect('activate', 'account');
       }
     }
 
@@ -97,7 +94,7 @@ class AccountController extends Controller {
       return $this->view($model);
     }
 
-    $this->view($model);
+    $this->redirect(NULL, 'account');
   }
 
   public function index() {
@@ -107,8 +104,14 @@ class AccountController extends Controller {
 
     $settings = $this->get_settings();
 
-    echo $this->get_session()->account_active;
-
+    $account = account::select_by_id($this->get_session()->account);
+    if(!$account->active){
+      $model = array(
+        'error'=> 'A confirmation email has been sent to '.$account->email.' Please click on the Activation Link to Activate your account'
+      );
+      $this->view($model);
+    }
+    
     $this->redirect(NULL, 'home');
   }
 
@@ -141,7 +144,6 @@ class AccountController extends Controller {
       $session = new session();
       $session->code = uniqid();
       $session->account = $account->id;
-      $session->account_active = $account->active;
       if(!$session->insert()) {
         $model['error'] = 'Failed to create new session: ' . last_error();
         return $this->view($model);

@@ -14,6 +14,7 @@ class account {
     public $display_name;
     public $password_hash;
     public $password_salt;
+    public $active;
 
     public function load($row) {
         $this->id = intval($row['id']);
@@ -21,6 +22,7 @@ class account {
         $this->display_name = $row['display_name'];
         $this->password_hash = $row['password_hash'];
         $this->password_salt = $row['password_salt'];
+        $this->active = $row['active'];
     }
 
     public function insert() {
@@ -57,7 +59,7 @@ class account {
     }
 
     public static function select_by_id($id) { 
-        $sql = 'select id, email, display_name, password_hash, password_salt from account where id=%d';
+        $sql = 'select id, email, display_name, password_hash, password_salt, active from account where id=%d';
         $sql = sprintf($sql, $id);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         if($res === FALSE || mysqli_num_rows($res) === 0) { 
@@ -69,9 +71,20 @@ class account {
     }
 
     public static function activate($email, $key) {
-        $sql = 'update account SET active=1 WHERE(email ="%s" and password_salt="%s") limit 1';        
+        $sql = 'select active from account where (email ="%s" and password_salt="%s") limit 1';
         $sql = sprintf($sql, $email, $key);
-        return mysqli_query(Application::$DB_CONNECTION, $sql);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+          return false;
+        } else if (mysqli_fetch_array($res)['active']){
+          return true;
+        }
+
+        stop();
+        $sql = 'update account SET active=1 where (email ="%s" and password_salt="%s") limit 1';
+        $sql = sprintf($sql, $email, $key);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        return mysqli_affected_rows(Application::$DB_CONNECTION) === 1;
     }
 }
 
