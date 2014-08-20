@@ -12,7 +12,8 @@ create table account (
   display_name varchar(63) not null unique,
   password_hash varchar(128) not null,
   password_salt varchar(31) not null,
-  active tinyint(1) not null
+  active tinyint(1) not null,
+  member bigint not null
 )ENGINE=InnoDB;
 
 create table comment (
@@ -105,6 +106,8 @@ create table ticket_sector (
 /*
  * foreign keys
  */
+
+alter table account add foreign key (member) references member(id);
 
 alter table comment add foreign key (account) references account(id);
 alter table comment add foreign key (ticket) references ticket(id);

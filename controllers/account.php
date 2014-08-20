@@ -49,10 +49,21 @@ class AccountController extends Controller {
         
         $message = " To activate your account, please click on this link:";
         $message .= $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
-        mail($Email, 'Registration Confirmation', $message);
-
-        echo $message;
-        stop();
+        mail($account->email, 'Registration Confirmation', $message);
+/*
+        $email_to = "sudolshw@gmail.com";
+        $email_subject = 'Testing EXIM4';
+        $email_message = 'This is a Test';
+         
+            // create email headers
+            $headers = 'From: root@myserver.com'."\r\n".
+                       'Reply-To: root@myserver.com'."\r\n" .
+                       'X-Mailer: PHP/' . phpversion();
+             $result = mail($email_to, $email_subject, $email_message, $headers); 
+         
+             if ($result) echo 'Mail accepted for delivery ';
+             if (!$result) echo 'Test unsuccessful... ';
+*/
 
         $session = new session();
         $session->code = uniqid();
@@ -160,6 +171,15 @@ class AccountController extends Controller {
     }
     
     $this->view($model);
+  }
+
+  public function edit(){
+    if($this->get_session() == NULL) {
+      $this->redirect('signin');
+    }
+    
+    $settings = $this->get_settings();
+    $this->view($model);     
   }
 
   public function password() {
