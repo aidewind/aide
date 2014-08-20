@@ -1,7 +1,11 @@
+<?php
+  $session =  $this->get_session();
+?>
 <!--main-->
 <div class="container" id="main">
   <div class="row">
 
+    <?php if($session != NULL) { ?>        
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
         <h4>New Sector</h4>
@@ -18,7 +22,7 @@
         </form>
       </div>
     </div>
-
+    <?php } ?>
 
     <?php foreach($model['sectors'] as $sector) { ?>
     <div class="col-md-4 col-sm-6">
