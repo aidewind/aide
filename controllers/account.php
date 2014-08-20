@@ -81,12 +81,21 @@ class AccountController extends Controller {
 
     $model = array (
       'email' => $this->get('email'),
-      'key' => $this->post('key')
+      'key' => $this->get('key'),
+      'error' => NULL
     );
-
-    echo $this->get('email');
-    var_dump($model);
-    stop();
+    if(empty($model['email']) || empty($model['key'])) {
+      $model['error'] = 'Please enter both an email and a key.';
+      return $this->view($model);
+    }
+    if(!filter_var($model['email'], FILTER_VALIDATE_EMAIL)) {
+      $model['error'] = 'Please enter a valid email address.';
+      return $this->view($model);
+    }
+    if(!account::activate($model['email'],$model['key'])) {
+      $model['error'] = 'Oops !Your account could not be activated. Please recheck the link or contact the system administrator.';
+      return $this->view($model);
+    }
 
     $this->view($model);
   }
@@ -97,6 +106,8 @@ class AccountController extends Controller {
     }
 
     $settings = $this->get_settings();
+
+    echo $this->get_session()->account_active;
 
     $this->redirect(NULL, 'home');
   }
@@ -130,6 +141,7 @@ class AccountController extends Controller {
       $session = new session();
       $session->code = uniqid();
       $session->account = $account->id;
+      $session->account_active = $account->active;
       if(!$session->insert()) {
         $model['error'] = 'Failed to create new session: ' . last_error();
         return $this->view($model);

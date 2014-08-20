@@ -11,7 +11,8 @@ create table account (
   email varchar(250) not null unique,
   display_name varchar(63) not null unique,
   password_hash varchar(128) not null,
-  password_salt varchar(31) not null
+  password_salt varchar(31) not null,
+  active tinyint(1) not null
 )ENGINE=InnoDB;
 
 create table comment (

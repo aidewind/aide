@@ -55,6 +55,24 @@ class account {
         $account->load(mysqli_fetch_array($res));
         return $account;
     }
+
+    public static function select_by_id($id) { 
+        $sql = 'select id, email, display_name, password_hash, password_salt from account where id=%d';
+        $sql = sprintf($sql, $id);
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        if($res === FALSE || mysqli_num_rows($res) === 0) { 
+            return NULL;
+        }
+        $account = new account();
+        $account->load(mysqli_fetch_array($res));
+        return $account;
+    }
+
+    public static function activate($email, $key) {
+        $sql = 'update account SET active=1 WHERE(email ="%s" and password_salt="%s") limit 1';        
+        $sql = sprintf($sql, $email, $key);
+        return mysqli_query(Application::$DB_CONNECTION, $sql);
+    }
 }
 
 class comment {

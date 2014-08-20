@@ -30,6 +30,13 @@ class TicketController extends Controller {
 */
 
 
+/*
+    $id = $this->get_session()->account;
+    $account = account::select_by_id($id);
+    echo $account->password_salt;
+    stop();
+*/
+
     $ticket_comments = comment::select_by_ticket($ticket->id);
     $comments = array();
     foreach($ticket_comments as $ticket_comment) {
