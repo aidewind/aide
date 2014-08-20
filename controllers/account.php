@@ -46,12 +46,10 @@ class AccountController extends Controller {
           $model['error'] = 'Failed to create account' . last_error();
           return $this->view($model);
         }
-
         
         $message = " To activate your account, please click on this link:";
         $message .= $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
         //mail($Email, 'Registration Confirmation', $message, 'From: ismaakeel@gmail.com');
-        //echo '<div class="success">Thank you for registering! A confirmation email has been sent to '.$Email.' Please click on the Activation Link to Activate your account </div>';
 
         $session = new session();
         $session->code = uniqid();

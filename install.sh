@@ -19,6 +19,7 @@ mysql-server
 nginx
 php5-fpm
 php5-mysql
+sendmail
 "
 
 for pak in $PACKAGE_LIST ; do
@@ -42,6 +43,17 @@ sudo rm -rf /usr/share/nginx/html/*
 sudo cp -rf aide-master/* /usr/share/nginx/html
 
 sudo chmod 755 -R /usr/share/nginx/html
+
+echo "configuring sendmail"
+sudo sed -i '/127.0.0.1\tlocalhost/c\127.0.0.1\tlocalhost.localdomain localhost'  /etc/hosts
+sudo sed -i '/127.0.0.1\t'$HOSTNAME'/c\127.0.0.1\t'$HOSTNAME'.localhost '$HOSTNAME  /etc/hosts
+echo "define('SMART_HOST','smtp.spbtlg.ru')dnl" | sudo tee -a /etc/mail/sendmail.mc
+cd /etc/mail
+sudo su
+m4 sendmail.mc > sendmail.cf
+make
+exit
+sudo /etc/init.d/sendmail restart
 
 echo "nginx restarting"
 sudo nginx -s stop 
