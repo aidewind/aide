@@ -150,6 +150,8 @@ class Router {
 
     // if the action exists as a method, call it
     if(method_exists($c, $this->action)) {
+      var_dump($this->params);
+      stop();
       call_user_func_array(array($c, $this->action), $this->params);
     }
     else if(method_exists($c, 'index')) {
@@ -215,7 +217,7 @@ class Controller {
    * Shortcut for $_POST, attempts to load the value for the given key
    *
    * @param string  the array key in the form data
-   * @return string   the value in $_GET for the given key, NULL if the key is not found  
+   * @return string   the value in $_POST for the given key, NULL if the key is not found  
    */
    public function post($key) {
     if(array_key_exists($key, $_POST))

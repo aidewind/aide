@@ -47,9 +47,46 @@ class AccountController extends Controller {
           return $this->view($model);
         }
 
-        $this->redirect('index', 'account');
+        
+        $message = " To activate your account, please click on this link:";
+        $message .= $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
+        //mail($Email, 'Registration Confirmation', $message, 'From: ismaakeel@gmail.com');
+        //echo '<div class="success">Thank you for registering! A confirmation email has been sent to '.$Email.' Please click on the Activation Link to Activate your account </div>';
+
+        $session = new session();
+        $session->code = uniqid();
+        $session->account = $account->id;
+        if(!$session->insert()) {
+          $model['error'] = 'Failed to create new session: ' . last_error();
+          return $this->view($model);
+        }
+        $session = session::select_by_id($session->id);
+        if($session === NULL) {
+          $model['error'] = 'Failed to load new session: ' . last_error();
+          return $this->view($model);
+        }
+        $this->set_session($session);
+        $this->redirect(NULL);
+
+
+        $this->redirect('activate', 'account');
       }
     }
+
+    $this->view($model);
+  }
+
+  public function activate(){
+    $settings = $this->get_settings();
+
+    $model = array (
+      'email' => $this->get('email'),
+      'key' => $this->post('key')
+    );
+
+    echo $this->get('email');
+    var_dump($model);
+    stop();
 
     $this->view($model);
   }
@@ -60,8 +97,8 @@ class AccountController extends Controller {
     }
 
     $settings = $this->get_settings();
-    
-    $this->redirect('search', 'ticket');
+
+    $this->redirect(NULL, 'home');
   }
 
   public function signin() {
@@ -110,7 +147,7 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
-    public function password() {
+  public function password() {
     if($this->get_session() == NULL) {
       $this->redirect('signin');
     }
