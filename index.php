@@ -150,8 +150,6 @@ class Router {
 
     // if the action exists as a method, call it
     if(method_exists($c, $this->action)) {
-      var_dump($this->params);
-      stop();
       call_user_func_array(array($c, $this->action), $this->params);
     }
     else if(method_exists($c, 'index')) {

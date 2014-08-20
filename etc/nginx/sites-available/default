@@ -10,7 +10,7 @@ server {
 
 	location / {
 		# if file does not exist, assume URL for the router
-		try_files $uri /index.php;
+    try_files $uri /index.php?$query_string;
 	}
 
 	# enable php-fpm
