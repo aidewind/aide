@@ -49,7 +49,10 @@ class AccountController extends Controller {
         
         $message = " To activate your account, please click on this link:";
         $message .= $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
-        //mail($Email, 'Registration Confirmation', $message, 'From: ismaakeel@gmail.com');
+        mail($Email, 'Registration Confirmation', $message);
+
+        echo $message;
+        stop();
 
         $session = new session();
         $session->code = uniqid();

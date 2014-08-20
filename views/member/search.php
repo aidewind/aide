@@ -1,6 +1,6 @@
 <?php
-  $sectors = $model['sectors'];
-  $session =  $this->get_session();
+  $sectors = $model['sectors']
+;  $session =  $this->get_session();
 ?>
 
 <!--main-->

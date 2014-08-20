@@ -40,6 +40,7 @@ unzip master.zip > /dev/null 2>&1
 
 echo "configuring exim4"
 #font https://www.digitalocean.com/community/tutorials/how-to-install-the-send-only-mail-server-exim-on-ubuntu-12-04
+#fonth ttp://tera7.blogspot.com.br/2012/05/installing-nginx-postgresql-php-and.html
 sudo mv aide-master/etc/exim4/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
 
 echo "configuring nginx"
