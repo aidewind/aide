@@ -48,23 +48,9 @@ class AccountController extends Controller {
         }
         
         $message = " To activate your account, please click on this link:";
-        $message .= $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
+        $message .= 'http://' . $_SERVER[HTTP_HOST] . $this->route_url('activate', 'account', '?email=' . $account->email . '&key=' . $account->password_salt);
         mail($account->email, 'Registration Confirmation', $message);
-/*
-        $email_to = "sudolshw@gmail.com";
-        $email_subject = 'Testing EXIM4';
-        $email_message = 'This is a Test';
-         
-            // create email headers
-            $headers = 'From: root@myserver.com'."\r\n".
-                       'Reply-To: root@myserver.com'."\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
-             $result = mail($email_to, $email_subject, $email_message, $headers); 
-         
-             if ($result) echo 'Mail accepted for delivery ';
-             if (!$result) echo 'Test unsuccessful... ';
-*/
-
+        
         $session = new session();
         $session->code = uniqid();
         $session->account = $account->id;
@@ -93,6 +79,7 @@ class AccountController extends Controller {
       'key' => $this->get('key'),
       'error' => NULL
     );
+
     if(empty($model['email']) || empty($model['key'])) {
       $model['error'] = 'Please enter both an email and a key.';
       return $this->view($model);
@@ -102,11 +89,12 @@ class AccountController extends Controller {
       return $this->view($model);
     }
     if(!account::activate($model['email'],$model['key'])) {
-      $model['error'] = 'Oops !Your account could not be activated. Please recheck the link or contact the system administrator.';
+      $model['error'] = 'Your account could not be activated. Please recheck the link or contact the system administrator.';      
       return $this->view($model);
     }
 
-    $this->redirect(NULL, 'account');
+    $model['error'] = 'Your account was activated.';
+    return $this->view($model);
   }
 
   public function index() {

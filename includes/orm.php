@@ -79,8 +79,6 @@ class account {
         } else if (mysqli_fetch_array($res)['active']){
           return true;
         }
-
-        stop();
         $sql = 'update account SET active=1 where (email ="%s" and password_salt="%s") limit 1';
         $sql = sprintf($sql, $email, $key);
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
