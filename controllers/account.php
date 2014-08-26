@@ -161,13 +161,31 @@ class AccountController extends Controller {
     $this->view($model);
   }
 
-  public function edit(){
+  public function associate($id = NULL){
     if($this->get_session() == NULL) {
       $this->redirect('signin');
     }
-    
+
+    $model = array(
+      'account' => $this->post('account'),
+      'associate-account' => $this->post('associate-account'),
+      'member' => $this->post('member'),      
+      'error' => NULL
+    );
+
+    if(array_key_exists('submit', $_POST)) {
+      $res = account::associate($model['account'],$model['member']);
+      var_dump($res);
+      stop();
+    }
+
+
+    if($id !== NULL){
+      $account = account::select_by_id($id);
+    }    
+    $members = member::select_list();
     $settings = $this->get_settings();
-    $this->view($model);     
+    $this->view(array('members' => $members, 'model' => $model, 'account' => $account));
   }
 
   public function password() {

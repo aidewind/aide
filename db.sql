@@ -13,7 +13,7 @@ create table account (
   password_hash varchar(128) not null,
   password_salt varchar(31) not null,
   active tinyint(1) not null,
-  member bigint not null
+  member bigint null
 )ENGINE=InnoDB;
 
 create table comment (

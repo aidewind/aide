@@ -1,33 +1,31 @@
 <?php
   $members = $model['members'];
-  $member_member = $model['member_member'];
+  $account = $model['account'];
   $model = $model['model']; 
-  
-  $selected = array();
-  $selected = array_fill(0, count($members), false);
-  foreach ($member_member as $s_m){
-    $selected[$s_m->id]=true;
-  }
+  $session = $this->get_session(); 
 ?>
 <!--main-->
 <div class="container" id="main">
   <div class="row">
     <div class="col-md-4 col-sm-6">
       <div class="well"> 
-        <h4>Account Edit</h4>
+        <h4>Account Member Associate</h4>
         <p class="error"><?php echo $model['error']; ?></p>
 
         <form method="post">
           <div class="input-group">
             <input type="hidden" name="account" value="<?php echo $session->account; ?>" />
-            <input type="hidden" name="ticket" value="<?php echo $ticket->id; ?>" />
+            <input type="hidden" name="associate-account" value="<?php echo $account->id; ?>" />
+            <label for="associate-account-email">Account Email</label>
+            <input type="text" name="associate-account-email" required maxlength="63" value="<?php echo $account->email; ?>" disabled/>
+            <label for="member-complete-name">Member Complete Name</label>
             <select name='member'>
               <?php foreach($members as $member) { ?>
-              <option value="<?php echo $member->id; ?>"><?php echo $member->name; ?></option>
+              <option value="<?php echo $member->id; ?>"><?php echo $member->complete_name; ?></option>
               <?php } ?>
             </select>
           </div>
-          <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Add Member</button></span>
+          <span class="input-group-btn"><button class="btn btn-success pull-right" type="submit" name="submit">Associate</button></span>
         </form>
 
       </div>

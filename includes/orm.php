@@ -84,6 +84,15 @@ class account {
         $res = mysqli_query(Application::$DB_CONNECTION, $sql);
         return mysqli_affected_rows(Application::$DB_CONNECTION) === 1;
     }
+
+    public static function associate($account, $member) {
+        $sql = 'update account set member = "%d" where id = %d';        
+        $sql = sprintf($sql, $member, $account);
+        var_dump($sql);
+        stop();
+        $res = mysqli_query(Application::$DB_CONNECTION, $sql);
+        return $res;
+    }
 }
 
 class comment {
