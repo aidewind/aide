@@ -175,8 +175,6 @@ class AccountController extends Controller {
 
     if(array_key_exists('submit', $_POST)) {
       $res = account::associate($model['account'],$model['member']);
-      var_dump($res);
-      stop();
     }
 
 
