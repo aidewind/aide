@@ -15,9 +15,11 @@ sudo add-apt-repository -y ppa:videolan/stable-daily
 sudo add-apt-repository -y ppa:webupd8team/java
 sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
 sudo add-apt-repository -y ppa:webupd8team/y-ppa-manager
+sudo apt-add-repository -y "deb http://repository.spotify.com stable non-free" &&
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 94558F59 &&
 
 #updates and upgrades
-sudo apt-get update
+sudo apt-get update -qq
 sudo apt-get upgrade
 sudo apt-get dist-upgrade
 
@@ -91,6 +93,7 @@ p7zip-rar
 rar
 sharutils
 sox
+spotify-client
 sublime-text-installer 
 synaptic
 texlive 
