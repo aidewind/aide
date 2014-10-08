@@ -163,6 +163,12 @@ fi
  #done < $FILENAME
  #echo -e "\nTotal $count Lines read"
 
+#yEd
+ #cd /tmp
+ #wget -c http://www.yworks.com/products/yed/demo/yEd-3.13_64-bit_setup.sh
+ #./yEd-3.13_64-bit_setup.sh
+
+
 #cleaning and finishing
 echo "Cleaning Up" &&
 sudo apt-get -f install &&
