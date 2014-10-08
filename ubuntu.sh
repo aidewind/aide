@@ -169,6 +169,11 @@ fi
  #chmod +x yEd-3.13_64-bit_setup.sh
  #./yEd-3.13_64-bit_setup.sh
 
+#cito
+ #wget -c http://chianti.ucsd.edu/cytoscape-3.1.1/Cytoscape_3_1_1_unix.sh
+ #chmod +x Cytoscape_3_1_1_unix.sh
+ #./Cytoscape_3_1_1_unix.sh
+
 
 #cleaning and finishing
 echo "Cleaning Up" &&
