@@ -166,6 +166,7 @@ fi
 #yEd
  #cd /tmp
  #wget -c http://www.yworks.com/products/yed/demo/yEd-3.13_64-bit_setup.sh
+ #chmod +x yEd-3.13_64-bit_setup.sh
  #./yEd-3.13_64-bit_setup.sh
 
 
