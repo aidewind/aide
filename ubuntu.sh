@@ -52,6 +52,7 @@ gimp-data
 gimp-data-extras
 gimp-plugin-registry
 git
+gparted
 htop
 htop 
 icedax
