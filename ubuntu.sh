@@ -90,6 +90,7 @@ openssh-server
 oracle-java8-installer
 p7zip-full
 p7zip-rar
+python-dev
 rar
 sharutils
 sox
